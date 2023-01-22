@@ -14,9 +14,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 
-import static com.nbu.java.practice.learningprocessorganizer.service.impl.ServiceConstants.COURSE_DOES_NOT_EXIST;
-import static com.nbu.java.practice.learningprocessorganizer.service.impl.ServiceConstants.LECTURER_DOES_NOT_EXIST;
-import static com.nbu.java.practice.learningprocessorganizer.service.impl.ServiceConstants.STUDENT_DOES_NOT_EXIST;
+import static com.nbu.java.practice.learningprocessorganizer.service.impl.ResourceNotFoundMsgConstants.COURSE_DOES_NOT_EXIST;
+import static com.nbu.java.practice.learningprocessorganizer.service.impl.ResourceNotFoundMsgConstants.LECTURER_DOES_NOT_EXIST;
+import static com.nbu.java.practice.learningprocessorganizer.service.impl.ResourceNotFoundMsgConstants.STUDENT_DOES_NOT_EXIST;
 
 @Service
 @AllArgsConstructor

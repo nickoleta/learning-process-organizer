@@ -1,5 +1,6 @@
-package com.nbu.java.practice.learningprocessorganizer.dao.entity;
+package com.nbu.java.practice.learningprocessorganizer.dao.entity.users;
 
+import com.nbu.java.practice.learningprocessorganizer.dao.entity.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +17,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "roles")
+@Table(name = "role")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Role extends BaseEntity implements GrantedAuthority {

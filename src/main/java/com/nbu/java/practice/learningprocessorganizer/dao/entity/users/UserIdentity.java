@@ -1,5 +1,8 @@
-package com.nbu.java.practice.learningprocessorganizer.dao.entity;
+package com.nbu.java.practice.learningprocessorganizer.dao.entity.users;
 
+import com.nbu.java.practice.learningprocessorganizer.dao.entity.BaseEntity;
+import com.nbu.java.practice.learningprocessorganizer.dao.entity.Lecturer;
+import com.nbu.java.practice.learningprocessorganizer.dao.entity.Student;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +24,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "users")
+@Table(name = "user")
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserIdentity extends BaseEntity implements UserDetails {

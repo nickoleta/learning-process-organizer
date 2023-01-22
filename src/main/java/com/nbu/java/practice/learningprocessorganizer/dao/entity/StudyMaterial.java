@@ -6,24 +6,27 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
-import java.util.Set;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "lecturer")
+@Table(name = "material")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Lecturer extends BaseEntity {
+public class StudyMaterial extends BaseEntity {
 
     @NotBlank
-    @Size(max = 30)
     private String name;
 
-    @OneToMany(mappedBy = "lecturer")
-    private Set<Course> courses;
+    @NotBlank
+    private String contentType;
+
+    @Lob
+    private byte[] data;
+
+//    @ManyToOne
+//    private WeeklyActivity weeklyActivity;
 }

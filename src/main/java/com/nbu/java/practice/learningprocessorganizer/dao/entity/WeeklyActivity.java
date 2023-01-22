@@ -1,0 +1,32 @@
+package com.nbu.java.practice.learningprocessorganizer.dao.entity;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.validation.constraints.FutureOrPresent;
+import java.time.LocalDate;
+
+@Getter
+@Setter
+@Entity
+@Table(name = "activity")
+@NoArgsConstructor
+@AllArgsConstructor
+public class WeeklyActivity extends BaseEntity {
+
+    @Column(name = "start_date")
+    private LocalDate startDate;
+
+    @FutureOrPresent
+    @Column(name = "end_date")
+    private LocalDate endDate;
+
+//    @OneToMany(mappedBy = "weeklyActivity")
+//    private Set<StudyMaterial> studyMaterials;
+
+}
