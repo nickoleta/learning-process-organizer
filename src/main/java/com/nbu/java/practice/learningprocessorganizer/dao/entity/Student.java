@@ -31,5 +31,11 @@ public class Student extends BaseEntity {
     @ManyToMany(mappedBy = "students")
     private Set<Course> courses;
 
+    public void addCourse(Course course) {
+        if (course == null) {
+            return;
+        }
+        courses.add(course);
+    }
 
 }

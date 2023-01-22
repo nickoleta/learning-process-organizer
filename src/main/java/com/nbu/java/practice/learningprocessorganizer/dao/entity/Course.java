@@ -32,4 +32,11 @@ public class Course extends BaseEntity {
 
     @ManyToMany
     private Set<Student> students;
+
+    public void addStudent(Student student) {
+        if (student != null) {
+            students.add(student);
+        }
+    }
+
 }

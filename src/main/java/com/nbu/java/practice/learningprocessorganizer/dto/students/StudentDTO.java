@@ -14,6 +14,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class StudentDTO {
 
+    private long id;
     private String fn;
     private String name;
     private Set<CourseDTO> courses;
