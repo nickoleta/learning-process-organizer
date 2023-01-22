@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 
 public interface StudyMaterialsService {
 
-    void uploadFile(MultipartFile multipartFile) throws IOException;
+    void uploadFile(MultipartFile multipartFile, long weeklyActivityId) throws IOException;
 
     StudyMaterial getFile(long id);
 

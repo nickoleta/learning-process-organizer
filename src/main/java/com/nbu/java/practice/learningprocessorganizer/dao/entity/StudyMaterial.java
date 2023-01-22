@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
@@ -27,6 +28,6 @@ public class StudyMaterial extends BaseEntity {
     @Lob
     private byte[] data;
 
-//    @ManyToOne
-//    private WeeklyActivity weeklyActivity;
+    @ManyToOne
+    private WeeklyActivity weeklyActivity;
 }

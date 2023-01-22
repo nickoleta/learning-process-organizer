@@ -1,6 +1,8 @@
 package com.nbu.java.practice.learningprocessorganizer.controller;
 
+import com.nbu.java.practice.learningprocessorganizer.controller.dto.request.WeeklyActivityRequestBody;
 import com.nbu.java.practice.learningprocessorganizer.controller.dto.request.courses.CreateCourseRequestBody;
+import com.nbu.java.practice.learningprocessorganizer.dto.activity.WeeklyActivityDTO;
 import com.nbu.java.practice.learningprocessorganizer.dto.courses.CourseDTO;
 import com.nbu.java.practice.learningprocessorganizer.service.CoursesService;
 import lombok.AllArgsConstructor;
@@ -43,9 +45,16 @@ public class CoursesApiController {
     }
 
     @PostMapping("/{courseId}/students")
-    public ResponseEntity<Void> addStudentToACourse(@PathVariable("courseId") final Long courseId,
+    public ResponseEntity<Void> addStudentToCourse(@PathVariable("courseId") final Long courseId,
                                                     @RequestParam("studentId") final Long studentId) {
         coursesService.addStudentToCourse(courseId, studentId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/{courseId}/activities")
+    public ResponseEntity<Void> addActivityToACourse(@PathVariable("courseId") final Long courseId,
+                                                    @RequestBody @Valid final WeeklyActivityRequestBody weeklyActivityRequestBody) {
+        coursesService.addActivityToACourse(courseId,modelMapper.map(weeklyActivityRequestBody, WeeklyActivityDTO.class));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

@@ -30,9 +30,10 @@ public class FilesApiController {
     private final StudyMaterialsService studyMaterialsService;
 
     @PostMapping("/upload")
-    public ResponseEntity<Void> uploadFile(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<Void> uploadFile(@RequestParam("file") MultipartFile file,
+                                           @RequestParam("weeklyActivityId") Long id) {
         try {
-            studyMaterialsService.uploadFile(file);
+            studyMaterialsService.uploadFile(file, id);
             return ResponseEntity.ok().build();
         } catch (IOException e) {
             logger.error(String.format("Could not upload file with name %s", file.getOriginalFilename()));

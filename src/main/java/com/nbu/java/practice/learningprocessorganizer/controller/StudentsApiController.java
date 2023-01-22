@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.Collection;
 
 @RestController
@@ -39,14 +40,14 @@ public class StudentsApiController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> createStudent(@RequestBody final CreateStudentRequestBody updateStudentDTO) {
+    public ResponseEntity<Void> createStudent(@RequestBody @Valid final CreateStudentRequestBody updateStudentDTO) {
         studentsService.createStudent(modelMapper.map(updateStudentDTO, CreateStudentDTO.class));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PostMapping("/{studentId}")
     public ResponseEntity<Void> updateStudent(@PathVariable("studentId") final Long studentId,
-                                              @RequestBody final UpdateStudentRequestBody updateStudentRequestBody) {
+                                              @RequestBody @Valid final UpdateStudentRequestBody updateStudentRequestBody) {
         studentsService.updateStudent(studentId, modelMapper.map(updateStudentRequestBody, UpdateStudentDTO.class));
         return ResponseEntity.ok().build();
     }

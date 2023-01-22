@@ -1,9 +1,12 @@
 package com.nbu.java.practice.learningprocessorganizer.service.impl;
 
 import com.nbu.java.practice.learningprocessorganizer.dao.entity.Course;
+import com.nbu.java.practice.learningprocessorganizer.dao.entity.WeeklyActivity;
 import com.nbu.java.practice.learningprocessorganizer.dao.repository.CoursesRepository;
 import com.nbu.java.practice.learningprocessorganizer.dao.repository.LecturersRepository;
 import com.nbu.java.practice.learningprocessorganizer.dao.repository.StudentsRepository;
+import com.nbu.java.practice.learningprocessorganizer.dao.repository.WeeklyActivityRepository;
+import com.nbu.java.practice.learningprocessorganizer.dto.activity.WeeklyActivityDTO;
 import com.nbu.java.practice.learningprocessorganizer.dto.courses.CourseDTO;
 import com.nbu.java.practice.learningprocessorganizer.exceptions.ResourceNotFoundException;
 import com.nbu.java.practice.learningprocessorganizer.service.CoursesService;
@@ -25,6 +28,7 @@ public class CoursesServiceImpl implements CoursesService {
     private final CoursesRepository coursesRepository;
     private final StudentsRepository studentsRepository;
     private final LecturersRepository lecturersRepository;
+    private final WeeklyActivityRepository weeklyActivityRepository;
     private final ModelMapper modelMapper;
 
     @Override
@@ -61,6 +65,18 @@ public class CoursesServiceImpl implements CoursesService {
         final var course = courseOpt.get();
         course.addStudent(studentOpt.get());
         coursesRepository.save(course);
+    }
+
+    @Override
+    public void addActivityToACourse(long courseId, WeeklyActivityDTO weeklyActivity) {
+        final var courseOpt = coursesRepository.findById(courseId);
+        if (courseOpt.isEmpty()) {
+            throw new ResourceNotFoundException(String.format(COURSE_DOES_NOT_EXIST, courseId));
+        }
+
+        final var activity = modelMapper.map(weeklyActivity, WeeklyActivity.class);
+        activity.setCourse(courseOpt.get());
+        weeklyActivityRepository.save(activity);
     }
 
     @Override

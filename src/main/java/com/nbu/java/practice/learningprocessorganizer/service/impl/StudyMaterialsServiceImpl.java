@@ -2,6 +2,7 @@ package com.nbu.java.practice.learningprocessorganizer.service.impl;
 
 import com.nbu.java.practice.learningprocessorganizer.dao.entity.StudyMaterial;
 import com.nbu.java.practice.learningprocessorganizer.dao.repository.StudyMaterialsRepository;
+import com.nbu.java.practice.learningprocessorganizer.dao.repository.WeeklyActivityRepository;
 import com.nbu.java.practice.learningprocessorganizer.exceptions.ResourceNotFoundException;
 import com.nbu.java.practice.learningprocessorganizer.service.StudyMaterialsService;
 import lombok.AllArgsConstructor;
@@ -17,14 +18,19 @@ import java.util.stream.Stream;
 public class StudyMaterialsServiceImpl implements StudyMaterialsService {
 
     private final StudyMaterialsRepository studyMaterialsRepository;
+    private final WeeklyActivityRepository weeklyActivityRepository;
 
     @Override
-    public void uploadFile(MultipartFile file) throws IOException {
+    public void uploadFile(MultipartFile file, long weeklyActivityId) throws IOException {
+        final var weeklyActivityOpt = weeklyActivityRepository.findById(weeklyActivityId);
+        if (weeklyActivityOpt.isEmpty()) {
+            throw new ResourceNotFoundException(ResourceNotFoundMsgConstants.ACTIVITY_DOES_NOT_EXIST);
+        }
         if (file == null || file.isEmpty() || file.getOriginalFilename() == null) {
             return;
         }
         final var fileName = StringUtils.cleanPath(file.getOriginalFilename());
-        studyMaterialsRepository.save(new StudyMaterial(fileName, file.getContentType(), file.getBytes()));
+        studyMaterialsRepository.save(new StudyMaterial(fileName, file.getContentType(), file.getBytes(), weeklyActivityOpt.get()));
     }
 
     @Override
