@@ -1,4 +1,4 @@
-package com.nbu.java.practice.learningprocessorganizer.dto;
+package com.nbu.java.practice.learningprocessorganizer.dto.students;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @Generated
 @NoArgsConstructor
 @AllArgsConstructor
-public class UpdateStudentDTO {
+public class CreateStudentDTO {
 
-    private long studentId;
     private String name;
+    private String fn;
 }

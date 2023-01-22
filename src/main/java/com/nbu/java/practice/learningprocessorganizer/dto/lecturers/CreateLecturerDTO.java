@@ -1,4 +1,4 @@
-package com.nbu.java.practice.learningprocessorganizer.dto;
+package com.nbu.java.practice.learningprocessorganizer.dto.lecturers;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Generated
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateStudentDTO {
+public class CreateLecturerDTO {
 
     private String name;
 }

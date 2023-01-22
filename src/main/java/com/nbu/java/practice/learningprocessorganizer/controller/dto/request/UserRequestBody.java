@@ -1,4 +1,4 @@
-package com.nbu.java.practice.learningprocessorganizer.controller;
+package com.nbu.java.practice.learningprocessorganizer.controller.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

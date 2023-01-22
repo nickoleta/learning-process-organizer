@@ -1,5 +1,6 @@
-package com.nbu.java.practice.learningprocessorganizer.dto;
+package com.nbu.java.practice.learningprocessorganizer.dto.students;
 
+import com.nbu.java.practice.learningprocessorganizer.dto.courses.CourseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Generated;

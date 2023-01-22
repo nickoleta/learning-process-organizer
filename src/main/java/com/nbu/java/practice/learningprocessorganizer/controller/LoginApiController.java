@@ -1,5 +1,6 @@
 package com.nbu.java.practice.learningprocessorganizer.controller;
 
+import com.nbu.java.practice.learningprocessorganizer.controller.dto.request.UserRequestBody;
 import com.nbu.java.practice.learningprocessorganizer.controller.dto.response.UserResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -11,9 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/login")
+@RequestMapping("/api/login")
 @AllArgsConstructor
-public class LoginController {
+public class LoginApiController {
 
     @PostMapping
     public ResponseEntity<UserResponse> login(@RequestBody @Valid final UserRequestBody userRequestBody) {

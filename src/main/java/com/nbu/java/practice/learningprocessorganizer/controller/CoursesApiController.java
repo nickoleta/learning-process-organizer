@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/courses")
-public class CoursesController {
+@RequestMapping("/api/courses")
+public class CoursesApiController {
 
     @GetMapping
     public ResponseEntity<Void> getCourses() {
