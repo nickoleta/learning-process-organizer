@@ -2,6 +2,7 @@ package com.nbu.java.practice.learningprocessorganizer.web.view.controllers;
 
 import com.nbu.java.practice.learningprocessorganizer.annotations.AnyUser;
 import com.nbu.java.practice.learningprocessorganizer.annotations.Lecturer;
+import com.nbu.java.practice.learningprocessorganizer.annotations.LecturerOrStudent;
 import com.nbu.java.practice.learningprocessorganizer.dao.entity.users.UserIdentity;
 import com.nbu.java.practice.learningprocessorganizer.dto.UserRole;
 import com.nbu.java.practice.learningprocessorganizer.dto.courses.CourseDTO;
@@ -62,21 +63,45 @@ public class CoursesController {
         return PagesConstants.COURSES_REDIRECT;
     }
 
+    @LecturerOrStudent
+    @GetMapping("/registered/page/{page}/size/{size}/sort/{sortCriteria}/direction/{sortDirection}")
+    public String getMyCourses(Model model, Authentication authentication,
+                               @PathVariable("page") final Integer page, @PathVariable("size") final Integer size,
+                               @PathVariable("sortCriteria") final String sortCriteria,
+                               @PathVariable("sortDirection") final String sortDirection) {
+        final var pageRequest = createPageRequest(sortDirection, page, size, sortCriteria);
+        final var courses = getMyCoursesBasedOnUserRole(authentication, pageRequest);
+        final var direction = sortDirection.equals(SortingConstants.DESC_SORT_DIRECTION) ? SortingConstants.ASC_SORT_DIRECTION : SortingConstants.DESC_SORT_DIRECTION;
+        return getCourses(courses, model, page, sortCriteria, direction, authentication, true);
+    }
+
+    @LecturerOrStudent
+    @GetMapping("/registered/page/{page}/size/{size}")
+    public String getMyCourses(Model model, Authentication authentication,
+                               @PathVariable("page") final Integer page, @PathVariable("size") final Integer size) {
+        final var courses = getMyCoursesBasedOnUserRole(authentication, PageRequest.of(page - 1, size));
+        return getCourses(courses, model, page, SortingConstants.ID_SORT_CRITERIA, SortingConstants.ASC_SORT_DIRECTION, authentication, true);
+    }
+
+    private Page<CourseDTO> getMyCoursesBasedOnUserRole(Authentication authentication, PageRequest pageRequest) {
+        if (UserRole.LECTURER_ROLE.getRoleName().equalsIgnoreCase(getRoleName(authentication))) {
+            final var lecturerId = ((UserIdentity) authentication.getPrincipal()).getLecturer().getId();
+            return coursesService.getPageOfCoursesByLecturerId(lecturerId, pageRequest);
+        }
+        return Page.empty();
+    }
+
+
     @AnyUser
     @GetMapping("/page/{page}/size/{size}/sort/{sortCriteria}/direction/{sortDirection}")
     public String getCoursesOrderedByName(Model model, Authentication authentication,
                                           @PathVariable("page") final Integer page, @PathVariable("size") final Integer size,
                                           @PathVariable("sortCriteria") final String sortCriteria,
                                           @PathVariable("sortDirection") final String sortDirection) {
-        PageRequest pageRequest;
-        if ("asc".equalsIgnoreCase(sortDirection)) {
-            pageRequest = PageRequest.of(page - 1, size, Sort.by(sortCriteria).ascending());
-        } else {
-            pageRequest = PageRequest.of(page - 1, size, Sort.by(sortCriteria).descending());
-        }
+        final var pageRequest = createPageRequest(sortDirection, page, size, sortCriteria);
         final var courses = coursesService.getPageOfCourses(pageRequest);
         final var direction = sortDirection.equals(SortingConstants.DESC_SORT_DIRECTION) ? SortingConstants.ASC_SORT_DIRECTION : SortingConstants.DESC_SORT_DIRECTION;
-        return getCourses(courses, model, page, sortCriteria, direction, authentication);
+        return getCourses(courses, model, page, sortCriteria, direction, authentication, false);
     }
 
     @AnyUser
@@ -84,7 +109,7 @@ public class CoursesController {
     public String getCourses(Model model, Authentication authentication,
                              @PathVariable("page") final int page, @PathVariable("size") final int size) {
         final var courses = coursesService.getPageOfCourses(PageRequest.of(page - 1, size));
-        return getCourses(courses, model, page, SortingConstants.ID_SORT_CRITERIA, SortingConstants.ASC_SORT_DIRECTION, authentication);
+        return getCourses(courses, model, page, SortingConstants.ID_SORT_CRITERIA, SortingConstants.ASC_SORT_DIRECTION, authentication, false);
     }
 
     @AnyUser
@@ -93,7 +118,21 @@ public class CoursesController {
         return PagesConstants.COURSES_REDIRECT_PAGING;
     }
 
-    private String getCourses(Page<CourseDTO> courses, Model model, int page, String sortCriteria, String sortDirection, Authentication authentication) {
+    @AnyUser
+    @GetMapping({"/registered"})
+    public String getMyCourses() {
+        return PagesConstants.MY_COURSES_REDIRECT_PAGING;
+    }
+
+    private PageRequest createPageRequest(String sortDirection, int page, int size, String sortCriteria) {
+        if ("asc".equalsIgnoreCase(sortDirection)) {
+            return PageRequest.of(page - 1, size, Sort.by(sortCriteria).ascending());
+        }
+        return PageRequest.of(page - 1, size, Sort.by(sortCriteria).descending());
+    }
+
+    private String getCourses(Page<CourseDTO> courses, Model model, int page, String sortCriteria, String sortDirection,
+                              Authentication authentication, boolean searchingForMyCourses) {
         final Page<CourseViewModel> pageOfCourses = modelMapper.map(courses, new TypeToken<Page<CourseViewModel>>() {
         }.getType());
 
@@ -112,11 +151,10 @@ public class CoursesController {
             return PagesConstants.UNAUTHORIZED;
         }
         if (UserRole.LECTURER_ROLE.getRoleName().equalsIgnoreCase(role)) {
-            return PagesConstants.COURSES;
+            return searchingForMyCourses ? PagesConstants.MY_COURSES_LECTURER : PagesConstants.COURSES;
         }
         if (UserRole.STUDENT_ROLE.getRoleName().equalsIgnoreCase(role)) {
-            model.addAttribute("studentId", ((UserIdentity) authentication.getPrincipal()).getStudent().getId());
-            return ""; // TODO
+            return searchingForMyCourses ? PagesConstants.MY_COURSES_STUDENT : PagesConstants.COURSES_STUDENT;
         }
         return PagesConstants.UNAUTHORIZED;
     }

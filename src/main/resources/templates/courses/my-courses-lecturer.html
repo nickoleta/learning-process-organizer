@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments :: head"></head>
+<body>
+<header th:replace="fragments :: header-lecturer"></header>
+<div class=" col-6">
+    <table th:if="${pageOfCourses.size>0}" class="table table-hover">
+        <th><a th:href="@{'/courses/registered/page/'+${currentPage}+'/size/'+${pageOfCourses.size}+'/sort/id/direction/'+${sortDirection}}">Id</a></th>
+        <th><a th:href="@{'/courses/registered/page/'+${currentPage}+'/size/'+${pageOfCourses.size}+'/sort/name/direction/'+${sortDirection}}"> Name</a></th>
+        <tr th:each="course : ${pageOfCourses.content}">
+            <td th:text="${course.id}"></td>
+            <td th:text="${course.name}"></td>
+        </tr>
+    </table>
+    <span th:if="${pageOfCourses.totalPages > 1}"
+          th:each="pageNumber : ${pageNumbers}" >
+            <a th:href="@{/courses/registered/page/{page}/size/{size}(page=${pageNumber}, size=${pageOfCourses.size})}" th:text="${pageNumber}">
+               </a>
+        </span>
+</div>
+
+</body>
+</html>
