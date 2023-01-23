@@ -16,10 +16,17 @@ public final class PagesConstants {
     public static final String LECTURER_EDIT = "/lecturers/edit-lecturer";
 
     public static final String STUDENTS = "/students/students";
+    public static final String STUDENTS_LECTURER = "/students/students-lecturer";
     public static final String STUDENTS_REDIRECT = "redirect:/students";
     public static final String STUDENTS_REDIRECT_PAGING = "redirect:/students/page/1/size/10";
     public static final String STUDENTS_CREATE = "/students/create-student";
     public static final String STUDENTS_EDIT = "/students/edit-student";
+
+    public static final String COURSES = "/courses/courses";
+    public static final String COURSES_REDIRECT = "redirect:/courses";
+    public static final String COURSES_REDIRECT_PAGING = "redirect:/courses/page/1/size/10";
+    public static final String COURSES_CREATE = "/courses/create-course";
+    public static final String COURSES_EDIT = "/courses/edit-course";
 
     private PagesConstants() {
     }

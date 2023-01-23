@@ -57,20 +57,23 @@ and open the template in the editor.
         <div class="collapse navbar-collapse" id="navbarSupportedContent-lecturer">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/login">Students</a>
+                    <a class="nav-link" href="/students">Students</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/login">Courses</a>
+                    <a class="nav-link" href="/courses">All Courses</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/login">My courses</a>
+                    <a class="nav-link" href="/courses/">My courses</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/courses/create-course">Create Course</a>
                 </li>
             </ul>
         </div>
     </nav>
 </header>
 
-<header th:fragment="header-patient">
+<header th:fragment="header-student">
     <div class="row">
         <div class="col-9">
             <h2>Learning Process Organizer</h2>
@@ -85,17 +88,55 @@ and open the template in the editor.
         <div class="collapse navbar-collapse" id="navbarSupportedContent-student">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/login">Lecturers</a>
+                    <a class="nav-link" href="/lecturers">Lecturers</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/login">Courses</a>
+                    <a class="nav-link" href="/courses/all">Courses</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/login">My courses</a>
+                    <a class="nav-link" href="/courses">My courses</a>
                 </li>
             </ul>
         </div>
     </nav>
 </header>
+
+<div th:fragment="students-list" class=" col-6">
+    <table th:if="${pageOfStudents.size>0}" class="table table-hover">
+        <th><a th:href="@{'/students/page/'+${currentPage}+'/size/'+${pageOfStudents.size}+'/sort/id/direction/'+${sortDirection}}">Id</a></th>
+        <th><a th:href="@{'/students/page/'+${currentPage}+'/size/'+${pageOfStudents.size}+'/sort/name/direction/'+${sortDirection}}"> Name</a></th>
+        <th>Faculty number</th>
+        <th> </th>
+        <th> </th>
+        <tr th:each="student : ${pageOfStudents.content}">
+            <td th:text="${student.id}"></td>
+            <td th:text="${student.name}"></td>
+            <td th:text="${student.fn}"></td>
+            <td><a sec:authorize="hasAuthority('ADMIN')" class="btn btn-info" th:href="@{'/students/edit-student/'+${student.id}}">Edit</a></td>
+            <td><a sec:authorize="hasAuthority('ADMIN')" class="btn btn-danger" th:href="@{'/students/delete/'+${student.id}}">Delete</a></td>
+        </tr>
+    </table>
+    <span th:if="${pageOfStudents.totalPages > 1}"
+          th:each="pageNumber : ${pageNumbers}" >
+            <a th:href="@{/students/page/{page}/size/{size}(page=${pageNumber}, size=${pageOfStudents.size})}" th:text="${pageNumber}">
+               </a>
+        </span>
+</div>
+
+<div th:fragment="courses-list" class=" col-6">
+    <table th:if="${pageOfCourses.size>0}" class="table table-hover">
+        <th><a th:href="@{'/courses/page/'+${currentPage}+'/size/'+${pageOfCourses.size}+'/sort/id/direction/'+${sortDirection}}">Id</a></th>
+        <th><a th:href="@{'/courses/page/'+${currentPage}+'/size/'+${pageOfCourses.size}+'/sort/name/direction/'+${sortDirection}}"> Name</a></th>
+        <tr th:each="course : ${pageOfCourses.content}">
+            <td th:text="${course.id}"></td>
+            <td th:text="${course.name}"></td>
+        </tr>
+    </table>
+    <span th:if="${pageOfCourses.totalPages > 1}"
+          th:each="pageNumber : ${pageNumbers}" >
+            <a th:href="@{/courses/page/{page}/size/{size}(page=${pageNumber}, size=${pageOfCourses.size})}" th:text="${pageNumber}">
+               </a>
+        </span>
+</div>
 
 </html>

@@ -13,13 +13,11 @@ import com.nbu.java.practice.learningprocessorganizer.service.CoursesService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
-
-import static com.nbu.java.practice.learningprocessorganizer.exceptions.ResourceNotFoundMsgConstants.COURSE_DOES_NOT_EXIST;
-import static com.nbu.java.practice.learningprocessorganizer.exceptions.ResourceNotFoundMsgConstants.LECTURER_DOES_NOT_EXIST;
-import static com.nbu.java.practice.learningprocessorganizer.exceptions.ResourceNotFoundMsgConstants.STUDENT_DOES_NOT_EXIST;
 
 @Service
 @AllArgsConstructor
@@ -35,7 +33,7 @@ public class CoursesServiceImpl implements CoursesService {
     public CourseDTO getCourse(long courseId) {
         final var course = coursesRepository.findById(courseId);
         if (course.isEmpty()) {
-            throw new ResourceNotFoundException(String.format(COURSE_DOES_NOT_EXIST, courseId));
+            throw new ResourceNotFoundException(ResourceNotFoundException.COURSE_DOES_NOT_EXIST, courseId);
         }
         return modelMapper.map(course.get(), CourseDTO.class);
     }
@@ -47,8 +45,20 @@ public class CoursesServiceImpl implements CoursesService {
     }
 
     @Override
+    public Page<CourseDTO> getPageOfCourses(Pageable pageable) {
+        return modelMapper.map(coursesRepository.findAll(pageable), new TypeToken<Page<CourseDTO>>() {
+        }.getType());
+    }
+
+    @Override
     public Collection<CourseDTO> getAllCoursesByLecturerId(long lecturerId) {
         return modelMapper.map(coursesRepository.findAllByLecturerId(lecturerId), new TypeToken<Collection<CourseDTO>>() {
+        }.getType());
+    }
+
+    @Override
+    public Page<CourseDTO> getPageOfCoursesByLecturerId(long lecturerId, Pageable pageable) {
+        return modelMapper.map(coursesRepository.findAllByLecturerId(lecturerId, pageable), new TypeToken<Page<CourseDTO>>() {
         }.getType());
     }
 
@@ -56,11 +66,11 @@ public class CoursesServiceImpl implements CoursesService {
     public void addStudentToCourse(long courseId, long studentId) {
         final var studentOpt = studentsRepository.findById(studentId);
         if (studentOpt.isEmpty()) {
-            throw new ResourceNotFoundException(String.format(STUDENT_DOES_NOT_EXIST, courseId));
+            throw new ResourceNotFoundException(ResourceNotFoundException.STUDENT_DOES_NOT_EXIST, courseId);
         }
         final var courseOpt = coursesRepository.findById(courseId);
         if (courseOpt.isEmpty()) {
-            throw new ResourceNotFoundException(String.format(COURSE_DOES_NOT_EXIST, courseId));
+            throw new ResourceNotFoundException(ResourceNotFoundException.COURSE_DOES_NOT_EXIST, courseId);
         }
         final var course = courseOpt.get();
         course.addStudent(studentOpt.get());
@@ -71,7 +81,7 @@ public class CoursesServiceImpl implements CoursesService {
     public void addActivityToACourse(long courseId, WeeklyActivityDTO weeklyActivity) {
         final var courseOpt = coursesRepository.findById(courseId);
         if (courseOpt.isEmpty()) {
-            throw new ResourceNotFoundException(String.format(COURSE_DOES_NOT_EXIST, courseId));
+            throw new ResourceNotFoundException(ResourceNotFoundException.COURSE_DOES_NOT_EXIST, courseId);
         }
 
         final var activity = modelMapper.map(weeklyActivity, WeeklyActivity.class);
@@ -86,7 +96,7 @@ public class CoursesServiceImpl implements CoursesService {
         }
         final var lecturer = lecturersRepository.findById(lecturerId);
         if (lecturer.isEmpty()) {
-            throw new ResourceNotFoundException(String.format(LECTURER_DOES_NOT_EXIST, lecturerId));
+            throw new ResourceNotFoundException(ResourceNotFoundException.LECTURER_DOES_NOT_EXIST, lecturerId);
         }
         final var course = modelMapper.map(courseDTO, Course.class);
         course.setLecturer(lecturer.get());
@@ -97,7 +107,7 @@ public class CoursesServiceImpl implements CoursesService {
     public void updateCourse(long id, CourseDTO courseDTO) {
         final var courseOpt = coursesRepository.findById(id);
         if (courseOpt.isEmpty()) {
-            throw new ResourceNotFoundException(String.format(COURSE_DOES_NOT_EXIST, id));
+            throw new ResourceNotFoundException(ResourceNotFoundException.COURSE_DOES_NOT_EXIST, id);
         }
         final var course = courseOpt.get();
         course.setName(courseDTO.getName());

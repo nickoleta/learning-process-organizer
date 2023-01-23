@@ -4,7 +4,6 @@ import com.nbu.java.practice.learningprocessorganizer.annotations.Admin;
 import com.nbu.java.practice.learningprocessorganizer.annotations.AnyUser;
 import com.nbu.java.practice.learningprocessorganizer.dao.entity.users.UserIdentity;
 import com.nbu.java.practice.learningprocessorganizer.dto.UserRole;
-import com.nbu.java.practice.learningprocessorganizer.dto.lecturers.CreateLecturerDTO;
 import com.nbu.java.practice.learningprocessorganizer.dto.lecturers.LecturerDTO;
 import com.nbu.java.practice.learningprocessorganizer.dto.lecturers.UpdateLecturerDTO;
 import com.nbu.java.practice.learningprocessorganizer.service.LecturersService;

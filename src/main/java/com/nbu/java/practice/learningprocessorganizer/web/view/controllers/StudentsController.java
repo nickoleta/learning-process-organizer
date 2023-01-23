@@ -7,7 +7,6 @@ import com.nbu.java.practice.learningprocessorganizer.dto.UserRole;
 import com.nbu.java.practice.learningprocessorganizer.dto.students.StudentDTO;
 import com.nbu.java.practice.learningprocessorganizer.dto.students.UpdateStudentDTO;
 import com.nbu.java.practice.learningprocessorganizer.exceptions.ResourceNotFoundException;
-import com.nbu.java.practice.learningprocessorganizer.exceptions.ResourceNotFoundMsgConstants;
 import com.nbu.java.practice.learningprocessorganizer.service.LecturersService;
 import com.nbu.java.practice.learningprocessorganizer.service.StudentsService;
 import com.nbu.java.practice.learningprocessorganizer.web.view.controllers.constants.PagesConstants;
@@ -69,7 +68,7 @@ public class StudentsController {
     public String showEditStudentForm(Model model, @PathVariable final long id) {
         final var student = studentsService.getStudent(id);
         if (student == null) {
-            throw new ResourceNotFoundException(ResourceNotFoundMsgConstants.STUDENT_DOES_NOT_EXIST);
+            throw new ResourceNotFoundException(ResourceNotFoundException.STUDENT_DOES_NOT_EXIST, id);
         }
         model.addAttribute("student", student);
         return PagesConstants.STUDENTS_EDIT;
@@ -138,8 +137,7 @@ public class StudentsController {
         }
         final var authority = ((UserIdentity) authentication.getPrincipal()).getAuthority().getAuthority();
         if (UserRole.LECTURER_ROLE.getRoleName().equalsIgnoreCase(authority)) {
-            return "";
-
+            return PagesConstants.STUDENTS_LECTURER;
         }
         if (UserRole.ADMIN_ROLE.getRoleName().equalsIgnoreCase(authority)) {
             return PagesConstants.STUDENTS;

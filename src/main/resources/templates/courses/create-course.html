@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head"></head>
+<body>
+<header th:replace="fragments :: header-lecturer"></header>
+<div class="col-6">
+    <form action="#" th:action="@{/courses/create}" th:object="${course}" method="post">
+        <div class="form-group">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input class="form-control" type="text" th:field="*{name}" placeholder="Name" id="name">
+                <span class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</span>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Save Lecturer</button>
+    </form>
+</div>
+</body>
+</html>

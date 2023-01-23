@@ -49,7 +49,7 @@ public class UsersServiceImpl implements UsersService {
         if (usersRepository.findByUsername(lecturer.getUsername()) != null) {
             throw new UserAlreadyExistsException(lecturer.getUsername());
         }
-        final var userEntity = convertToUserEntity(lecturer, UserRole.STUDENT_ROLE.getRoleName());
+        final var userEntity = convertToUserEntity(lecturer, UserRole.LECTURER_ROLE.getRoleName());
         userEntity.setLecturer(modelMapper.map(lecturer, Lecturer.class));
         usersRepository.save(userEntity);
     }

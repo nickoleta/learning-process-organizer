@@ -67,10 +67,6 @@ public class LecturersServiceImpl implements LecturersService {
 
     @Override
     public void deleteLecturer(long id) {
-        final var lecturer = lecturersRepository.findById(id);
-        if (lecturer.isEmpty()) {
-            throw new ResourceNotFoundException();
-        }
-        lecturersRepository.delete(lecturer.get());
+        lecturersRepository.deleteById(id);
     }
 }

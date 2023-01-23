@@ -4,7 +4,6 @@ import com.nbu.java.practice.learningprocessorganizer.dao.entity.StudyMaterial;
 import com.nbu.java.practice.learningprocessorganizer.dao.repository.StudyMaterialsRepository;
 import com.nbu.java.practice.learningprocessorganizer.dao.repository.WeeklyActivityRepository;
 import com.nbu.java.practice.learningprocessorganizer.exceptions.ResourceNotFoundException;
-import com.nbu.java.practice.learningprocessorganizer.exceptions.ResourceNotFoundMsgConstants;
 import com.nbu.java.practice.learningprocessorganizer.service.StudyMaterialsService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,7 +24,7 @@ public class StudyMaterialsServiceImpl implements StudyMaterialsService {
     public void uploadFile(MultipartFile file, long weeklyActivityId) throws IOException {
         final var weeklyActivityOpt = weeklyActivityRepository.findById(weeklyActivityId);
         if (weeklyActivityOpt.isEmpty()) {
-            throw new ResourceNotFoundException(ResourceNotFoundMsgConstants.ACTIVITY_DOES_NOT_EXIST);
+            throw new ResourceNotFoundException(ResourceNotFoundException.ACTIVITY_DOES_NOT_EXIST, weeklyActivityId);
         }
         if (file == null || file.isEmpty() || file.getOriginalFilename() == null) {
             return;
@@ -38,7 +37,7 @@ public class StudyMaterialsServiceImpl implements StudyMaterialsService {
     public StudyMaterial getFile(long id) {
         final var file = studyMaterialsRepository.findById(id);
         if (file.isEmpty()) {
-            throw new ResourceNotFoundException(ResourceNotFoundMsgConstants.FILE_DOES_NOT_EXIST);
+            throw new ResourceNotFoundException(ResourceNotFoundException.FILE_DOES_NOT_EXIST, id);
         }
         return file.get();
     }
