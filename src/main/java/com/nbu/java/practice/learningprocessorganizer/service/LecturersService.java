@@ -1,8 +1,8 @@
 package com.nbu.java.practice.learningprocessorganizer.service;
 
-import com.nbu.java.practice.learningprocessorganizer.dto.lecturers.CreateLecturerDTO;
 import com.nbu.java.practice.learningprocessorganizer.dto.lecturers.LecturerDTO;
 import com.nbu.java.practice.learningprocessorganizer.dto.lecturers.UpdateLecturerDTO;
+import com.nbu.java.practice.learningprocessorganizer.web.view.model.lecturer.CreateLecturerViewModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -16,7 +16,7 @@ public interface LecturersService {
 
     Page<LecturerDTO> getPageOfLecturers(Pageable pageable);
 
-    void createLecturer(CreateLecturerDTO createLecturer);
+    void createLecturer(CreateLecturerViewModel createLecturer);
 
     void updateLecturer(long id, UpdateLecturerDTO updateLecturer);
 

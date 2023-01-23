@@ -60,8 +60,8 @@ public class LecturersController {
         if (bindingResult.hasErrors()) {
             return PagesConstants.LECTURER_CREATE;
         }
-        lecturersService.createLecturer(modelMapper.map(lecturerViewModel, CreateLecturerDTO.class));
-        return PagesConstants.LECTURERS;
+        lecturersService.createLecturer(lecturerViewModel);
+        return PagesConstants.LECTURERS_REDIRECT;
     }
 
     @Admin

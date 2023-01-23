@@ -4,7 +4,6 @@ import com.nbu.java.practice.learningprocessorganizer.annotations.Admin;
 import com.nbu.java.practice.learningprocessorganizer.annotations.AdminOrLecturer;
 import com.nbu.java.practice.learningprocessorganizer.dao.entity.users.UserIdentity;
 import com.nbu.java.practice.learningprocessorganizer.dto.UserRole;
-import com.nbu.java.practice.learningprocessorganizer.dto.students.CreateStudentDTO;
 import com.nbu.java.practice.learningprocessorganizer.dto.students.StudentDTO;
 import com.nbu.java.practice.learningprocessorganizer.dto.students.UpdateStudentDTO;
 import com.nbu.java.practice.learningprocessorganizer.exceptions.ResourceNotFoundException;
@@ -61,7 +60,7 @@ public class StudentsController {
             return PagesConstants.STUDENTS_CREATE;
         }
 
-        studentsService.createStudent(modelMapper.map(createStudentViewModel, CreateStudentDTO.class));
+        studentsService.createStudent(createStudentViewModel);
         return PagesConstants.STUDENTS_REDIRECT;
     }
 

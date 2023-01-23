@@ -1,13 +1,13 @@
 package com.nbu.java.practice.learningprocessorganizer.service.impl;
 
-import com.nbu.java.practice.learningprocessorganizer.dao.entity.Student;
 import com.nbu.java.practice.learningprocessorganizer.dao.repository.StudentsRepository;
 import com.nbu.java.practice.learningprocessorganizer.dto.lecturers.LecturerDTO;
-import com.nbu.java.practice.learningprocessorganizer.dto.students.CreateStudentDTO;
 import com.nbu.java.practice.learningprocessorganizer.dto.students.StudentDTO;
 import com.nbu.java.practice.learningprocessorganizer.dto.students.UpdateStudentDTO;
 import com.nbu.java.practice.learningprocessorganizer.exceptions.ResourceNotFoundException;
 import com.nbu.java.practice.learningprocessorganizer.service.StudentsService;
+import com.nbu.java.practice.learningprocessorganizer.service.UsersService;
+import com.nbu.java.practice.learningprocessorganizer.web.view.model.students.CreateStudentViewModel;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -22,6 +22,7 @@ import java.util.Collection;
 public class StudentsServiceImpl implements StudentsService {
 
     private final StudentsRepository studentsRepository;
+    private final UsersService usersService;
     private final ModelMapper modelMapper;
 
     @Override
@@ -47,11 +48,11 @@ public class StudentsServiceImpl implements StudentsService {
     }
 
     @Override
-    public void createStudent(CreateStudentDTO student) {
+    public void createStudent(CreateStudentViewModel student) {
         if (student == null) {
             return;
         }
-        studentsRepository.save(modelMapper.map(student, Student.class));
+        usersService.createUserAsStudent(student);
     }
 
     @Override

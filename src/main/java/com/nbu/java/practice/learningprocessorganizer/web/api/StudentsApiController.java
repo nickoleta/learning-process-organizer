@@ -6,6 +6,7 @@ import com.nbu.java.practice.learningprocessorganizer.dto.students.CreateStudent
 import com.nbu.java.practice.learningprocessorganizer.dto.students.StudentDTO;
 import com.nbu.java.practice.learningprocessorganizer.dto.students.UpdateStudentDTO;
 import com.nbu.java.practice.learningprocessorganizer.service.StudentsService;
+import com.nbu.java.practice.learningprocessorganizer.web.view.model.students.CreateStudentViewModel;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -41,7 +42,7 @@ public class StudentsApiController {
 
     @PostMapping
     public ResponseEntity<Void> createStudent(@RequestBody @Valid final CreateStudentRequestBody updateStudentDTO) {
-        studentsService.createStudent(modelMapper.map(updateStudentDTO, CreateStudentDTO.class));
+        studentsService.createStudent(modelMapper.map(updateStudentDTO, CreateStudentViewModel.class));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 

@@ -1,10 +1,10 @@
 package com.nbu.java.practice.learningprocessorganizer.web.api;
 
-import com.nbu.java.practice.learningprocessorganizer.web.api.dto.request.lecturers.UpdateLecturerRequestBody;
-import com.nbu.java.practice.learningprocessorganizer.dto.lecturers.CreateLecturerDTO;
 import com.nbu.java.practice.learningprocessorganizer.dto.lecturers.LecturerDTO;
 import com.nbu.java.practice.learningprocessorganizer.dto.lecturers.UpdateLecturerDTO;
 import com.nbu.java.practice.learningprocessorganizer.service.LecturersService;
+import com.nbu.java.practice.learningprocessorganizer.web.api.dto.request.lecturers.UpdateLecturerRequestBody;
+import com.nbu.java.practice.learningprocessorganizer.web.view.model.lecturer.CreateLecturerViewModel;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.Collection;
 
 @RestController
@@ -38,14 +39,14 @@ public class LecturersApiController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> createLecturer(@RequestBody final UpdateLecturerRequestBody updateLecturerRequestBody) {
-        lecturersService.createLecturer(modelMapper.map(updateLecturerRequestBody, CreateLecturerDTO.class));
+    public ResponseEntity<Void> createLecturer(@RequestBody @Valid final CreateLecturerViewModel updateLecturerRequestBody) {
+        lecturersService.createLecturer(updateLecturerRequestBody);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PostMapping("/{lecturerId}")
     public ResponseEntity<Void> updateLecturer(@PathVariable("lecturerId") final Long lecturerId,
-                                               @RequestBody final UpdateLecturerRequestBody updateLecturerRequestBody) {
+                                               @RequestBody @Valid final UpdateLecturerRequestBody updateLecturerRequestBody) {
         lecturersService.updateLecturer(lecturerId, modelMapper.map(updateLecturerRequestBody, UpdateLecturerDTO.class));
         return ResponseEntity.ok().build();
     }

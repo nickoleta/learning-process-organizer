@@ -3,6 +3,7 @@ package com.nbu.java.practice.learningprocessorganizer.service;
 import com.nbu.java.practice.learningprocessorganizer.dto.students.CreateStudentDTO;
 import com.nbu.java.practice.learningprocessorganizer.dto.students.StudentDTO;
 import com.nbu.java.practice.learningprocessorganizer.dto.students.UpdateStudentDTO;
+import com.nbu.java.practice.learningprocessorganizer.web.view.model.students.CreateStudentViewModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -16,7 +17,7 @@ public interface StudentsService {
 
     Page<StudentDTO> getPageOfStudents(Pageable pageable);
 
-    void createStudent(CreateStudentDTO createStudent);
+    void createStudent(CreateStudentViewModel createStudent);
 
     void updateStudent(long id, UpdateStudentDTO updateStudent);
 
