@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.FutureOrPresent;
 import java.time.LocalDate;
@@ -34,5 +35,11 @@ public class WeeklyActivity extends BaseEntity {
 
     @OneToMany(mappedBy = "weeklyActivity")
     private Set<StudyMaterial> studyMaterials;
+
+    @OneToMany(mappedBy = "weeklyActivity")
+    private Set<Homework> homeworks;
+
+    @OneToOne
+    private Test test;
 
 }

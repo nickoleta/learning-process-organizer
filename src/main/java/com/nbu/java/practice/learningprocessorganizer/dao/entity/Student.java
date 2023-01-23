@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -31,11 +32,10 @@ public class Student extends BaseEntity {
     @ManyToMany(mappedBy = "students")
     private Set<Course> courses;
 
-    public void addCourse(Course course) {
-        if (course == null) {
-            return;
-        }
-        courses.add(course);
-    }
+    @OneToMany(mappedBy = "student")
+    private Set<Test> tests;
+
+    @OneToMany(mappedBy = "student")
+    private Set<Homework> homeworks;
 
 }
