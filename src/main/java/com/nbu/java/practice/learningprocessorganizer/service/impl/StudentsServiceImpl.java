@@ -2,6 +2,7 @@ package com.nbu.java.practice.learningprocessorganizer.service.impl;
 
 import com.nbu.java.practice.learningprocessorganizer.dao.entity.Student;
 import com.nbu.java.practice.learningprocessorganizer.dao.repository.StudentsRepository;
+import com.nbu.java.practice.learningprocessorganizer.dto.lecturers.LecturerDTO;
 import com.nbu.java.practice.learningprocessorganizer.dto.students.CreateStudentDTO;
 import com.nbu.java.practice.learningprocessorganizer.dto.students.StudentDTO;
 import com.nbu.java.practice.learningprocessorganizer.dto.students.UpdateStudentDTO;
@@ -10,6 +11,8 @@ import com.nbu.java.practice.learningprocessorganizer.service.StudentsService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -33,6 +36,13 @@ public class StudentsServiceImpl implements StudentsService {
     @Override
     public Collection<StudentDTO> getAllStudents() {
         return modelMapper.map(studentsRepository.findAll(), new TypeToken<Collection<StudentDTO>>() {
+        }.getType());
+    }
+
+    @Override
+    public Page<StudentDTO> getPageOfStudents(Pageable pageable) {
+        final var students = studentsRepository.findAll(pageable);
+        return modelMapper.map(students, new TypeToken<Page<LecturerDTO>>() {
         }.getType());
     }
 

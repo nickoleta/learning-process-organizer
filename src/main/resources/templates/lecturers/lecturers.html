@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head"></head>
+<body>
+    <header th:replace="fragments :: header-admin"></header>
+    <div class=" col-6">
+        <table th:if="${pageOfLecturers.size>0}" class="table table-hover">
+            <th><a th:href="@{'/lecturers/page/'+${currentPage}+'/size/'+${pageOfLecturers.size}+'/sort/id/direction/'+${sortDirection}}">Id</a></th>
+            <th><a th:href="@{'/lecturers/page/'+${currentPage}+'/size/'+${pageOfLecturers.size}+'/sort/name/direction/'+${sortDirection}}"> Name</a></th>
+            <th> </th>
+            <th> </th>
+            <tr th:each="lecturer : ${pageOfLecturers.content}">
+                <td th:text="${lecturer.id}"></td>
+                <td th:text="${lecturer.name}"></td>
+                <td><a class="btn btn-info" th:href="@{'/lecturers/edit-lecturer/'+${lecturer.id}}">Edit</a></td>
+                <td><a class="btn btn-danger" th:href="@{'/lecturers/delete/'+${lecturer.id}}">Delete</a></td>
+            </tr>
+        </table>
+        <span th:if="${pageOfLecturers.totalPages > 1}"
+              th:each="pageNumber : ${pageNumbers}" >
+            <a th:href="@{/lecturers/page/{page}/size/{size}(page=${pageNumber}, size=${pageOfLecturers.size})}" th:text="${pageNumber}">
+               </a>
+        </span>
+    </div>
+</body>
+</html>

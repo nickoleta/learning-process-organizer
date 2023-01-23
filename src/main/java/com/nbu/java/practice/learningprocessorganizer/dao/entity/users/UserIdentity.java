@@ -58,6 +58,17 @@ public class UserIdentity extends BaseEntity implements UserDetails {
     @JoinColumn(name = "student_id", unique = true)
     private Student student;
 
+    public UserIdentity(String username, String password, boolean isAccountNonExpired, boolean isAccountNonLocked, boolean isCredentialsNonExpired, boolean isEnabled,
+                        Role authority) {
+        this.username = username;
+        this.password = password;
+        this.isAccountNonExpired = isAccountNonExpired;
+        this.isAccountNonLocked = isAccountNonLocked;
+        this.isCredentialsNonExpired = isCredentialsNonExpired;
+        this.isEnabled = isEnabled;
+        this.authority = authority;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Set.of(this.authority);

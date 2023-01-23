@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head">
+    <title>Learning Process Organizer</title>
+    <meta charset="UTF-8">
+    <link href="/css/bootstrap.min.css" rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+</head>
+
+<header th:fragment="header-admin">
+    <div class="row">
+        <div class="col-9">
+            <h2>Learning Process Organizer</h2>
+        </div>
+        <div class="col-3" sec:authorize="isAuthenticated()">
+            Hello,
+            <span sec:authentication="name"></span>
+            <a class="btn" th:href="@{/logout}">Logout</a>
+        </div>
+    </div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" th:fragment="navigation">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent-admin">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/students">Students</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/students/create-student">Create Student</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/lecturers">Lecturers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/lecturers/create-lecturer">Create Lecturer</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<header th:fragment="header-lecturer">
+    <div class="row">
+        <div class="col-9">
+            <h2>Learning Process Organizer</h2>
+        </div>
+        <div class="col-3" sec:authorize="isAuthenticated()">
+            Hello,
+            <span sec:authentication="name"></span>
+            <a class="btn" th:href="@{/logout}">Logout</a>
+        </div>
+    </div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" th:fragment="navigation">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent-lecturer">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/login">Students</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/login">Courses</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/login">My courses</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<header th:fragment="header-patient">
+    <div class="row">
+        <div class="col-9">
+            <h2>Learning Process Organizer</h2>
+        </div>
+        <div class="col-3" sec:authorize="isAuthenticated()">
+            Hello,
+            <span sec:authentication="name"></span>
+            <a class="btn" th:href="@{/logout}">Logout</a>
+        </div>
+    </div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" th:fragment="navigation">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent-student">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/login">Lecturers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/login">Courses</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/login">My courses</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+</html>

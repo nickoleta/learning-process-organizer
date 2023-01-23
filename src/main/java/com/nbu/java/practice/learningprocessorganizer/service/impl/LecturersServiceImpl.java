@@ -10,6 +10,8 @@ import com.nbu.java.practice.learningprocessorganizer.service.LecturersService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -33,6 +35,13 @@ public class LecturersServiceImpl implements LecturersService {
     @Override
     public Collection<LecturerDTO> getAllLecturers() {
         return modelMapper.map(lecturersRepository.findAll(), new TypeToken<Collection<LecturerDTO>>() {
+        }.getType());
+    }
+
+    @Override
+    public Page<LecturerDTO> getPageOfLecturers(Pageable pageable) {
+        final var lecturers = lecturersRepository.findAll(pageable);
+        return modelMapper.map(lecturers, new TypeToken<Page<LecturerDTO>>() {
         }.getType());
     }
 

@@ -1,13 +1,16 @@
 package com.nbu.java.practice.learningprocessorganizer.dao.entity;
 
+import com.nbu.java.practice.learningprocessorganizer.dao.entity.users.UserIdentity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -37,5 +40,8 @@ public class Student extends BaseEntity {
 
     @OneToMany(mappedBy = "student")
     private Set<Homework> homeworks;
+
+    @OneToOne(mappedBy = "student", cascade = CascadeType.ALL)
+    private UserIdentity userIdentity;
 
 }

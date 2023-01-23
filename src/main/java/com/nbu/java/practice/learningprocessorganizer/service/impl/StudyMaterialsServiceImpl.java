@@ -4,6 +4,7 @@ import com.nbu.java.practice.learningprocessorganizer.dao.entity.StudyMaterial;
 import com.nbu.java.practice.learningprocessorganizer.dao.repository.StudyMaterialsRepository;
 import com.nbu.java.practice.learningprocessorganizer.dao.repository.WeeklyActivityRepository;
 import com.nbu.java.practice.learningprocessorganizer.exceptions.ResourceNotFoundException;
+import com.nbu.java.practice.learningprocessorganizer.exceptions.ResourceNotFoundMsgConstants;
 import com.nbu.java.practice.learningprocessorganizer.service.StudyMaterialsService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

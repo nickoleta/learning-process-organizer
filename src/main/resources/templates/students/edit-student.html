@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head"></head>
+<body>
+<header th:replace="fragments :: header-admin"></header>
+<h4>Edit the Student</h4>
+<div class="col-6">
+    <form action="#" th:action="@{/students/update/{id}(id=${student.id})}" th:object="${student}" method="post">
+        <div class="form-group">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input class="form-control" type="text" th:field="*{name}" placeholder="Name" id="name">
+                <span class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</span>
+            </div>
+            <div class="form-group">
+                <label for="fn">FN</label>
+                <input class="form-control" type="text" th:field="*{fn}" placeholder="FN" id="fn">
+                <span class="text-danger" th:if="${#fields.hasErrors('fn')}" th:errors="*{fn}">FN Error</span>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Update Student</button>
+    </form>
+</div>
+</body>
+</html>

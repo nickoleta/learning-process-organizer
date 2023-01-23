@@ -2,7 +2,7 @@ package com.nbu.java.practice.learningprocessorganizer.dto;
 
 public enum UserRole {
 
-    ADMIN_ROLE("ADMIN"), DOCTOR_ROLE("DOCTOR"), PATIENT_ROLE("PATIENT");
+    ADMIN_ROLE("ADMIN"), LECTURER_ROLE("LECTURER"), STUDENT_ROLE("STUDENT");
 
     private final String roleName;
 

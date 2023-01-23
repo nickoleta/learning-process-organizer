@@ -28,16 +28,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api").permitAll();
-//                .authenticated().and()
-//                .antMatcher("/api/*")
-//                .formLogin().loginPage("/login").permitAll()
-//                .and()
-//                .exceptionHandling().accessDeniedPage("/unauthorized")
-//                .and()
-//                .logout()
-//                .permitAll()
-//                .logoutSuccessUrl("/login")
-//                .permitAll();
+                .and()
+                .formLogin().loginPage("/login").permitAll()
+                .and()
+                .exceptionHandling().accessDeniedPage("/unauthorized")
+                .and()
+                .logout()
+                .permitAll()
+                .logoutSuccessUrl("/login")
+                .permitAll();
     }
 }
