@@ -13,4 +13,6 @@ public interface CoursesRepository extends PagingAndSortingRepository<Course, Lo
 
     Page<Course> findAllByLecturerId(long lecturerId, Pageable pageable);
 
+    Page<Course> findByStudents_Id(long studentId, Pageable pageable);
+
 }

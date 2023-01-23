@@ -63,6 +63,15 @@ public class CoursesServiceImpl implements CoursesService {
     }
 
     @Override
+    public Page<CourseDTO> getPageOfCoursesByStudentId(long studentId, Pageable pageable) {
+//        final var courseIds = coursesRepository.getCourseIdsByStudentId(studentId);
+//        return modelMapper.map(coursesRepository.findByIdIn(courseIds, pageable), new TypeToken<Page<CourseDTO>>() {
+//        }.getType());
+        return modelMapper.map(coursesRepository.findByStudents_Id(studentId, pageable), new TypeToken<Page<CourseDTO>>() {
+        }.getType());
+    }
+
+    @Override
     public void addStudentToCourse(long courseId, long studentId) {
         final var studentOpt = studentsRepository.findById(studentId);
         if (studentOpt.isEmpty()) {

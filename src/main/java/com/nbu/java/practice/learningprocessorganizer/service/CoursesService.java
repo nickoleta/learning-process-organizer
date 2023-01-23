@@ -19,6 +19,8 @@ public interface CoursesService {
 
     Page<CourseDTO> getPageOfCoursesByLecturerId(long lecturerId, Pageable pageable);
 
+    Page<CourseDTO> getPageOfCoursesByStudentId(long studentId, Pageable pageable);
+
     void addStudentToCourse(long courseId, long studentId);
 
     void addActivityToACourse(long courseId, WeeklyActivityDTO weeklyActivity);

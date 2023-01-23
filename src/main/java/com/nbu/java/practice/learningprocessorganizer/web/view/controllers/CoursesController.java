@@ -88,7 +88,8 @@ public class CoursesController {
             final var lecturerId = ((UserIdentity) authentication.getPrincipal()).getLecturer().getId();
             return coursesService.getPageOfCoursesByLecturerId(lecturerId, pageRequest);
         }
-        return Page.empty();
+        final var studentId = ((UserIdentity) authentication.getPrincipal()).getStudent().getId();
+        return coursesService.getPageOfCoursesByStudentId(studentId, pageRequest);
     }
 
 
