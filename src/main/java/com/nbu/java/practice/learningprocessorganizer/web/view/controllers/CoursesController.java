@@ -5,10 +5,13 @@ import com.nbu.java.practice.learningprocessorganizer.annotations.Lecturer;
 import com.nbu.java.practice.learningprocessorganizer.annotations.LecturerOrStudent;
 import com.nbu.java.practice.learningprocessorganizer.dao.entity.users.UserIdentity;
 import com.nbu.java.practice.learningprocessorganizer.dto.UserRole;
+import com.nbu.java.practice.learningprocessorganizer.dto.activity.WeeklyActivityDTO;
 import com.nbu.java.practice.learningprocessorganizer.dto.courses.CourseDTO;
+import com.nbu.java.practice.learningprocessorganizer.service.ActivitiesService;
 import com.nbu.java.practice.learningprocessorganizer.service.CoursesService;
 import com.nbu.java.practice.learningprocessorganizer.web.view.controllers.constants.PagesConstants;
 import com.nbu.java.practice.learningprocessorganizer.web.view.controllers.constants.SortingConstants;
+import com.nbu.java.practice.learningprocessorganizer.web.view.model.WeeklyActivityViewModel;
 import com.nbu.java.practice.learningprocessorganizer.web.view.model.courses.CourseViewModel;
 import com.nbu.java.practice.learningprocessorganizer.web.view.model.courses.CreateCourseViewModel;
 import lombok.AllArgsConstructor;
@@ -22,6 +25,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,6 +44,7 @@ import java.util.stream.IntStream;
 public class CoursesController {
 
     private final CoursesService coursesService;
+    private final ActivitiesService activitiesService;
     private final ModelMapper modelMapper;
 
     @Lecturer
@@ -83,16 +88,6 @@ public class CoursesController {
         return getCourses(courses, model, page, SortingConstants.ID_SORT_CRITERIA, SortingConstants.ASC_SORT_DIRECTION, authentication, true);
     }
 
-    private Page<CourseDTO> getMyCoursesBasedOnUserRole(Authentication authentication, PageRequest pageRequest) {
-        if (UserRole.LECTURER_ROLE.getRoleName().equalsIgnoreCase(getRoleName(authentication))) {
-            final var lecturerId = ((UserIdentity) authentication.getPrincipal()).getLecturer().getId();
-            return coursesService.getPageOfCoursesByLecturerId(lecturerId, pageRequest);
-        }
-        final var studentId = ((UserIdentity) authentication.getPrincipal()).getStudent().getId();
-        return coursesService.getPageOfCoursesByStudentId(studentId, pageRequest);
-    }
-
-
     @AnyUser
     @GetMapping("/page/{page}/size/{size}/sort/{sortCriteria}/direction/{sortDirection}")
     public String getCoursesOrderedByName(Model model, Authentication authentication,
@@ -123,6 +118,43 @@ public class CoursesController {
     @GetMapping({"/registered"})
     public String getMyCourses() {
         return PagesConstants.MY_COURSES_REDIRECT_PAGING;
+    }
+
+    @Lecturer
+    @GetMapping("/{courseId}/data")
+    public String showCourseData(@PathVariable("courseId") final Long courseId, Model model) {
+        model.addAttribute("course", modelMapper.map(coursesService.getCourse(courseId), CourseViewModel.class));
+        return PagesConstants.COURSE_DATA_LECTURER;
+    }
+
+    @Lecturer
+    @GetMapping("/{courseId}/activities/create-activity")
+    public String showCreateActivity(Model model, @PathVariable("courseId") final Long courseId) {
+        model.addAllAttributes(Map.of(
+                "courseId", courseId,
+                "activity", new WeeklyActivityViewModel()));
+        return PagesConstants.ACTIVITIES_CREATE;
+    }
+
+    @Lecturer
+    @PostMapping("/{courseId}/activities/create")
+    public String createActivity(@PathVariable("courseId") final Long courseId,
+                                 @ModelAttribute("activity") @Valid WeeklyActivityViewModel weeklyActivityViewModel,
+                                 BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            return PagesConstants.ACTIVITIES_CREATE;
+        }
+        coursesService.addActivityToACourse(courseId, modelMapper.map(weeklyActivityViewModel, WeeklyActivityDTO.class));
+        model.addAttribute("course", modelMapper.map(coursesService.getCourse(courseId), CourseViewModel.class));
+        return PagesConstants.COURSE_DATA_LECTURER;
+    }
+
+    @Lecturer
+    @GetMapping("/{courseId}/activities/{activityId}")
+    public String deleteActivity(@PathVariable("courseId") final Long courseId, @PathVariable("activityId") final Long activityId, Model model) {
+        activitiesService.deleteActivity(activityId);
+        model.addAttribute("course", modelMapper.map(coursesService.getCourse(courseId), CourseViewModel.class));
+        return PagesConstants.COURSE_DATA_LECTURER;
     }
 
     private PageRequest createPageRequest(String sortDirection, int page, int size, String sortCriteria) {
@@ -173,5 +205,14 @@ public class CoursesController {
         return IntStream.rangeClosed(1, totalPages)
                 .boxed()
                 .collect(Collectors.toList());
+    }
+
+    private Page<CourseDTO> getMyCoursesBasedOnUserRole(Authentication authentication, PageRequest pageRequest) {
+        if (UserRole.LECTURER_ROLE.getRoleName().equalsIgnoreCase(getRoleName(authentication))) {
+            final var lecturerId = ((UserIdentity) authentication.getPrincipal()).getLecturer().getId();
+            return coursesService.getPageOfCoursesByLecturerId(lecturerId, pageRequest);
+        }
+        final var studentId = ((UserIdentity) authentication.getPrincipal()).getStudent().getId();
+        return coursesService.getPageOfCoursesByStudentId(studentId, pageRequest);
     }
 }

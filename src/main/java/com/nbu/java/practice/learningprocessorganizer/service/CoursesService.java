@@ -15,8 +15,6 @@ public interface CoursesService {
 
     Page<CourseDTO> getPageOfCourses(Pageable pageable);
 
-    Collection<CourseDTO> getAllCoursesByLecturerId(long lecturerId);
-
     Page<CourseDTO> getPageOfCoursesByLecturerId(long lecturerId, Pageable pageable);
 
     Page<CourseDTO> getPageOfCoursesByStudentId(long studentId, Pageable pageable);

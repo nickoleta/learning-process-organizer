@@ -127,6 +127,23 @@ and open the template in the editor.
         </span>
 </div>
 
+<div th:fragment="activities-list" class=" col-6">
+    <table th:if="${course.activities.size>0}" class="table table-hover">
+        <th>Id</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th></th>
+        <th></th>
+        <tr th:each="activity : ${course.activities}">
+            <td th:text="${activity.id}"></td>
+            <td th:text="${activity.startDate}"></td>
+            <td th:text="${activity.endDate}"></td>
+            <td><a sec:authorize="hasAuthority('LECTURER')" class="btn btn-danger"
+                   th:href="@{'/courses/'+${courseId}+'/activities/'+${activity.id}}">Delete</a></td>
+        </tr>
+    </table>
+</div>
+
 <div th:fragment="courses-list" class=" col-6">
     <table th:if="${pageOfCourses.size>0}" class="table table-hover">
         <th>

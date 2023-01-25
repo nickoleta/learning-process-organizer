@@ -1,4 +1,5 @@
-package com.nbu.java.practice.learningprocessorganizer.dto.activity;
+package com.nbu.java.practice.learningprocessorganizer.web.view.model.activities;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +12,7 @@ import java.time.LocalDate;
 @Generated
 @NoArgsConstructor
 @AllArgsConstructor
-public class WeeklyActivityDTO {
+public class ActivityViewModel {
 
     private Long id;
     private LocalDate startDate;

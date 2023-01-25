@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head th:replace="fragments :: head"></head>
+<body>
+<header th:replace="fragments :: header-lecturer"></header>
+<div class="col-6">
+    <form action="#" th:action="@{'/courses/'+${courseId}+'/activities/create-activity'}" method="get">
+        <button type="submit" class="btn btn-primary">Create Activity</button>
+    </form>
+    <div th:replace="fragments :: activities-list"></div>
+</div>
+
+</body>
+</html>
