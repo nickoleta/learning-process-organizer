@@ -4,8 +4,7 @@
 <body>
 <header th:replace="fragments :: header-lecturer"></header>
 <div class="col-6">
-    <form action="#" th:action="@{'/courses/'+${courseId}+'/activities/create'}" th:object="${activity}"
-          method="post">
+    <form action="#" th:action="@{'/courses/'+${courseId}+'/activities/create'}" th:object="${activity}" method="post" enctype="multipart/form-data">
         <div class="form-group">
             <div class="form-group">
                 <label for="startDate">Start Date</label>
@@ -20,6 +19,22 @@
                       th:errors="*{endDate}">End Date Error</span>
             </div>
         </div>
+        <section class="my-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 mx-auto">
+                        <h2>Upload File Example</h2>
+                        <p th:text="${message}" th:if="${message ne null}" class="alert alert-primary"></p>
+<!--                        <form method="post" th:action="@{'/courses/activities/'+${activity.id}+'/upload'}" enctype="multipart/form-data">-->
+                            <div class="form-group">
+                                <input type="file" name="file" class="form-control-file">
+                            </div>
+<!--                            <button type="submit" class="btn btn-primary">Upload File</button>-->
+<!--                        </form>-->
+                    </div>
+                </div>
+            </div>
+        </section>
         <button type="submit" class="btn btn-primary">Create Activity</button>
     </form>
 </div>

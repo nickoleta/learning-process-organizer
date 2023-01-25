@@ -17,6 +17,8 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class WeeklyActivityViewModel {
 
+    private Long id;
+
     @NotNull
     @PastOrPresent
     @DateTimeFormat(pattern = "yyyy-MM-dd")

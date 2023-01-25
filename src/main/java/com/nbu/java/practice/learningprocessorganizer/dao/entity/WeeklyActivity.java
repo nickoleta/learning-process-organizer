@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -34,7 +35,7 @@ public class WeeklyActivity extends BaseEntity implements Serializable {
     @ManyToOne
     private Course course;
 
-    @OneToMany(mappedBy = "weeklyActivity")
+    @OneToMany(mappedBy = "weeklyActivity", cascade = CascadeType.ALL)
     private Set<StudyMaterial> studyMaterials;
 
     @OneToMany(mappedBy = "weeklyActivity")

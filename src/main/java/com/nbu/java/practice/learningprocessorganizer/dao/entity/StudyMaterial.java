@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
@@ -28,6 +29,6 @@ public class StudyMaterial extends BaseEntity {
     @Lob
     private byte[] data;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private WeeklyActivity weeklyActivity;
 }

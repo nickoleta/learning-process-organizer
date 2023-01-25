@@ -16,4 +16,5 @@ public class WeeklyActivityDTO {
     private Long id;
     private LocalDate startDate;
     private LocalDate endDate;
+    private String study;
 }
