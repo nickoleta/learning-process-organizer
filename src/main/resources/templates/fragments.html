@@ -6,7 +6,7 @@ and open the template in the editor.
 -->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:fragment="head">
-    <title>Learning Process Organizer</title>
+    <title>E-Learn</title>
     <meta charset="UTF-8">
     <link href="/css/bootstrap.min.css" rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
 </head>
@@ -14,7 +14,7 @@ and open the template in the editor.
 <header th:fragment="header-admin">
     <div class="row">
         <div class="col-9">
-            <h2>Learning Process Organizer</h2>
+            <h2>E-Learn</h2>
         </div>
         <div class="col-3" sec:authorize="isAuthenticated()">
             Hello,
@@ -45,7 +45,7 @@ and open the template in the editor.
 <header th:fragment="header-lecturer">
     <div class="row">
         <div class="col-9">
-            <h2>Learning Process Organizer</h2>
+            <h2>E-Learn</h2>
         </div>
         <div class="col-3" sec:authorize="isAuthenticated()">
             Hello,
@@ -76,7 +76,7 @@ and open the template in the editor.
 <header th:fragment="header-student">
     <div class="row">
         <div class="col-9">
-            <h2>Learning Process Organizer</h2>
+            <h2>E-Learn</h2>
         </div>
         <div class="col-3" sec:authorize="isAuthenticated()">
             Hello,
@@ -128,31 +128,32 @@ and open the template in the editor.
 </div>
 
 <div th:fragment="activities-list" class=" col-6">
-    <table th:if="${course.activities.size>0}" class="table table-hover">
+    <table th:if="${course.weeklyActivities.size>0}" class="table table-hover">
         <th>Id</th>
         <th>Start Date</th>
         <th>End Date</th>
         <th>Study Materials</th>
         <th></th>
-        <tr th:each="activity : ${course.activities}">
+        <tr th:each="activity : ${course.weeklyActivities}">
             <td th:text="${activity.id}"></td>
             <td th:text="${activity.startDate}"></td>
             <td th:text="${activity.endDate}"></td>
-            <td><a th:text="donwload" th:href="@{'/courses/download/'+${1}}"></a></td>
+            <td>
+                <a th:if="${activity.studyMaterials != null && activity.studyMaterials.size>0}" th:text="${activity.studyMaterials[0].name}"
+                   th:href="@{'/courses/download/'+${activity.studyMaterials[0].id}}"></a>
+                <a th:unless="${activity.studyMaterials != null && activity.studyMaterials.size>0}"></a>
+            </td>
             <td><a sec:authorize="hasAuthority('LECTURER')" class="btn btn-danger"
-                   th:href="@{'/courses/'+${courseId}+'/activities/'+${activity.id}}">Delete</a></td>
+                   th:href="@{'/courses/'+${courseId}+'/activities/'+${activity.id}}">Delete Activity</a></td>
         </tr>
+        <tr></tr>
     </table>
 </div>
 
 <div th:fragment="courses-list" class=" col-6">
     <table th:if="${pageOfCourses.size>0}" class="table table-hover">
-        <th>
-            <a th:href="@{'/courses/page/'+${currentPage}+'/size/'+${pageOfCourses.size}+'/sort/id/direction/'+${sortDirection}}">Id</a>
-        </th>
-        <th>
-            <a th:href="@{'/courses/page/'+${currentPage}+'/size/'+${pageOfCourses.size}+'/sort/name/direction/'+${sortDirection}}">
-                Name</a></th>
+        <th><a th:href="@{'/courses/page/'+${currentPage}+'/size/'+${pageOfCourses.size}+'/sort/id/direction/'+${sortDirection}}">Id</a></th>
+        <th><a th:href="@{'/courses/page/'+${currentPage}+'/size/'+${pageOfCourses.size}+'/sort/name/direction/'+${sortDirection}}">Name</a></th>
         <tr th:each="course : ${pageOfCourses.content}">
             <td th:text="${course.id}"></td>
             <td th:text="${course.name}"></td>

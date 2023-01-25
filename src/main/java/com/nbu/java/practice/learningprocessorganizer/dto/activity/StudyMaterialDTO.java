@@ -5,17 +5,12 @@ import lombok.Data;
 import lombok.Generated;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-import java.util.Set;
-
 @Data
 @Generated
 @NoArgsConstructor
 @AllArgsConstructor
-public class WeeklyActivityDTO {
+public class StudyMaterialDTO {
 
-    private Long id;
-    private LocalDate startDate;
-    private LocalDate endDate;
-    private Set<StudyMaterialDTO> studyMaterials;
+    private long id;
+    private String name;
 }

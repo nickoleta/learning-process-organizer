@@ -18,5 +18,5 @@ public class ActivityViewModel {
     private Long id;
     private LocalDate startDate;
     private LocalDate endDate;
-    private Set<StudyMaterialViewModel> studyMaterial;
+    private Set<StudyMaterialViewModel> studyMaterials;
 }

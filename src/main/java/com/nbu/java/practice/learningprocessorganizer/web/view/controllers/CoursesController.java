@@ -148,7 +148,7 @@ public class CoursesController {
     @Lecturer
     @PostMapping("/{courseId}/activities/create")
     public String createActivity(@PathVariable("courseId") final Long courseId,
-                                 @RequestParam("file") MultipartFile file,
+                                 @RequestParam("file") MultipartFile[] files,
                                  @ModelAttribute("activity") @Valid WeeklyActivityViewModel weeklyActivityViewModel,
                                  BindingResult bindingResult, Model model) throws IOException {
         if (bindingResult.hasErrors()) {
@@ -159,11 +159,13 @@ public class CoursesController {
         coursesService.addActivityToACourse(courseId, activity);
         model.addAttribute("course", modelMapper.map(coursesService.getCourse(courseId), CourseViewModel.class));
 
-        if (!file.isEmpty()) {
-            final var latestActivityId = activitiesService.getActivitiesByCourseId(courseId).stream()
-                    .map(WeeklyActivityDTO::getId)
-                    .mapToLong(Long::longValue).max();
-            studyMaterialsService.uploadFile(file, latestActivityId.getAsLong());
+        for(MultipartFile file : files) {
+            if (!file.isEmpty()) {
+                final var latestActivityId = activitiesService.getActivitiesByCourseId(courseId).stream()
+                        .map(WeeklyActivityDTO::getId)
+                        .mapToLong(Long::longValue).max();
+                studyMaterialsService.uploadFile(file, latestActivityId.getAsLong());
+            }
         }
 
         return PagesConstants.COURSE_DATA_LECTURER;

@@ -20,6 +20,6 @@ public class CourseViewModel {
     @Size(max = 30)
     private String name;
 
-    private Set<ActivityViewModel> activities;
+    private Set<ActivityViewModel> weeklyActivities;
 
 }
