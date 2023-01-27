@@ -70,7 +70,6 @@ public class StudentsServiceImpl implements StudentsService {
 
     @Override
     public void deleteStudent(long id) {
-//        studentsRepository.deleteById(id);
         usersRepository.deleteByStudentId(id);
     }
 }

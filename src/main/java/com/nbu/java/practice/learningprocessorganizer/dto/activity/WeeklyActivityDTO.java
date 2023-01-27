@@ -18,4 +18,5 @@ public class WeeklyActivityDTO {
     private LocalDate startDate;
     private LocalDate endDate;
     private Set<StudyMaterialDTO> studyMaterials;
+    private ExamDTO exam;
 }

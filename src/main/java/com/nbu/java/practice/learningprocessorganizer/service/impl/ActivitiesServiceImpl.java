@@ -2,6 +2,7 @@ package com.nbu.java.practice.learningprocessorganizer.service.impl;
 
 import com.nbu.java.practice.learningprocessorganizer.dao.repository.WeeklyActivityRepository;
 import com.nbu.java.practice.learningprocessorganizer.dto.activity.WeeklyActivityDTO;
+import com.nbu.java.practice.learningprocessorganizer.exceptions.ResourceNotFoundException;
 import com.nbu.java.practice.learningprocessorganizer.service.ActivitiesService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;

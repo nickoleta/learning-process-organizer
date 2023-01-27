@@ -143,7 +143,14 @@ and open the template in the editor.
                    th:href="@{'/courses/download/'+${activity.studyMaterials[0].id}}"></a>
                 <a th:unless="${activity.studyMaterials != null && activity.studyMaterials.size>0}"></a>
             </td>
-            <td><a sec:authorize="hasAuthority('STUDENT')" th:href="@{/exams/take-exam}">Take the exam</a></td>
+            <td>
+                <a sec:authorize="hasAuthority('STUDENT')" th:href="@{/exams/take-exam}">Take the exam</a>
+                <div sec:authorize="hasAuthority('LECTURER')">
+                    <a th:if="${activity.exam != null}" th:href="@{/exams/take-exam}">Review the exam</a>
+                    <a th:unless="${activity.exam != null}" th:href="@{/exams/take-exam}">Add exam</a>
+                </div>
+                <!--  if lecturer - review exam              -->
+            </td>
             <td><a sec:authorize="hasAuthority('LECTURER')" class="btn btn-danger"
                    th:href="@{'/courses/'+${courseId}+'/activities/'+${activity.id}}">Delete Activity</a>
             </td>
