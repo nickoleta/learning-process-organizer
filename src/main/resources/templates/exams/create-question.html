@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head"></head>
+<body>
+<header th:replace="fragments :: header-lecturer"></header>
+<div class="col-6">
+    <form action="#" th:action="@{/exams/create-exam}" th:object="${exam}" method="post">
+        <div class="form-group">
+            <div class="form-group">
+                <label for="username">Question</label>
+                <input class="form-control" type="text" th:field="*{username}" placeholder="Username" id="username">
+                <span class="text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username Error</span>
+            </div>
+            <div class="form-group">
+                <label for="password">Correct Answer</label>
+                <input class="form-control" type="password" th:field="*{password}" placeholder="Name" id="password">
+                <span class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</span>
+            </div>
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input class="form-control" type="text" th:field="*{name}" placeholder="Name" id="name">
+                <span class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</span>
+            </div>
+            <div class="form-group">
+                <label for="fn">FN</label>
+                <input class="form-control" type="text" th:field="*{fn}"
+                       placeholder="FN" id="fn">
+                <span class="text-danger" th:if="${#fields.hasErrors('fn')}" th:errors="*{fn}">FN Error</span>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Save Student</button>
+    </form>
+</div>
+</body>
+</html>

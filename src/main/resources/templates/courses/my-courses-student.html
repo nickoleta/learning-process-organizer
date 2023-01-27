@@ -9,13 +9,12 @@
         <th><a th:href="@{'/courses/registered/page/'+${currentPage}+'/size/'+${pageOfCourses.size}+'/sort/name/direction/'+${sortDirection}}"> Name</a></th>
         <tr th:each="course : ${pageOfCourses.content}">
             <td th:text="${course.id}"></td>
-            <td th:text="${course.name}"></td>
+            <td><a th:text="${course.name}" th:href="@{'/courses/'+${course.id}+'/data'}"></a></td>
         </tr>
     </table>
     <span th:if="${pageOfCourses.totalPages > 1}"
           th:each="pageNumber : ${pageNumbers}" >
-            <a th:href="@{/courses/registered/page/{page}/size/{size}(page=${pageNumber}, size=${pageOfCourses.size})}" th:text="${pageNumber}">
-               </a>
+            <a th:href="@{/courses/registered/page/{page}/size/{size}(page=${pageNumber}, size=${pageOfCourses.size})}" th:text="${pageNumber}"></a>
         </span>
 </div>
 

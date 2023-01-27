@@ -1,6 +1,7 @@
 package com.nbu.java.practice.learningprocessorganizer.service.impl;
 
 import com.nbu.java.practice.learningprocessorganizer.dao.repository.StudentsRepository;
+import com.nbu.java.practice.learningprocessorganizer.dao.repository.UsersRepository;
 import com.nbu.java.practice.learningprocessorganizer.dto.lecturers.LecturerDTO;
 import com.nbu.java.practice.learningprocessorganizer.dto.students.StudentDTO;
 import com.nbu.java.practice.learningprocessorganizer.dto.students.UpdateStudentDTO;
@@ -22,6 +23,7 @@ import java.util.Collection;
 public class StudentsServiceImpl implements StudentsService {
 
     private final StudentsRepository studentsRepository;
+    private final UsersRepository usersRepository;
     private final UsersService usersService;
     private final ModelMapper modelMapper;
 
@@ -68,6 +70,7 @@ public class StudentsServiceImpl implements StudentsService {
 
     @Override
     public void deleteStudent(long id) {
-        studentsRepository.deleteById(id);
+//        studentsRepository.deleteById(id);
+        usersRepository.deleteByStudentId(id);
     }
 }

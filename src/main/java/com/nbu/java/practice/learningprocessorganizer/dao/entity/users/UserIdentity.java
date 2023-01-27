@@ -50,11 +50,11 @@ public class UserIdentity extends BaseEntity implements UserDetails {
     @ManyToOne(fetch = FetchType.EAGER)
     private Role authority;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     @JoinColumn(name = "lecturer_id", unique = true)
     private Lecturer lecturer;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     @JoinColumn(name = "student_id", unique = true)
     private Student student;
 

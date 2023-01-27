@@ -3,7 +3,9 @@ package com.nbu.java.practice.learningprocessorganizer.service.impl;
 import com.nbu.java.practice.learningprocessorganizer.dao.entity.Lecturer;
 import com.nbu.java.practice.learningprocessorganizer.dao.entity.Student;
 import com.nbu.java.practice.learningprocessorganizer.dao.entity.users.UserIdentity;
+import com.nbu.java.practice.learningprocessorganizer.dao.repository.LecturersRepository;
 import com.nbu.java.practice.learningprocessorganizer.dao.repository.RolesRepository;
+import com.nbu.java.practice.learningprocessorganizer.dao.repository.StudentsRepository;
 import com.nbu.java.practice.learningprocessorganizer.dao.repository.UsersRepository;
 import com.nbu.java.practice.learningprocessorganizer.dto.UserRole;
 import com.nbu.java.practice.learningprocessorganizer.exceptions.UserAlreadyExistsException;
@@ -18,14 +20,17 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
+
 @Service
 @AllArgsConstructor
 public class UsersServiceImpl implements UsersService {
 
     private final UsersRepository usersRepository;
     private final RolesRepository rolesRepository;
+    private final LecturersRepository lecturersRepository;
+    private final StudentsRepository studentsRepository;
     private final PasswordEncoder passwordEncoder;
-    private final ModelMapper modelMapper;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -41,7 +46,7 @@ public class UsersServiceImpl implements UsersService {
         if (usersRepository.findByUsername(user.getUsername()) != null) {
             throw new UserAlreadyExistsException(user.getUsername());
         }
-        usersRepository.save(convertToUserEntity(user, UserRole.ADMIN_ROLE.getRoleName()));
+        usersRepository.save(convertToUserEntity(user.getUsername(), user.getPassword(), UserRole.ADMIN_ROLE.getRoleName()));
     }
 
     @Override
@@ -49,9 +54,10 @@ public class UsersServiceImpl implements UsersService {
         if (usersRepository.findByUsername(lecturer.getUsername()) != null) {
             throw new UserAlreadyExistsException(lecturer.getUsername());
         }
-        final var userEntity = convertToUserEntity(lecturer, UserRole.LECTURER_ROLE.getRoleName());
-        userEntity.setLecturer(modelMapper.map(lecturer, Lecturer.class));
-        usersRepository.save(userEntity);
+        final var userIdentity = convertToUserEntity(lecturer.getUsername(), lecturer.getPassword(), UserRole.LECTURER_ROLE.getRoleName());
+        final var lecturerEntity = new Lecturer(lecturer.getName(), Set.of(), userIdentity);
+        userIdentity.setLecturer(lecturerEntity);
+        lecturersRepository.save(lecturerEntity);
     }
 
     @Override
@@ -59,14 +65,15 @@ public class UsersServiceImpl implements UsersService {
         if (usersRepository.findByUsername(student.getUsername()) != null) {
             throw new UserAlreadyExistsException(student.getUsername());
         }
-        final var userEntity = convertToUserEntity(student, UserRole.STUDENT_ROLE.getRoleName());
-        userEntity.setStudent(modelMapper.map(student, Student.class));
-        usersRepository.save(userEntity);
+        final var userIdentity = convertToUserEntity(student.getUsername(), student.getPassword(), UserRole.STUDENT_ROLE.getRoleName());
+        final var studentEntity = new Student(student.getFn(), student.getName(), Set.of(), Set.of(), Set.of(), userIdentity);
+        userIdentity.setStudent(studentEntity);
+        studentsRepository.save(studentEntity);
     }
 
-    private UserIdentity convertToUserEntity(CreateUserViewModel user, String userRoleName) {
-        final var encodedPassword = passwordEncoder.encode(user.getPassword());
+    private UserIdentity convertToUserEntity(String username, String password, String userRoleName) {
+        final var encodedPassword = passwordEncoder.encode(password);
         final var role = rolesRepository.getByAuthority(userRoleName);
-        return new UserIdentity(user.getUsername(), encodedPassword, true, true, true, true, role);
+        return new UserIdentity(username, encodedPassword, true, true, true, true, role);
     }
 }

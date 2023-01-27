@@ -133,7 +133,7 @@ and open the template in the editor.
         <th>Start Date</th>
         <th>End Date</th>
         <th>Study Materials</th>
-        <th></th>
+        <th>Exams</th>
         <tr th:each="activity : ${course.weeklyActivities}">
             <td th:text="${activity.id}"></td>
             <td th:text="${activity.startDate}"></td>
@@ -143,8 +143,10 @@ and open the template in the editor.
                    th:href="@{'/courses/download/'+${activity.studyMaterials[0].id}}"></a>
                 <a th:unless="${activity.studyMaterials != null && activity.studyMaterials.size>0}"></a>
             </td>
+            <td><a sec:authorize="hasAuthority('STUDENT')" th:href="@{/exams/take-exam}">Take the exam</a></td>
             <td><a sec:authorize="hasAuthority('LECTURER')" class="btn btn-danger"
-                   th:href="@{'/courses/'+${courseId}+'/activities/'+${activity.id}}">Delete Activity</a></td>
+                   th:href="@{'/courses/'+${courseId}+'/activities/'+${activity.id}}">Delete Activity</a>
+            </td>
         </tr>
         <tr></tr>
     </table>

@@ -13,7 +13,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
 import java.util.Set;
 
 @Getter
@@ -22,7 +21,7 @@ import java.util.Set;
 @Table(name = "course")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Course extends BaseEntity implements Serializable {
+public class Course extends BaseEntity {
 
     @NotBlank
     @Size(max = 30)
