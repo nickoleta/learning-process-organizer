@@ -8,12 +8,14 @@ import lombok.Setter;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -35,11 +37,11 @@ public class Student extends BaseEntity {
     @ManyToMany(mappedBy = "students")
     private Set<Course> courses;
 
-    @OneToMany(mappedBy = "student")
-    private Set<Test> tests;
+    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
+    private List<Attempt> attempts;
 
     @OneToMany(mappedBy = "student")
-    private Set<Homework> homeworks;
+    private List<Homework> homeworks;
 
     @OneToOne(mappedBy = "student", cascade = CascadeType.ALL)
     private UserIdentity userIdentity;

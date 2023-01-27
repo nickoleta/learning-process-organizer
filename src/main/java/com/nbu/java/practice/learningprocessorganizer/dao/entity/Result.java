@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -14,17 +13,26 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @Entity
-@Table(name = "answer")
+@Table(name = "result")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Answer extends BaseEntity {
+public class Result extends BaseEntity {
+
+    @ManyToOne
+    @JoinColumn(name = "attempt_id")
+    private Attempt attempt;
 
     @ManyToOne
     @JoinColumn(name = "question_id")
     private Question question;
 
-    private String value;
+    private boolean isCorrectAnswer;
 
-    @Column(name = "is_correct")
-    private Boolean isCorrect;
+    public Attempt getAttempt() {
+        return attempt;
+    }
+
+    public void setAttempt(Attempt attempt) {
+        this.attempt = attempt;
+    }
 }

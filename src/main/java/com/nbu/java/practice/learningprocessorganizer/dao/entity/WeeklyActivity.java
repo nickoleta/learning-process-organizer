@@ -14,7 +14,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.FutureOrPresent;
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.List;
 
 @Getter
 @Setter
@@ -35,12 +35,12 @@ public class WeeklyActivity extends BaseEntity {
     private Course course;
 
     @OneToMany(mappedBy = "weeklyActivity", cascade = CascadeType.ALL)
-    private Set<StudyMaterial> studyMaterials;
+    private List<StudyMaterial> studyMaterials;
 
     @OneToMany(mappedBy = "weeklyActivity")
-    private Set<Homework> homeworks;
+    private List<Homework> homeworks;
 
     @OneToOne
-    private Test test;
+    private Exam exam;
 
 }

@@ -20,6 +20,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -66,7 +67,7 @@ public class UsersServiceImpl implements UsersService {
             throw new UserAlreadyExistsException(student.getUsername());
         }
         final var userIdentity = convertToUserEntity(student.getUsername(), student.getPassword(), UserRole.STUDENT_ROLE.getRoleName());
-        final var studentEntity = new Student(student.getFn(), student.getName(), Set.of(), Set.of(), Set.of(), userIdentity);
+        final var studentEntity = new Student(student.getFn(), student.getName(), Set.of(), List.of(), List.of(), userIdentity);
         userIdentity.setStudent(studentEntity);
         studentsRepository.save(studentEntity);
     }

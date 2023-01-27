@@ -22,7 +22,7 @@
 <!--            </div>-->
             <div class="form-group">
                 <label>Task Type</label>
-                <div th:each="taskType : ${T(com.nbu.java.practice.learningprocessorganizer.dao.entity.TaskType.values()}">
+                <div th:each="taskType : ${T(com.nbu.java.practice.learningprocessorganizer.dao.entity.QuestionType.values()}">
                     <div class="custom-control custom-radio custom-control-inline">
                         <input type="radio" th:field="*{taskType}" th:value="${taskType}" class="custom-control-input">
                         <label class="custom-control-label" th:for="${#ids.prev('taskType')}" th:text="${taskType}">Task Type</label>

@@ -1,6 +1,6 @@
 package com.nbu.java.practice.learningprocessorganizer.web.view.model.tasks;
 
-import com.nbu.java.practice.learningprocessorganizer.dao.entity.TaskType;
+import com.nbu.java.practice.learningprocessorganizer.dao.entity.QuestionType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Generated;
@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
 public class CreateTaskViewModel {
 
     @NotNull
-    private TaskType taskType;
+    private QuestionType questionType;
 
     @NotBlank
     private String question;
