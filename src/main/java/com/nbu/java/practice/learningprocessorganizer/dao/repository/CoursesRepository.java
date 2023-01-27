@@ -9,9 +9,9 @@ import java.util.Collection;
 
 public interface CoursesRepository extends PagingAndSortingRepository<Course, Long> {
 
-    Collection<Course> findAllByLecturerId(long lecturerId);
+    Collection<Course> findAllByLecturer_id(long lecturerId);
 
-    Page<Course> findAllByLecturerId(long lecturerId, Pageable pageable);
+    Page<Course> findAllByLecturer_id(long lecturerId, Pageable pageable);
 
     Page<Course> findByStudents_Id(long studentId, Pageable pageable);
 

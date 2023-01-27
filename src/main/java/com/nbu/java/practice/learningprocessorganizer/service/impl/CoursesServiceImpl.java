@@ -18,7 +18,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -53,7 +52,7 @@ public class CoursesServiceImpl implements CoursesService {
 
     @Override
     public Page<CourseDTO> getPageOfCoursesByLecturerId(long lecturerId, Pageable pageable) {
-        return modelMapper.map(coursesRepository.findAllByLecturerId(lecturerId, pageable), new TypeToken<Page<CourseDTO>>() {
+        return modelMapper.map(coursesRepository.findAllByLecturer_id(lecturerId, pageable), new TypeToken<Page<CourseDTO>>() {
         }.getType());
     }
 

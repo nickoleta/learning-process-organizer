@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head"></head>
+<body>
+<header th:replace="fragments :: header-lecturer"></header>
+<div class="col-6">
+    <form action="#" th:action="@{/exams/create-exam}" th:object="${exam}" method="post">
+        <div class="form-group">
+<!--            <div class="form-group">-->
+<!--                <div class="custom-control custom-radio custom-control-inline">-->
+<!--                    <input type="radio" id="openAnswer" name="openAnswer" class="custom-control-input" value="1" th:field="*{option}">-->
+<!--                    <label class="custom-control-label" for="openAnswer">Open Answer</label>-->
+<!--                </div>-->
+<!--                <div class="custom-control custom-radio custom-control-inline">-->
+<!--                    <input type="radio" id="multipleChoice" name="multipleChoice" class="custom-control-input" value="2" th:field="*{option}">-->
+<!--                    <label class="custom-control-label" for="multipleChoice">Multiple Choice</label>-->
+<!--                </div>-->
+<!--                <div class="custom-control custom-radio custom-control-inline">-->
+<!--                    <input type="radio" id="trueOrFalse" name="trueOrFalse" class="custom-control-input" value="3" th:field="*{option}">-->
+<!--                    <label class="custom-control-label" for="trueOrFalse">True or False</label>-->
+<!--                </div>-->
+<!--            </div>-->
+            <div class="form-group">
+                <label>Task Type</label>
+                <div th:each="taskType : ${T(com.nbu.java.practice.learningprocessorganizer.dao.entity.TaskType.values()}">
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" th:field="*{taskType}" th:value="${taskType}" class="custom-control-input">
+                        <label class="custom-control-label" th:for="${#ids.prev('taskType')}" th:text="${taskType}">Task Type</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="question">Question</label>
+                <input class="form-control" type="text" th:field="*{question}" placeholder="Question" id="question">
+                <span class="text-danger" th:if="${#fields.hasErrors('question')}" th:errors="*{question}">Question Error</span>
+            </div>
+            <div class="form-group">
+                <label for="answers">Answers</label>
+                <input class="form-control" type="answers" th:field="*{answers}" placeholder="Answers" id="answers">
+                <span class="text-danger" th:if="${#fields.hasErrors('answers')}" th:errors="*{answers}">Answers Error</span>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Save Student</button>
+    </form>
+</div>
+</body>
+</html>

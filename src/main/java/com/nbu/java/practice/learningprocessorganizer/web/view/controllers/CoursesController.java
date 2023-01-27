@@ -72,7 +72,7 @@ public class CoursesController {
         if (bindingResult.hasErrors()) {
             return PagesConstants.COURSES_CREATE;
         }
-        final var lecturerId = ((UserIdentity) authentication.getPrincipal()).getId();
+        final var lecturerId = ((UserIdentity) authentication.getPrincipal()).getLecturer().getId();
         coursesService.createCourse(lecturerId, modelMapper.map(createCourseViewModel, CourseDTO.class));
         return PagesConstants.COURSES_REDIRECT;
     }
@@ -132,6 +132,7 @@ public class CoursesController {
     @Lecturer
     @GetMapping("/{courseId}/data")
     public String showCourseData(@PathVariable("courseId") final Long courseId, Model model) {
+
         model.addAttribute("course", modelMapper.map(coursesService.getCourse(courseId), CourseViewModel.class));
         return PagesConstants.COURSE_DATA_LECTURER;
     }
