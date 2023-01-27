@@ -32,6 +32,7 @@ public final class PagesConstants {
     public static final String MY_COURSES_LECTURER = "/courses/my-courses-lecturer";
     public static final String MY_COURSES_STUDENT = "/courses/my-courses-student";
     public static final String COURSE_DATA_LECTURER = "/courses/course-data";
+    public static final String COURSE_DATA_LECTURER_REDIRECT = "redirect:/course-data";
 
     public static final String ACTIVITIES_CREATE = "/activities/create-activity";
 

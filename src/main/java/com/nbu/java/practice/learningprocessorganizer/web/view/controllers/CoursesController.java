@@ -18,7 +18,6 @@ import com.nbu.java.practice.learningprocessorganizer.web.view.model.courses.Cre
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -74,7 +73,7 @@ public class CoursesController {
         }
         final var lecturerId = ((UserIdentity) authentication.getPrincipal()).getLecturer().getId();
         coursesService.createCourse(lecturerId, modelMapper.map(createCourseViewModel, CourseDTO.class));
-        return PagesConstants.COURSES_REDIRECT;
+        return PagesConstants.MY_COURSES_REDIRECT_PAGING;
     }
 
     @LecturerOrStudent
@@ -132,7 +131,6 @@ public class CoursesController {
     @Lecturer
     @GetMapping("/{courseId}/data")
     public String showCourseData(@PathVariable("courseId") final Long courseId, Model model) {
-
         model.addAttribute("course", modelMapper.map(coursesService.getCourse(courseId), CourseViewModel.class));
         return PagesConstants.COURSE_DATA_LECTURER;
     }
@@ -149,7 +147,7 @@ public class CoursesController {
     @Lecturer
     @PostMapping("/{courseId}/activities/create")
     public String createActivity(@PathVariable("courseId") final Long courseId,
-                                 @RequestParam("file") MultipartFile[] files,
+                                 @RequestParam("file") MultipartFile file,
                                  @ModelAttribute("activity") @Valid WeeklyActivityViewModel weeklyActivityViewModel,
                                  BindingResult bindingResult, Model model) throws IOException {
         if (bindingResult.hasErrors()) {
@@ -158,18 +156,16 @@ public class CoursesController {
 
         final var activity = modelMapper.map(weeklyActivityViewModel, WeeklyActivityDTO.class);
         coursesService.addActivityToACourse(courseId, activity);
-        model.addAttribute("course", modelMapper.map(coursesService.getCourse(courseId), CourseViewModel.class));
 
-        for(MultipartFile file : files) {
-            if (!file.isEmpty()) {
-                final var latestActivityId = activitiesService.getActivitiesByCourseId(courseId).stream()
-                        .map(WeeklyActivityDTO::getId)
-                        .mapToLong(Long::longValue).max();
-                studyMaterialsService.uploadFile(file, latestActivityId.getAsLong());
-            }
+        if (!file.isEmpty()) {
+            final var latestActivityId = activitiesService.getActivitiesByCourseId(courseId).stream()
+                    .map(WeeklyActivityDTO::getId)
+                    .mapToLong(Long::longValue).max();
+            studyMaterialsService.uploadFile(file, latestActivityId.getAsLong());
         }
 
-        return PagesConstants.COURSE_DATA_LECTURER;
+        model.addAttribute("course", modelMapper.map(coursesService.getCourse(courseId), CourseViewModel.class));
+        return String.format("redirect:/courses/%s/data", courseId);
     }
 
     @GetMapping(path = "/download/{fileId}")

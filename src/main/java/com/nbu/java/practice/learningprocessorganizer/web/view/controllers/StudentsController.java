@@ -42,7 +42,6 @@ import java.util.stream.IntStream;
 public class StudentsController {
 
     private final StudentsService studentsService;
-    private final LecturersService lecturersService;
     private final ModelMapper modelMapper;
 
     @Admin
