@@ -7,6 +7,7 @@ import com.nbu.java.practice.learningprocessorganizer.dto.courses.QuestionDTO;
 import com.nbu.java.practice.learningprocessorganizer.service.ActivitiesService;
 import com.nbu.java.practice.learningprocessorganizer.service.AttemptsService;
 import com.nbu.java.practice.learningprocessorganizer.service.ExamsService;
+import com.nbu.java.practice.learningprocessorganizer.util.GradeCalculator;
 import com.nbu.java.practice.learningprocessorganizer.web.api.dto.request.exams.AttemptRequestBody;
 import com.nbu.java.practice.learningprocessorganizer.web.api.dto.request.exams.ExamRequestBody;
 import com.nbu.java.practice.learningprocessorganizer.web.api.dto.request.exams.QuestionRequestBody;
@@ -57,6 +58,16 @@ public class ExamsApiController {
     public ResponseEntity<Void> addResultsToAttempt(@PathVariable("attemptId") final Long attemptId, @RequestBody @Valid AttemptRequestBody attempt) {
         attemptsService.addResultsToAttempt(attemptId, attempt.getResults());
         return ResponseEntity.ok().build();
+    }
+
+    @Lecturer
+    @PostMapping("/attempts/{attemptId}/grade")
+    public ResponseEntity<Double> calculateAndSetGrade(@PathVariable("attemptId") final Long attemptId) {
+        final var attempt = attemptsService.getAttempt(attemptId);
+        final var grade = GradeCalculator.calculateGrade(attempt);
+        attempt.setGrade(grade);
+        attemptsService.updateAttempt(attemptId, attempt);
+        return ResponseEntity.ok().body(grade);
     }
 
 }

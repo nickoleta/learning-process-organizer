@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.util.List;
 
 @Getter
@@ -32,11 +34,14 @@ public class Attempt extends BaseEntity {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "attempt")
     private List<Result> results = new java.util.ArrayList<>();
 
-    public Exam getExam() {
-        return exam;
+    @Min(2)
+    @Max(6)
+    private double grade;
+
+    public Attempt(Student student, Exam exam, List<Result> results) {
+        this.student = student;
+        this.exam = exam;
+        this.results = results;
     }
 
-    public void setExam(Exam exam) {
-        this.exam = exam;
-    }
 }

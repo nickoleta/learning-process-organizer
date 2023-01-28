@@ -27,6 +27,15 @@ public class AttemptsServiceImpl implements AttemptsService {
     private final ResultsRepository resultsRepository;
 
     @Override
+    public Attempt getAttempt(long id) {
+        final var attemptOpt = attemptsRepository.findById(id);
+        if (attemptOpt.isEmpty()) {
+            throw new ResourceNotFoundException();
+        }
+        return attemptOpt.get();
+    }
+
+    @Override
     public void makeAttempt(long studentId, long examId) {
         final var studentOpt = studentsRepository.findById(studentId);
         if (studentOpt.isEmpty()) {
@@ -43,7 +52,7 @@ public class AttemptsServiceImpl implements AttemptsService {
     @Override
     public void addResultsToAttempt(Long attemptId, List<ResultRequestBody> results) {
         final var attemptOpt = attemptsRepository.findById(attemptId);
-        if(attemptOpt.isEmpty()) {
+        if (attemptOpt.isEmpty()) {
             throw new ResourceNotFoundException();
         }
         final var attempt = attemptOpt.get();
@@ -56,6 +65,12 @@ public class AttemptsServiceImpl implements AttemptsService {
                     return resultEntity;
                 }).collect(Collectors.toList());
         resultsRepository.saveAll(resultEntities);
+    }
+
+    @Override
+    public void updateAttempt(Long attemptId, Attempt attempt) {
+        attempt.setId(attemptId);
+        attemptsRepository.save(attempt);
     }
 
 }
