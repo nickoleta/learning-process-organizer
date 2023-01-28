@@ -18,6 +18,7 @@ import com.nbu.java.practice.learningprocessorganizer.web.view.model.WeeklyActiv
 import com.nbu.java.practice.learningprocessorganizer.web.view.model.activities.ExamViewModel;
 import com.nbu.java.practice.learningprocessorganizer.web.view.model.courses.CourseViewModel;
 import com.nbu.java.practice.learningprocessorganizer.web.view.model.courses.CreateCourseViewModel;
+import com.nbu.java.practice.learningprocessorganizer.web.view.model.questions.CreateQuestionViewModel;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -231,11 +232,14 @@ public class CoursesController {
     @Lecturer
     @PostMapping("/activities/{activityId}/exams")
     public String createExam(@PathVariable("activityId") final Long activityId,
-                             @ModelAttribute("exam") @Valid ExamViewModel examViewModel, BindingResult bindingResult) {
+                             @ModelAttribute("exam") @Valid ExamViewModel examViewModel, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             return "/exams/create-exam";
         }
-        activitiesService.addExamToActivity(activityId, modelMapper.map(examViewModel, ExamDTO.class));
+        final var exam = activitiesService.addExamToActivity(activityId, modelMapper.map(examViewModel, ExamDTO.class));
+        model.addAllAttributes(Map.of(
+                "examId", exam.getId(),
+                "question", new CreateQuestionViewModel()));
         return "/exams/create-question";
     }
 
@@ -247,11 +251,15 @@ public class CoursesController {
     }
 
     @Lecturer
-    @GetMapping("/create-task")
-    public String showCreateTaskView(Model model) {
-        // TODO
-        model.addAttribute("");
-        return "/exams/create-exam";
+    @PostMapping("/exams/{examId}/create-question")
+    public String createQuestion(@PathVariable("examId") String examId,
+                                 @ModelAttribute("question") @Valid CreateQuestionViewModel questionViewModel) {
+
+        return "";
+    }
+
+    private List<Object> buildAnswers(String answers, String correctAnswer) {
+        return List.of();
     }
 
     private PageRequest createPageRequest(String sortDirection, int page, int size, String sortCriteria) {

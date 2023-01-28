@@ -1,4 +1,4 @@
-package com.nbu.java.practice.learningprocessorganizer.web.view.model.tasks;
+package com.nbu.java.practice.learningprocessorganizer.web.view.model.questions;
 
 import com.nbu.java.practice.learningprocessorganizer.dao.entity.QuestionType;
 import lombok.AllArgsConstructor;
@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 @Generated
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateTaskViewModel {
+public class CreateQuestionViewModel {
 
     @NotNull
     private QuestionType questionType;

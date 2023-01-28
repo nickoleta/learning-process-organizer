@@ -4,28 +4,14 @@
 <body>
 <header th:replace="fragments :: header-lecturer"></header>
 <div class="col-6">
-    <form action="#" th:action="@{/exams/create-exam}" th:object="${exam}" method="post">
+    <form action="#" th:action="@{'/courses/exams/'+${examId}+'/create-question'}" th:object="${question}" method="post">
         <div class="form-group">
-<!--            <div class="form-group">-->
-<!--                <div class="custom-control custom-radio custom-control-inline">-->
-<!--                    <input type="radio" id="openAnswer" name="openAnswer" class="custom-control-input" value="1" th:field="*{option}">-->
-<!--                    <label class="custom-control-label" for="openAnswer">Open Answer</label>-->
-<!--                </div>-->
-<!--                <div class="custom-control custom-radio custom-control-inline">-->
-<!--                    <input type="radio" id="multipleChoice" name="multipleChoice" class="custom-control-input" value="2" th:field="*{option}">-->
-<!--                    <label class="custom-control-label" for="multipleChoice">Multiple Choice</label>-->
-<!--                </div>-->
-<!--                <div class="custom-control custom-radio custom-control-inline">-->
-<!--                    <input type="radio" id="trueOrFalse" name="trueOrFalse" class="custom-control-input" value="3" th:field="*{option}">-->
-<!--                    <label class="custom-control-label" for="trueOrFalse">True or False</label>-->
-<!--                </div>-->
-<!--            </div>-->
             <div class="form-group">
                 <label>Task Type</label>
-                <div th:each="taskType : ${T(com.nbu.java.practice.learningprocessorganizer.dao.entity.QuestionType.values()}">
+                <div th:each="questionType : ${T(com.nbu.java.practice.learningprocessorganizer.dao.entity.QuestionType).values()}">
                     <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" th:field="*{taskType}" th:value="${taskType}" class="custom-control-input">
-                        <label class="custom-control-label" th:for="${#ids.prev('taskType')}" th:text="${taskType}">Task Type</label>
+                        <input type="radio" th:field="*{questionType}" th:value="${questionType}" class="custom-control-input">
+                        <label class="custom-control-label" th:for="${#ids.prev('questionType')}" th:text="${questionType}">Question Type</label>
                     </div>
                 </div>
             </div>
@@ -40,7 +26,7 @@
                 <span class="text-danger" th:if="${#fields.hasErrors('answers')}" th:errors="*{answers}">Answers Error</span>
             </div>
         </div>
-        <button type="submit" class="btn btn-primary">Save Student</button>
+        <button type="submit" class="btn btn-primary">Save Question</button>
     </form>
 </div>
 </body>

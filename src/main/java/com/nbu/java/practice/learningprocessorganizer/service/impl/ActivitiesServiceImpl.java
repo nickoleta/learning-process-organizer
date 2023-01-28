@@ -28,7 +28,7 @@ public class ActivitiesServiceImpl implements ActivitiesService {
     }
 
     @Override
-    public void addExamToActivity(long activityId, ExamDTO exam) {
+    public Exam addExamToActivity(long activityId, ExamDTO exam) {
         final var activityOpt = weeklyActivityRepository.findById(activityId);
         if (activityOpt.isEmpty()) {
             throw new ResourceNotFoundException(ResourceNotFoundException.ACTIVITY_DOES_NOT_EXIST, activityId);
@@ -39,7 +39,7 @@ public class ActivitiesServiceImpl implements ActivitiesService {
         examEntity.setOpenFrom(exam.getOpenFrom());
         examEntity.setOpenTo(exam.getOpenTo());
         examEntity.setWeeklyActivity(activity);
-        examsRepository.save(examEntity);
+        return examsRepository.save(examEntity);
     }
 
     @Override
