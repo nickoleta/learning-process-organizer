@@ -3,7 +3,7 @@ package com.nbu.java.practice.learningprocessorganizer.service.impl;
 import com.nbu.java.practice.learningprocessorganizer.dao.entity.Exam;
 import com.nbu.java.practice.learningprocessorganizer.dao.repository.ExamsRepository;
 import com.nbu.java.practice.learningprocessorganizer.dao.repository.WeeklyActivityRepository;
-import com.nbu.java.practice.learningprocessorganizer.dto.activity.ExamDTO;
+import com.nbu.java.practice.learningprocessorganizer.dto.courses.ExamDTO;
 import com.nbu.java.practice.learningprocessorganizer.dto.activity.WeeklyActivityDTO;
 import com.nbu.java.practice.learningprocessorganizer.exceptions.ResourceNotFoundException;
 import com.nbu.java.practice.learningprocessorganizer.service.ActivitiesService;

@@ -26,7 +26,7 @@ public class Result extends BaseEntity {
     @JoinColumn(name = "question_id")
     private Question question;
 
-    private boolean isCorrectAnswer;
+    private String givenAnswer;
 
     public Attempt getAttempt() {
         return attempt;

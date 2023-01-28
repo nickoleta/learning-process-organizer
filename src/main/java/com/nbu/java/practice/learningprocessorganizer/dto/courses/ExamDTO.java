@@ -1,4 +1,4 @@
-package com.nbu.java.practice.learningprocessorganizer.dto.activity;
+package com.nbu.java.practice.learningprocessorganizer.dto.courses;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,6 +10,7 @@ import javax.validation.constraints.Future;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Generated
@@ -26,4 +27,8 @@ public class ExamDTO {
     @Future
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate openTo;
+
+    private boolean isPublished;
+
+    private List<QuestionDTO> questions;
 }

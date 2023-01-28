@@ -1,7 +1,7 @@
 package com.nbu.java.practice.learningprocessorganizer.service;
 
 import com.nbu.java.practice.learningprocessorganizer.dao.entity.Exam;
-import com.nbu.java.practice.learningprocessorganizer.dto.activity.ExamDTO;
+import com.nbu.java.practice.learningprocessorganizer.dto.courses.ExamDTO;
 import com.nbu.java.practice.learningprocessorganizer.dto.activity.WeeklyActivityDTO;
 
 import java.util.Collection;

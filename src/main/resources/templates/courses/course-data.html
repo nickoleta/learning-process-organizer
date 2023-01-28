@@ -1,18 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head th:replace="fragments :: head">
-    <style>
-            div.scroll {
-                margin:4px, 4px;
-                padding:4px;
-                background-color: green;
-                width: 500px;
-                height: 110px;
-                overflow-x: hidden;
-                overflow-y: auto;
-                text-align:justify;
-            }
-        </style>
 </head>
 <body>
 <header th:replace="fragments :: header-lecturer"></header>
@@ -22,12 +10,12 @@
         <h5 class="col-6">Activities</h5>
         <div class="col-6" th:replace="fragments :: activities-list"></div>
         <form action="#" th:action="@{'/courses/'+${courseId}+'/activities/create-activity'}" method="get">
-            <button type="submit" class="btn btn-primary col-6">Create Activity</button>
+            <button sec:authorize="hasAuthority('LECTURER')" type="submit" class="btn btn-primary col-6">Create Activity</button>
         </form>
     </div>
-    <div class="col-6">
+    <div class="col-6" sec:authorize="hasAuthority('LECTURER')">
         <h6>Registered students</h6>
-        <div class="scroll">
+        <div>
             <table th:if="${students.size>0}" class="table table-hover">
                 <th>Name</th>
                 <th>Faculty number</th>

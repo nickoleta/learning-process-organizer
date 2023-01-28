@@ -6,7 +6,7 @@ import com.nbu.java.practice.learningprocessorganizer.dao.entity.Question;
 import com.nbu.java.practice.learningprocessorganizer.dao.repository.AnswersRepository;
 import com.nbu.java.practice.learningprocessorganizer.dao.repository.ExamsRepository;
 import com.nbu.java.practice.learningprocessorganizer.dao.repository.QuestionRepository;
-import com.nbu.java.practice.learningprocessorganizer.dto.activity.ExamDTO;
+import com.nbu.java.practice.learningprocessorganizer.dto.courses.ExamDTO;
 import com.nbu.java.practice.learningprocessorganizer.dto.courses.QuestionDTO;
 import com.nbu.java.practice.learningprocessorganizer.exceptions.ResourceNotFoundException;
 import com.nbu.java.practice.learningprocessorganizer.service.ExamsService;
@@ -26,6 +26,11 @@ public class ExamsServiceImpl implements ExamsService {
     private final ModelMapper modelMapper;
 
     @Override
+    public ExamDTO getExam(long examId) {
+        return modelMapper.map(examsRepository.findById(examId), ExamDTO.class);
+    }
+
+    @Override
     public void save(long activityId, ExamDTO examDTO) {
         examsRepository.save(modelMapper.map(examDTO, Exam.class));
     }
@@ -33,7 +38,7 @@ public class ExamsServiceImpl implements ExamsService {
     @Override
     public void addQuestionToExam(long examId, QuestionDTO questionDTO) {
         final var exam = examsRepository.findById(examId);
-        if(exam.isEmpty()) {
+        if (exam.isEmpty()) {
             throw new ResourceNotFoundException(ResourceNotFoundException.EXAM_DOES_NOT_EXIST, examId);
         }
         final var question = new Question();
@@ -57,7 +62,7 @@ public class ExamsServiceImpl implements ExamsService {
     @Override
     public void publishExam(long examId) {
         final var examOpt = examsRepository.findById(examId);
-        if(examOpt.isEmpty()) {
+        if (examOpt.isEmpty()) {
             throw new ResourceNotFoundException(ResourceNotFoundException.EXAM_DOES_NOT_EXIST, examId);
         }
         final var exam = examOpt.get();

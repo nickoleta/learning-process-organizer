@@ -140,7 +140,9 @@ and open the template in the editor.
                 <a th:unless="${activity.studyMaterials != null && activity.studyMaterials.size>0}"></a>
             </td>
             <td>
-                <a sec:authorize="hasAuthority('STUDENT')" th:href="@{/exams/take-exam}">Take the exam</a>
+                <div sec:authorize="hasAuthority('STUDENT')">
+                    <a th:if="${activity.exam != null && activity.exam.isPublished != null && activity.exam.isPublished}" th:href="@{'/courses/exams/'+${examId}+'/make-attempt'}">Take the exam</a>
+                </div>
                 <div sec:authorize="hasAuthority('LECTURER')">
                     <a th:if="${activity.exam != null}" th:href="@{/exams/take-exam}">Review the exam</a>
                     <a th:unless="${activity.exam != null}" th:href="@{'/courses/activities/'+${activity.id}+'/create-exam'}">Add an exam</a>

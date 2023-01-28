@@ -6,14 +6,15 @@ import com.nbu.java.practice.learningprocessorganizer.annotations.LecturerOrStud
 import com.nbu.java.practice.learningprocessorganizer.annotations.Student;
 import com.nbu.java.practice.learningprocessorganizer.dao.entity.users.UserIdentity;
 import com.nbu.java.practice.learningprocessorganizer.dto.UserRole;
-import com.nbu.java.practice.learningprocessorganizer.dto.activity.ExamDTO;
 import com.nbu.java.practice.learningprocessorganizer.dto.activity.WeeklyActivityDTO;
 import com.nbu.java.practice.learningprocessorganizer.dto.courses.AnswerDTO;
 import com.nbu.java.practice.learningprocessorganizer.dto.courses.CourseDTO;
+import com.nbu.java.practice.learningprocessorganizer.dto.courses.ExamDTO;
 import com.nbu.java.practice.learningprocessorganizer.dto.courses.QuestionDTO;
 import com.nbu.java.practice.learningprocessorganizer.dto.students.RegisteredStudentDTO;
 import com.nbu.java.practice.learningprocessorganizer.dto.students.StudentDTO;
 import com.nbu.java.practice.learningprocessorganizer.service.ActivitiesService;
+import com.nbu.java.practice.learningprocessorganizer.service.AttemptsService;
 import com.nbu.java.practice.learningprocessorganizer.service.CoursesService;
 import com.nbu.java.practice.learningprocessorganizer.service.ExamsService;
 import com.nbu.java.practice.learningprocessorganizer.service.StudentsService;
@@ -68,6 +69,7 @@ public class CoursesController {
     private final StudyMaterialsService studyMaterialsService;
     private final ExamsService examsService;
     private final StudentsService studentsService;
+    private final AttemptsService attemptsService;
     private final ModelMapper modelMapper;
 
     @Lecturer
@@ -148,7 +150,7 @@ public class CoursesController {
     public String showCourseData(@PathVariable("courseId") final Long courseId, Model model) {
         model.addAttribute("course", modelMapper.map(coursesService.getCourse(courseId), CourseViewModel.class));
         model.addAttribute("students", getStudentsWithCourseRegistrationStatus(courseId, studentsService.getAllStudents()));
-        return PagesConstants.COURSE_DATA_LECTURER;
+        return PagesConstants.COURSE_DATA;
     }
 
     private Set<RegisteredStudentDTO> getStudentsWithCourseRegistrationStatus(long courseId, Collection<StudentDTO> students) {
@@ -223,7 +225,7 @@ public class CoursesController {
     public String deleteActivity(@PathVariable("courseId") final Long courseId, @PathVariable("activityId") final Long activityId, Model model) {
         activitiesService.deleteActivity(activityId);
         model.addAttribute("course", modelMapper.map(coursesService.getCourse(courseId), CourseViewModel.class));
-        return PagesConstants.COURSE_DATA_LECTURER;
+        return PagesConstants.COURSE_DATA;
     }
 
     @PostMapping("/activities/{activityId}/upload")
@@ -272,10 +274,12 @@ public class CoursesController {
     }
 
     @Student
-    @GetMapping("/take-exam")
-    public String showTakeExamView() {
-        // TODO
-        return "/exams/take-exam";
+    @GetMapping("/exams/{examId}/make-attempt")
+    public String showMakeAttemptView(@PathVariable("examId") Long examId, Model model, Authentication authentication) {
+        final var studentId = ((UserIdentity) authentication.getPrincipal()).getStudent().getId();
+        model.addAttribute("exam", examsService.getExam(examId));
+        attemptsService.makeAttempt(studentId, examId);
+        return "/exams/exam-attempt";
     }
 
     @Lecturer
@@ -301,7 +305,7 @@ public class CoursesController {
     public String addStudentToACourse(@PathVariable("courseId") final Long courseId,
                                       @PathVariable("studentId") final Long studentId) {
         coursesService.addStudentToCourse(courseId, studentId);
-        return PagesConstants.COURSE_DATA_LECTURER_REDIRECT;
+        return String.format("/courses/%s/data", courseId);
     }
 
     @Lecturer
@@ -309,7 +313,7 @@ public class CoursesController {
     public String removeStudentFromACourse(@PathVariable("courseId") final Long courseId,
                                            @PathVariable("studentId") final Long studentId) {
         coursesService.removeStudentToCourse(courseId, studentId);
-        return PagesConstants.COURSE_DATA_LECTURER_REDIRECT;
+        return String.format("/courses/%s/data", courseId);
     }
 
     private Set<AnswerDTO> buildAnswers(String answersSet, String correctAnswer) {
