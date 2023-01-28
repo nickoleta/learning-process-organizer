@@ -15,6 +15,8 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class CreateQuestionViewModel {
 
+    private long id;
+
     @NotNull
     private QuestionType questionType;
 
@@ -22,5 +24,7 @@ public class CreateQuestionViewModel {
     private String question;
 
     private String answers;
+
+    private String correctAnswer;
 
 }

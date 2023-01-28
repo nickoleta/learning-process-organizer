@@ -8,9 +8,12 @@ import com.nbu.java.practice.learningprocessorganizer.dao.entity.users.UserIdent
 import com.nbu.java.practice.learningprocessorganizer.dto.UserRole;
 import com.nbu.java.practice.learningprocessorganizer.dto.activity.ExamDTO;
 import com.nbu.java.practice.learningprocessorganizer.dto.activity.WeeklyActivityDTO;
+import com.nbu.java.practice.learningprocessorganizer.dto.courses.AnswerDTO;
 import com.nbu.java.practice.learningprocessorganizer.dto.courses.CourseDTO;
+import com.nbu.java.practice.learningprocessorganizer.dto.courses.QuestionDTO;
 import com.nbu.java.practice.learningprocessorganizer.service.ActivitiesService;
 import com.nbu.java.practice.learningprocessorganizer.service.CoursesService;
+import com.nbu.java.practice.learningprocessorganizer.service.ExamsService;
 import com.nbu.java.practice.learningprocessorganizer.service.StudyMaterialsService;
 import com.nbu.java.practice.learningprocessorganizer.web.view.controllers.constants.PagesConstants;
 import com.nbu.java.practice.learningprocessorganizer.web.view.controllers.constants.SortingConstants;
@@ -44,8 +47,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -57,6 +62,7 @@ public class CoursesController {
     private final CoursesService coursesService;
     private final ActivitiesService activitiesService;
     private final StudyMaterialsService studyMaterialsService;
+    private final ExamsService examsService;
     private final ModelMapper modelMapper;
 
     @Lecturer
@@ -252,14 +258,24 @@ public class CoursesController {
 
     @Lecturer
     @PostMapping("/exams/{examId}/create-question")
-    public String createQuestion(@PathVariable("examId") String examId,
+    public String createQuestion(@PathVariable("examId") Long examId,
                                  @ModelAttribute("question") @Valid CreateQuestionViewModel questionViewModel) {
-
-        return "";
+        final var question = modelMapper.map(questionViewModel, QuestionDTO.class);
+        question.setAnswers(buildAnswers(questionViewModel.getAnswers(), questionViewModel.getCorrectAnswer()));
+        examsService.addQuestionToExam(examId, question);
+        return "/exams/create-question";
     }
 
-    private List<Object> buildAnswers(String answers, String correctAnswer) {
-        return List.of();
+    private Set<AnswerDTO> buildAnswers(String answersSet, String correctAnswer) {
+        final var answers = answersSet.split(";");
+        return Arrays.stream(answers)
+                .map(answer -> {
+                    final var answerDto = new AnswerDTO(answer);
+                    if (correctAnswer.equalsIgnoreCase(answer)) {
+                        answerDto.setCorrect(true);
+                    }
+                    return answerDto;
+                }).collect(Collectors.toSet());
     }
 
     private PageRequest createPageRequest(String sortDirection, int page, int size, String sortCriteria) {

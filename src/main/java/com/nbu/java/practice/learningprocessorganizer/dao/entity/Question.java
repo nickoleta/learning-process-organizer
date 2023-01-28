@@ -12,6 +12,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -26,7 +27,7 @@ public class Question extends BaseEntity {
     private String question;
 
     @OneToMany(mappedBy = "question")
-    private List<Answer> answers;
+    private List<Answer> answers = new ArrayList<>();
 
     @NotNull
     private QuestionType questionType;
@@ -34,6 +35,5 @@ public class Question extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "exam_id")
     private Exam exam;
-
 
 }
