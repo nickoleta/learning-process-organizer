@@ -53,4 +53,15 @@ public class ExamsServiceImpl implements ExamsService {
                 .collect(Collectors.toList());
         answersRepository.saveAll(answers);
     }
+
+    @Override
+    public void publishExam(long examId) {
+        final var examOpt = examsRepository.findById(examId);
+        if(examOpt.isEmpty()) {
+            throw new ResourceNotFoundException(ResourceNotFoundException.EXAM_DOES_NOT_EXIST, examId);
+        }
+        final var exam = examOpt.get();
+        exam.setPublished(true);
+        examsRepository.save(exam);
+    }
 }

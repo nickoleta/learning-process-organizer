@@ -266,6 +266,13 @@ public class CoursesController {
         return "/exams/create-question";
     }
 
+    @Lecturer
+    @PostMapping("/exams/{examId}/publish")
+    public String publishExam(@PathVariable("examId") Long examId) {
+        examsService.publishExam(examId);
+        return PagesConstants.COURSES_REDIRECT_PAGING;
+    }
+
     private Set<AnswerDTO> buildAnswers(String answersSet, String correctAnswer) {
         final var answers = answersSet.split(";");
         return Arrays.stream(answers)

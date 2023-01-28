@@ -4,14 +4,17 @@
 <body>
 <header th:replace="fragments :: header-lecturer"></header>
 <div class="col-6">
-    <form action="#" th:action="@{'/courses/exams/'+${examId}+'/create-question'}" th:object="${question}" method="post">
+    <form action="#" th:action="@{'/courses/exams/'+${examId}+'/create-question'}" th:object="${question}"
+          method="post">
         <div class="form-group">
             <div class="form-group">
                 <label>Task Type</label>
                 <div th:each="questionType : ${T(com.nbu.java.practice.learningprocessorganizer.dao.entity.QuestionType).values()}">
                     <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" th:field="*{questionType}" th:value="${questionType}" class="custom-control-input">
-                        <label class="custom-control-label" th:for="${#ids.prev('questionType')}" th:text="${questionType}">Question Type</label>
+                        <input type="radio" th:field="*{questionType}" th:value="${questionType}"
+                               class="custom-control-input">
+                        <label class="custom-control-label" th:for="${#ids.prev('questionType')}"
+                               th:text="${questionType}">Question Type</label>
                     </div>
                 </div>
             </div>
@@ -23,15 +26,20 @@
             <div class="form-group">
                 <label for="answers">Answers</label>
                 <input class="form-control" type="text" th:field="*{answers}" placeholder="Answers" id="answers">
-                <span class="text-danger" th:if="${#fields.hasErrors('answers')}" th:errors="*{answers}">Answers Error</span>
+                <span class="text-danger" th:if="${#fields.hasErrors('answers')}"
+                      th:errors="*{answers}">Answers Error</span>
             </div>
             <div class="form-group">
                 <label for="correctAnswer">Correct Answer</label>
-                <input class="form-control" type="text" th:field="*{correctAnswer}" placeholder="Answers" id="correctAnswer">
+                <input class="form-control" type="text" th:field="*{correctAnswer}" placeholder="Answers"
+                       id="correctAnswer">
                 <span class="text-danger" th:if="${#fields.hasErrors('correctAnswer')}" th:errors="*{correctAnswer}">Answers Error</span>
             </div>
         </div>
-        <button type="submit" class="btn btn-primary">Save Question</button>
+        <button type="submit" class="btn btn-primary">Save current question and continue</button>
+    </form>
+    <form action="#" th:action="@{'/courses/exams/'+${examId}+'/publish'}" th:method="post">
+        <button type="submit" class="btn btn-primary">Publish Exam</button>
     </form>
 </div>
 </body>
