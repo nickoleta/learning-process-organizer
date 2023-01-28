@@ -3,6 +3,13 @@
 <head th:replace="fragments :: head"></head>
 <body>
 <header th:replace="fragments :: header-lecturer"></header>
+<form action="#" th:action="@{'/students/page/'+${currentPage}+'/size/'+${pageOfStudents.size}+'/sort/name/direction/'+${sortDirection}}"
+      method="get" class="col-6">
+    <div class="form-group">
+        <input class="form-control" type="text" th:name="searchCriteria"
+               th:placeholder="${searchCriteria == null || searchCriteria.isEmpty()} ? 'Search by name or faculty number' : ${searchCriteria}" id="searchCriteria">
+    </div>
+</form>
 <div th:replace="fragments :: students-list" class=" col-6"></div>
 </body>
 </html>

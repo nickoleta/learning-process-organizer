@@ -100,12 +100,8 @@ and open the template in the editor.
 
 <div th:fragment="students-list" class=" col-6">
     <table th:if="${pageOfStudents.size>0}" class="table table-hover">
-        <th>
-            <a th:href="@{'/students/page/'+${currentPage}+'/size/'+${pageOfStudents.size}+'/sort/id/direction/'+${sortDirection}}">Id</a>
-        </th>
-        <th>
-            <a th:href="@{'/students/page/'+${currentPage}+'/size/'+${pageOfStudents.size}+'/sort/name/direction/'+${sortDirection}}">
-                Name</a></th>
+        <th><a th:href="@{'/students/page/'+${currentPage}+'/size/'+${pageOfStudents.size}+'/sort/id/direction/'+${sortDirection}}">Id</a></th>
+        <th><a th:href="@{'/students/page/'+${currentPage}+'/size/'+${pageOfStudents.size}+'/sort/name/direction/'+${sortDirection}}">Name</a></th>
         <th>Faculty number</th>
         <th></th>
         <th></th>

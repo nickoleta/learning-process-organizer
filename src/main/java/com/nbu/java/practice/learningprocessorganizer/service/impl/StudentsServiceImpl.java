@@ -50,6 +50,13 @@ public class StudentsServiceImpl implements StudentsService {
     }
 
     @Override
+    public Page<StudentDTO> getPageOfStudents(Pageable pageable, String searchCriteria) {
+        final var students = studentsRepository.findAllByNameContainsOrFnContains(pageable, searchCriteria, searchCriteria);
+        return modelMapper.map(students, new TypeToken<Page<LecturerDTO>>() {
+        }.getType());
+    }
+
+    @Override
     public void createStudent(CreateStudentViewModel student) {
         if (student == null) {
             return;

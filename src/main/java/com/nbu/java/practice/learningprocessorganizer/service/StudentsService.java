@@ -16,6 +16,8 @@ public interface StudentsService {
 
     Page<StudentDTO> getPageOfStudents(Pageable pageable);
 
+    Page<StudentDTO> getPageOfStudents(Pageable pageable, String searchCriteria);
+
     void createStudent(CreateStudentViewModel createStudent);
 
     void updateStudent(long id, UpdateStudentDTO updateStudent);
