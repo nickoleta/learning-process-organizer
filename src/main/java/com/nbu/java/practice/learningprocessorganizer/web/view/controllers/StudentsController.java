@@ -2,6 +2,7 @@ package com.nbu.java.practice.learningprocessorganizer.web.view.controllers;
 
 import com.nbu.java.practice.learningprocessorganizer.annotations.Admin;
 import com.nbu.java.practice.learningprocessorganizer.annotations.AdminOrLecturer;
+import com.nbu.java.practice.learningprocessorganizer.annotations.Lecturer;
 import com.nbu.java.practice.learningprocessorganizer.dao.entity.users.UserIdentity;
 import com.nbu.java.practice.learningprocessorganizer.dto.UserRole;
 import com.nbu.java.practice.learningprocessorganizer.dto.students.StudentDTO;

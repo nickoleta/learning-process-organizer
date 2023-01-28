@@ -21,12 +21,10 @@ public interface CoursesService {
 
     void addStudentToCourse(long courseId, long studentId);
 
+    void removeStudentToCourse(long courseId, long studentId);
+
     void addActivityToACourse(long courseId, WeeklyActivityDTO weeklyActivity);
 
     void createCourse(long lecturerId, CourseDTO courseDTO);
-
-    void updateCourse(long id, CourseDTO courseDTO);
-
-    void deleteCourse(long id);
 
 }

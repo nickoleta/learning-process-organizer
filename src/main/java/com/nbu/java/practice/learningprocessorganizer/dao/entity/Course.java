@@ -13,6 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -32,15 +33,19 @@ public class Course extends BaseEntity {
     private Lecturer lecturer;
 
     @ManyToMany
-    private Set<Student> students;
+    private Set<Student> students = new HashSet<>();
 
     @OneToMany(mappedBy = "course")
-    private Set<WeeklyActivity> weeklyActivities;
+    private Set<WeeklyActivity> weeklyActivities = new HashSet<>();
 
     public void addStudent(Student student) {
         if (student != null) {
             students.add(student);
         }
+    }
+
+    public void removeStudent(Student student) {
+        students.remove(student);
     }
 
 }

@@ -1,6 +1,19 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
-<head th:replace="fragments :: head"></head>
+<head th:replace="fragments :: head">
+    <style>
+            div.scroll {
+                margin:4px, 4px;
+                padding:4px;
+                background-color: green;
+                width: 500px;
+                height: 110px;
+                overflow-x: hidden;
+                overflow-y: auto;
+                text-align:justify;
+            }
+        </style>
+</head>
 <body>
 <header th:replace="fragments :: header-lecturer"></header>
 <h3 class="col-6" th:text="${course.name}"></h3>
@@ -9,31 +22,26 @@
         <h5 class="col-6">Activities</h5>
         <div class="col-6" th:replace="fragments :: activities-list"></div>
         <form action="#" th:action="@{'/courses/'+${courseId}+'/activities/create-activity'}" method="get">
-            <button class="col-6" type="submit" class="btn btn-primary">Create Activity</button>
+            <button type="submit" class="btn btn-primary col-6">Create Activity</button>
         </form>
     </div>
     <div class="col-6">
-        <h5 class="col-6">Registered students</h5>
-<!--        <div>-->
-<!--            <table th:if="${pageOfStudents.size>0}" class="table table-hover">-->
-<!--                <th>Name</th>-->
-<!--                <th>Faculty number</th>-->
-<!--                <th></th>-->
-<!--                <th></th>-->
-<!--                <tr th:each="student : ${pageOfStudents.content}">-->
-<!--                    <td th:text="${student.id}"></td>-->
-<!--                    <td th:text="${student.name}"></td>-->
-<!--                    <td th:text="${student.fn}"></td>-->
-<!--                    <td><a class="btn btn-danger" th:href="@{'/students/delete/'+${student.id}}">Remove student</a></td>-->
-<!--                </tr>-->
-<!--            </table>-->
-<!--            <span th:if="${pageOfStudents.totalPages > 1}"-->
-<!--                  th:each="pageNumber : ${pageNumbers}">-->
-<!--            <a th:href="@{/students/page/{page}/size/{size}(page=${pageNumber}, size=${pageOfStudents.size})}"-->
-<!--               th:text="${pageNumber}">-->
-<!--               </a>-->
-<!--        </span>-->
-<!--        </div>-->
+        <h6>Registered students</h6>
+        <div class="scroll">
+            <table th:if="${students.size>0}" class="table table-hover">
+                <th>Name</th>
+                <th>Faculty number</th>
+                <th>Registered</th>
+                <th></th>
+                <tr th:each="student : ${students}">
+                    <td th:text="${student.name}"></td>
+                    <td th:text="${student.fn}"></td>
+                    <td th:text="${student.isRegistered}"></td>
+                    <td><a class="btn btn-success" th:href="@{'/courses/'+${courseId}+'/students/'+${student.id}+'/assign'}">Add student</a></td>
+                    <td><a class="btn btn-danger" th:href="@{'/courses/'+${courseId}+'/students/'+${student.id}+'/remove'}">Remove student</a></td>
+                </tr>
+            </table>
+        </div>
     </div>
 </div>
 

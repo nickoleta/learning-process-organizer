@@ -11,9 +11,12 @@ import com.nbu.java.practice.learningprocessorganizer.dto.activity.WeeklyActivit
 import com.nbu.java.practice.learningprocessorganizer.dto.courses.AnswerDTO;
 import com.nbu.java.practice.learningprocessorganizer.dto.courses.CourseDTO;
 import com.nbu.java.practice.learningprocessorganizer.dto.courses.QuestionDTO;
+import com.nbu.java.practice.learningprocessorganizer.dto.students.RegisteredStudentDTO;
+import com.nbu.java.practice.learningprocessorganizer.dto.students.StudentDTO;
 import com.nbu.java.practice.learningprocessorganizer.service.ActivitiesService;
 import com.nbu.java.practice.learningprocessorganizer.service.CoursesService;
 import com.nbu.java.practice.learningprocessorganizer.service.ExamsService;
+import com.nbu.java.practice.learningprocessorganizer.service.StudentsService;
 import com.nbu.java.practice.learningprocessorganizer.service.StudyMaterialsService;
 import com.nbu.java.practice.learningprocessorganizer.web.view.controllers.constants.PagesConstants;
 import com.nbu.java.practice.learningprocessorganizer.web.view.controllers.constants.SortingConstants;
@@ -48,6 +51,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -63,6 +67,7 @@ public class CoursesController {
     private final ActivitiesService activitiesService;
     private final StudyMaterialsService studyMaterialsService;
     private final ExamsService examsService;
+    private final StudentsService studentsService;
     private final ModelMapper modelMapper;
 
     @Lecturer
@@ -142,7 +147,24 @@ public class CoursesController {
     @GetMapping("/{courseId}/data")
     public String showCourseData(@PathVariable("courseId") final Long courseId, Model model) {
         model.addAttribute("course", modelMapper.map(coursesService.getCourse(courseId), CourseViewModel.class));
+        model.addAttribute("students", getStudentsWithCourseRegistrationStatus(courseId, studentsService.getAllStudents()));
         return PagesConstants.COURSE_DATA_LECTURER;
+    }
+
+    private Set<RegisteredStudentDTO> getStudentsWithCourseRegistrationStatus(long courseId, Collection<StudentDTO> students) {
+        return students.stream()
+                .map(student -> {
+                    final var groupingDto = new RegisteredStudentDTO();
+                    groupingDto.setId(student.getId());
+                    groupingDto.setFn(student.getFn());
+                    groupingDto.setName(student.getName());
+                    final var courses = student.getCourses();
+                    if (courses != null && !courses.isEmpty()) {
+                        final var courseIds = courses.stream().map(CourseDTO::getId).collect(Collectors.toSet());
+                        groupingDto.setRegistered(courseIds.contains(courseId));
+                    }
+                    return groupingDto;
+                }).collect(Collectors.toSet());
     }
 
     @Lecturer
@@ -271,6 +293,23 @@ public class CoursesController {
     public String publishExam(@PathVariable("examId") Long examId) {
         examsService.publishExam(examId);
         return PagesConstants.COURSES_REDIRECT_PAGING;
+    }
+
+
+    @Lecturer
+    @GetMapping("/{courseId}/students/{studentId}/assign")
+    public String addStudentToACourse(@PathVariable("courseId") final Long courseId,
+                                      @PathVariable("studentId") final Long studentId) {
+        coursesService.addStudentToCourse(courseId, studentId);
+        return PagesConstants.COURSE_DATA_LECTURER_REDIRECT;
+    }
+
+    @Lecturer
+    @GetMapping("/{courseId}/students/{studentId}/remove")
+    public String removeStudentFromACourse(@PathVariable("courseId") final Long courseId,
+                                           @PathVariable("studentId") final Long studentId) {
+        coursesService.removeStudentToCourse(courseId, studentId);
+        return PagesConstants.COURSE_DATA_LECTURER_REDIRECT;
     }
 
     private Set<AnswerDTO> buildAnswers(String answersSet, String correctAnswer) {

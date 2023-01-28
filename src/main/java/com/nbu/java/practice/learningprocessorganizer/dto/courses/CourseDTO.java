@@ -13,7 +13,8 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CourseDTO {
-    
+
+    private long id;
     private String name;
     private Set<WeeklyActivityDTO> weeklyActivities;
 }

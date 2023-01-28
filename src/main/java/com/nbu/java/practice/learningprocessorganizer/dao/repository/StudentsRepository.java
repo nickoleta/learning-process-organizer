@@ -8,4 +8,5 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 public interface StudentsRepository extends PagingAndSortingRepository<Student, Long> {
 
     Page<Student> findAllByNameContainsOrFnContains(Pageable pageable, String name, String fn);
+
 }

@@ -2,7 +2,6 @@ package com.nbu.java.practice.learningprocessorganizer.service.impl;
 
 import com.nbu.java.practice.learningprocessorganizer.dao.repository.StudentsRepository;
 import com.nbu.java.practice.learningprocessorganizer.dao.repository.UsersRepository;
-import com.nbu.java.practice.learningprocessorganizer.dto.lecturers.LecturerDTO;
 import com.nbu.java.practice.learningprocessorganizer.dto.students.StudentDTO;
 import com.nbu.java.practice.learningprocessorganizer.dto.students.UpdateStudentDTO;
 import com.nbu.java.practice.learningprocessorganizer.exceptions.ResourceNotFoundException;
@@ -45,14 +44,14 @@ public class StudentsServiceImpl implements StudentsService {
     @Override
     public Page<StudentDTO> getPageOfStudents(Pageable pageable) {
         final var students = studentsRepository.findAll(pageable);
-        return modelMapper.map(students, new TypeToken<Page<LecturerDTO>>() {
+        return modelMapper.map(students, new TypeToken<Page<StudentDTO>>() {
         }.getType());
     }
 
     @Override
     public Page<StudentDTO> getPageOfStudents(Pageable pageable, String searchCriteria) {
         final var students = studentsRepository.findAllByNameContainsOrFnContains(pageable, searchCriteria, searchCriteria);
-        return modelMapper.map(students, new TypeToken<Page<LecturerDTO>>() {
+        return modelMapper.map(students, new TypeToken<Page<StudentDTO>>() {
         }.getType());
     }
 

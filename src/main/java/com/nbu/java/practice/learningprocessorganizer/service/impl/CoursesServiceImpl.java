@@ -78,6 +78,21 @@ public class CoursesServiceImpl implements CoursesService {
     }
 
     @Override
+    public void removeStudentToCourse(long courseId, long studentId) {
+        final var studentOpt = studentsRepository.findById(studentId);
+        if (studentOpt.isEmpty()) {
+            throw new ResourceNotFoundException(ResourceNotFoundException.STUDENT_DOES_NOT_EXIST, courseId);
+        }
+        final var courseOpt = coursesRepository.findById(courseId);
+        if (courseOpt.isEmpty()) {
+            throw new ResourceNotFoundException(ResourceNotFoundException.COURSE_DOES_NOT_EXIST, courseId);
+        }
+        final var course = courseOpt.get();
+        course.removeStudent(studentOpt.get());
+        coursesRepository.save(course);
+    }
+
+    @Override
     public void addActivityToACourse(long courseId, WeeklyActivityDTO weeklyActivity) {
         final var courseOpt = coursesRepository.findById(courseId);
         if (courseOpt.isEmpty()) {
@@ -103,19 +118,4 @@ public class CoursesServiceImpl implements CoursesService {
         coursesRepository.save(course);
     }
 
-    @Override
-    public void updateCourse(long id, CourseDTO courseDTO) {
-        final var courseOpt = coursesRepository.findById(id);
-        if (courseOpt.isEmpty()) {
-            throw new ResourceNotFoundException(ResourceNotFoundException.COURSE_DOES_NOT_EXIST, id);
-        }
-        final var course = courseOpt.get();
-        course.setName(courseDTO.getName());
-        coursesRepository.save(course);
-    }
-
-    @Override
-    public void deleteCourse(long id) {
-        coursesRepository.deleteById(id);
-    }
 }
