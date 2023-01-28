@@ -16,7 +16,7 @@ public class MappingConfig {
     @Bean
     public ModelMapper modelMapper() {
         final var modelMapper = new ModelMapper();
-        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
+//        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
         return modelMapper;
     }
 

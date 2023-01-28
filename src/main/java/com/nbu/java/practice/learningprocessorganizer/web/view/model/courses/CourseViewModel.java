@@ -20,6 +20,6 @@ public class CourseViewModel {
     @Size(max = 30)
     private String name;
 
-    private Set<ActivityViewModel> weeklyActivities;
+    private Set<ActivityViewModel> weeklyActivities = Set.of();
 
 }

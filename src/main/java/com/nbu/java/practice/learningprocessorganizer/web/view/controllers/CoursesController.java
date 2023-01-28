@@ -3,8 +3,10 @@ package com.nbu.java.practice.learningprocessorganizer.web.view.controllers;
 import com.nbu.java.practice.learningprocessorganizer.annotations.AnyUser;
 import com.nbu.java.practice.learningprocessorganizer.annotations.Lecturer;
 import com.nbu.java.practice.learningprocessorganizer.annotations.LecturerOrStudent;
+import com.nbu.java.practice.learningprocessorganizer.annotations.Student;
 import com.nbu.java.practice.learningprocessorganizer.dao.entity.users.UserIdentity;
 import com.nbu.java.practice.learningprocessorganizer.dto.UserRole;
+import com.nbu.java.practice.learningprocessorganizer.dto.activity.ExamDTO;
 import com.nbu.java.practice.learningprocessorganizer.dto.activity.WeeklyActivityDTO;
 import com.nbu.java.practice.learningprocessorganizer.dto.courses.CourseDTO;
 import com.nbu.java.practice.learningprocessorganizer.service.ActivitiesService;
@@ -13,6 +15,7 @@ import com.nbu.java.practice.learningprocessorganizer.service.StudyMaterialsServ
 import com.nbu.java.practice.learningprocessorganizer.web.view.controllers.constants.PagesConstants;
 import com.nbu.java.practice.learningprocessorganizer.web.view.controllers.constants.SortingConstants;
 import com.nbu.java.practice.learningprocessorganizer.web.view.model.WeeklyActivityViewModel;
+import com.nbu.java.practice.learningprocessorganizer.web.view.model.activities.ExamViewModel;
 import com.nbu.java.practice.learningprocessorganizer.web.view.model.courses.CourseViewModel;
 import com.nbu.java.practice.learningprocessorganizer.web.view.model.courses.CreateCourseViewModel;
 import lombok.AllArgsConstructor;
@@ -212,6 +215,43 @@ public class CoursesController {
         // return success response
         attributes.addFlashAttribute("message", "You successfully uploaded the file");
         return "redirect:/";
+    }
+
+
+    // Exams
+
+    @Lecturer
+    @GetMapping("/activities/{activityId}/create-exam")
+    public String showCreateExamView(@PathVariable("activityId") final Long activityId, Model model) {
+        model.addAllAttributes(Map.of("exam", new ExamViewModel(),
+                "activityId", activityId));
+        return "/exams/create-exam";
+    }
+
+    @Lecturer
+    @PostMapping("/activities/{activityId}/exams")
+    public String createExam(@PathVariable("activityId") final Long activityId,
+                             @ModelAttribute("exam") @Valid ExamViewModel examViewModel, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "/exams/create-exam";
+        }
+        activitiesService.addExamToActivity(activityId, modelMapper.map(examViewModel, ExamDTO.class));
+        return "/exams/create-question";
+    }
+
+    @Student
+    @GetMapping("/take-exam")
+    public String showTakeExamView() {
+        // TODO
+        return "/exams/take-exam";
+    }
+
+    @Lecturer
+    @GetMapping("/create-task")
+    public String showCreateTaskView(Model model) {
+        // TODO
+        model.addAttribute("");
+        return "/exams/create-exam";
     }
 
     private PageRequest createPageRequest(String sortDirection, int page, int size, String sortCriteria) {

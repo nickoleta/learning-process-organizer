@@ -6,11 +6,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.FutureOrPresent;
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -21,12 +25,21 @@ import java.util.List;
 @NoArgsConstructor
 public class Exam extends BaseEntity {
 
+    @FutureOrPresent
+    private LocalDate openFrom;
+
+    @Future
+    private LocalDate openTo;
+
     @OneToMany(mappedBy = "exam")
     private List<Question> questions;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "exam")
     private List<Attempt> attempts = new java.util.ArrayList<>();
 
-    @OneToOne(mappedBy = "exam")
+    @OneToOne(mappedBy = "exam", cascade = CascadeType.ALL)
     private WeeklyActivity weeklyActivity;
+
+    private boolean isPublished;
+
 }
