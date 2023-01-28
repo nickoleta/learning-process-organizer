@@ -97,8 +97,7 @@ public class StudentsController {
                                          @PathVariable("size") final Integer size,
                                          @PathVariable("sortCriteria") final String sortCriteria,
                                          @PathVariable("sortDirection") final String sortDirection,
-                                         @RequestParam(value = "searchCriteria", required = false) final String searchCriteria,
-                                         @RequestParam(value = "courseId", required = false) final String courseId) {
+                                         @RequestParam(value = "searchCriteria", required = false) final String searchCriteria) {
         PageRequest pageRequest;
         if (SortingConstants.ASC_SORT_DIRECTION.equalsIgnoreCase(sortDirection)) {
             pageRequest = PageRequest.of(page - 1, size, Sort.by(sortCriteria).ascending());

@@ -9,6 +9,7 @@ import lombok.Setter;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -34,10 +35,11 @@ public class Exam extends BaseEntity {
     @OneToMany(mappedBy = "exam")
     private List<Question> questions;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "exam")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "exam")
     private List<Attempt> attempts = new java.util.ArrayList<>();
 
-    @OneToOne(mappedBy = "exam", cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "activity_id", unique = true)
     private WeeklyActivity weeklyActivity;
 
     private boolean isPublished;

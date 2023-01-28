@@ -40,9 +40,6 @@ public class ActivitiesServiceImpl implements ActivitiesService {
         examEntity.setOpenTo(exam.getOpenTo());
         examEntity.setWeeklyActivity(activity);
         examsRepository.save(examEntity);
-
-        activity.setExam(examEntity);
-        weeklyActivityRepository.save(activity);
     }
 
     @Override

@@ -8,7 +8,6 @@ import lombok.Setter;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -41,8 +40,7 @@ public class WeeklyActivity extends BaseEntity {
     @OneToMany(mappedBy = "weeklyActivity")
     private List<Homework> homeworks;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "exam_id", unique = true)
+    @OneToOne(mappedBy = "weeklyActivity", cascade = CascadeType.ALL)
     private Exam exam;
 
 }

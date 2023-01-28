@@ -29,7 +29,7 @@ public class Attempt extends BaseEntity {
     @JoinColumn(name = "exam_id")
     private Exam exam;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "attempt")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "attempt")
     private List<Result> results = new java.util.ArrayList<>();
 
     public Exam getExam() {
