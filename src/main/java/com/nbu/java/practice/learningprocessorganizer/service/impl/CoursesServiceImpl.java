@@ -117,5 +117,4 @@ public class CoursesServiceImpl implements CoursesService {
         course.setLecturer(lecturer.get());
         coursesRepository.save(course);
     }
-
 }

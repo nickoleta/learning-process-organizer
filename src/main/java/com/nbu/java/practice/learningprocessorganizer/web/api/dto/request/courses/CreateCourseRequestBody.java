@@ -9,6 +9,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
+import java.util.Set;
 
 @Data
 @Generated
@@ -23,4 +24,6 @@ public class CreateCourseRequestBody {
     @NotBlank
     @Size(max = 50, message = "The name cannot be longer than 50 characters")
     private String name;
+
+    private Set<Long> studentIds;
 }

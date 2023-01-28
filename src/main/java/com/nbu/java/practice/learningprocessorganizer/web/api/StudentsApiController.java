@@ -1,11 +1,10 @@
 package com.nbu.java.practice.learningprocessorganizer.web.api;
 
-import com.nbu.java.practice.learningprocessorganizer.web.api.dto.request.students.CreateStudentRequestBody;
-import com.nbu.java.practice.learningprocessorganizer.web.api.dto.request.students.UpdateStudentRequestBody;
-import com.nbu.java.practice.learningprocessorganizer.dto.students.CreateStudentDTO;
 import com.nbu.java.practice.learningprocessorganizer.dto.students.StudentDTO;
 import com.nbu.java.practice.learningprocessorganizer.dto.students.UpdateStudentDTO;
 import com.nbu.java.practice.learningprocessorganizer.service.StudentsService;
+import com.nbu.java.practice.learningprocessorganizer.web.api.dto.request.students.CreateStudentRequestBody;
+import com.nbu.java.practice.learningprocessorganizer.web.api.dto.request.students.UpdateStudentRequestBody;
 import com.nbu.java.practice.learningprocessorganizer.web.view.model.students.CreateStudentViewModel;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;

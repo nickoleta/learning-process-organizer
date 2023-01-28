@@ -46,4 +46,10 @@ public class Student extends BaseEntity {
     @OneToOne(mappedBy = "student", cascade = CascadeType.ALL)
     private UserIdentity userIdentity;
 
+    public void addCourse(Course course) {
+        if (course != null) {
+            this.courses.add(course);
+        }
+    }
+
 }

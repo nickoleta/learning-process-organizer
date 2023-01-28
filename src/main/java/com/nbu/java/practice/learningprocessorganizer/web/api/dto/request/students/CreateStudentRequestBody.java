@@ -20,4 +20,10 @@ public class CreateStudentRequestBody {
 
     @NotBlank
     private String fn;
+
+    @NotBlank
+    private String username;
+
+    @NotBlank
+    private String password;
 }

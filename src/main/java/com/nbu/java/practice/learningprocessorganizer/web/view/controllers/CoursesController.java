@@ -322,7 +322,7 @@ public class CoursesController {
                 .map(answer -> {
                     final var answerDto = new AnswerDTO(answer);
                     if (correctAnswer.equalsIgnoreCase(answer)) {
-                        answerDto.setCorrect(true);
+                        answerDto.setIsCorrect(true);
                     }
                     return answerDto;
                 }).collect(Collectors.toSet());

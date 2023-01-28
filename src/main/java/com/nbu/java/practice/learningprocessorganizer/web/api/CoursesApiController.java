@@ -1,5 +1,6 @@
 package com.nbu.java.practice.learningprocessorganizer.web.api;
 
+import com.nbu.java.practice.learningprocessorganizer.annotations.Lecturer;
 import com.nbu.java.practice.learningprocessorganizer.web.api.dto.request.WeeklyActivityRequestBody;
 import com.nbu.java.practice.learningprocessorganizer.web.api.dto.request.courses.CreateCourseRequestBody;
 import com.nbu.java.practice.learningprocessorganizer.dto.activity.WeeklyActivityDTO;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -44,13 +46,27 @@ public class CoursesApiController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PostMapping("/{courseId}/students")
+    // STUDENTS
+
+    @Lecturer
+    @PostMapping("/{courseId}/students/{studentId}")
     public ResponseEntity<Void> addStudentToCourse(@PathVariable("courseId") final Long courseId,
-                                                    @RequestParam("studentId") final Long studentId) {
+                                                    @PathVariable("studentId") final Long studentId) {
         coursesService.addStudentToCourse(courseId, studentId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @Lecturer
+    @PutMapping("/{courseId}/students/{studentId}")
+    public ResponseEntity<Void> removeStudentFromCourse(@PathVariable("courseId") final Long courseId,
+                                                   @PathVariable("studentId") final Long studentId) {
+        coursesService.addStudentToCourse(courseId, studentId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    // ACTIVITIES
+
+    @Lecturer
     @PostMapping("/{courseId}/activities")
     public ResponseEntity<Void> addActivityToACourse(@PathVariable("courseId") final Long courseId,
                                                     @RequestBody @Valid final WeeklyActivityRequestBody weeklyActivityRequestBody) {

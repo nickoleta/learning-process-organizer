@@ -51,7 +51,7 @@ public class ExamsServiceImpl implements ExamsService {
                 .map(answer -> {
                     final var answerEntity = new Answer();
                     answerEntity.setValue(answer.getValue());
-                    answerEntity.setIsCorrect(answer.isCorrect());
+                    answerEntity.setIsCorrect(answer.getIsCorrect());
                     answerEntity.setQuestion(questionEntity);
                     return answerEntity;
                 })
