@@ -1,18 +1,29 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments :: head"></head>
-<body>
-<header th:replace="fragments :: header-admin"></header>
-<h4>Edit the Lecturer</h4>
-<div class="col-6">
-    <form action="#" th:action="@{/lecturers/update/{id}(id=${lecturer.id})}" th:object="${lecturer}" method="post">
+<body><div style="display: flex; flex-direction: row;">
+    <div class="col-3">
+        <header th:replace="fragments :: header-admin" style="width: 100%;">
+        </header></div>
+    <div class="container" style="margin: auto; display: flex; align-items: center;">
+        <div class="col width:80%">
+            <div style="width: 100%;">
+                <div class="container col-9" >
+<h3 style="color:purple; margin-left:5px;padding-left:30px;">Edit the Lecturer</h3>
+<div class="col-12">
+    <form action="#" th:action="@{/lecturers/update/{id}(id=${lecturer.id})}" th:object="${lecturer}" method="post"style="background-color:#CBC3E3 !important; color:purple; padding: 20px; border-radius: 25px;box-shadow: 10px 10px 5px grey;">
         <div class="form-group">
             <label for="name">Name</label>
             <input class="form-control" type="text" th:field="*{name}" placeholder="Name" id="name">
             <span class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</span>
         </div>
-        <button type="submit" class="btn btn-primary">Update Lecturer</button>
+        <button type="submit" class="btn btn-info">Update Lecturer</button>
     </form>
+</div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>

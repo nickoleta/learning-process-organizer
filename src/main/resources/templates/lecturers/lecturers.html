@@ -2,9 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments :: head"></head>
 <body>
-    <header th:replace="fragments :: header-admin"></header>
-    <div class=" col-6">
-        <table th:if="${pageOfLecturers.size>0}" class="table table-hover">
+<header th:replace="fragments :: header-all"></header>
+<div style="display: flex; flex-direction: row;">
+    <div class="col-3">
+        <header th:replace="fragments :: header-admin" style="width: 100%;">
+        </header></div>
+    <div class="container" style="margin: auto; display: flex; align-items: center;">
+        <div class="row width:100%">
+            <div style="width: 100%;">
+                <div class="container col" >
+        <table th:if="${pageOfLecturers.size>0}" class=" table purple-table table-hover table-responsive" style=" background-color:#CBC3E3 !important; border-radius: 25px !important; box-shadow: 10px 10px 5px grey;padding-left:20px; padding-right:20px;">
             <th><a th:href="@{'/lecturers/page/'+${currentPage}+'/size/'+${pageOfLecturers.size}+'/sort/id/direction/'+${sortDirection}}">Id</a></th>
             <th><a th:href="@{'/lecturers/page/'+${currentPage}+'/size/'+${pageOfLecturers.size}+'/sort/name/direction/'+${sortDirection}}"> Name</a></th>
             <th> </th>
@@ -16,6 +23,11 @@
                 <td><a class="btn btn-danger" th:href="@{'/lecturers/delete/'+${lecturer.id}}">Delete</a></td>
             </tr>
         </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
         <span th:if="${pageOfLecturers.totalPages > 1}"
               th:each="pageNumber : ${pageNumbers}" >
             <a th:href="@{/lecturers/page/{page}/size/{size}(page=${pageNumber}, size=${pageOfLecturers.size})}" th:text="${pageNumber}">

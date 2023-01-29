@@ -1,7 +1,6 @@
 h2
 {
-color:pink ;
-white-space: nowrap !important;
+/*white-space: nowrap !important;*/
 }
 
 .custom-name
@@ -62,6 +61,7 @@ margin-right: 30px;
 margin-left:-30px;
 color:#bf80ff;
 }
+
 .nav-link:active {
 background-color: white;
 border-radius: 5px;
@@ -70,24 +70,38 @@ width: 170%;
 margin-right: 30px;
 margin-left:-30px;
 }
+
 .main-top
 {
 border-bottom: 2px solid purple;
-}
-@media (max-width: 767px) {
-  header.header-admin {
-    flex-direction: column;
-    height: auto;
-  }
-
-  header.header-admin div {
-    width: 100%;
-    height: auto;
-    border-radius: 0;
-  }
 }
 
 .purple-table {
 background-color:linear-gradient(to right, lightblue, #CBC3E3)!important;
 color: purple;
+}
+.container-fluid {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 0px !important;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.col-6
+{
+padding-left:0px !important;
+}
+
+.col-3 {
+    margin-right: 10px !important;
+    padding-right: 0px !important;
+    padding-left: 0px !important;
+}
+
+.col-9
+{
+margin-right: 50px !important;
+    padding-left: 0px !important;
+    margin-left: 0px !important;
 }
