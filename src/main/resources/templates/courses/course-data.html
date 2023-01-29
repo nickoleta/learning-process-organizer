@@ -3,35 +3,51 @@
 <head th:replace="fragments :: head">
 </head>
 <body>
-<header th:replace="fragments :: header-lecturer"></header>
-<h3 class="col-6" th:text="${course.name}"></h3>
-<div class="row">
-    <div class="col-6">
-        <h5 class="col-6">Activities</h5>
-        <div class="col-6" th:replace="fragments :: activities-list"></div>
-        <form action="#" th:action="@{'/courses/'+${courseId}+'/activities/create-activity'}" method="get">
-            <button sec:authorize="hasAuthority('LECTURER')" type="submit" class="btn btn-primary col-6">Create Activity</button>
-        </form>
-    </div>
-    <div class="col-6" sec:authorize="hasAuthority('LECTURER')">
-        <h6>Registered students</h6>
-        <div>
-            <table th:if="${students.size>0}" class="table table-hover">
-                <th>Name</th>
-                <th>Faculty number</th>
-                <th>Registered</th>
-                <th></th>
-                <tr th:each="student : ${students}">
-                    <td th:text="${student.name}"></td>
-                    <td th:text="${student.fn}"></td>
-                    <td th:text="${student.isRegistered}"></td>
-                    <td><a class="btn btn-success" th:href="@{'/courses/'+${courseId}+'/students/'+${student.id}+'/assign'}">Add student</a></td>
-                    <td><a class="btn btn-danger" th:href="@{'/courses/'+${courseId}+'/students/'+${student.id}+'/remove'}">Remove student</a></td>
-                </tr>
-            </table>
+    <header th:replace="fragments :: header-all"></header>
+    <div style="display: flex; flex-direction: row;">
+        <div class="col-3">
+            <header th:replace="fragments :: header-lecturer" style="width: 100%;">
+            </header>
+        </div>
+        <div class="container" style="margin: auto; display: flex; align-items: center;">
+            <div class="col width:80%">
+                <div style="width: 100%;">
+                    <div class="container col-9" >
+                        <h3 style="color:purple;" class="col-6" th:text="${course.name}"></h3>
+                        <div class="row">
+                            <div class="col-12">
+                                <h5 style="color:purple;"  class="col-6">Activities</h5>
+                                <div class="col-6" th:replace="fragments :: activities-list"></div>
+                                <form action="#" th:action="@{'/courses/'+${courseId}+'/activities/create-activity'}" method="get"style="background-color:#CBC3E3 !important; color:purple; padding: 20px; border-radius: 25px;box-shadow: 10px 10px 5px grey;">
+                                    <div class="form-actions d-flex justify-content-center" style="margin-top: 12px;">
+                                    <button sec:authorize="hasAuthority('LECTURER')" type="submit" class="btn btn-info col-6">Create Activity</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-12" sec:authorize="hasAuthority('LECTURER')">
+                                <h5 style="margin-top:10vh; color:purple;">Registered students</h5>
+                                <div>
+                                    <table th:if="${students.size>0}" class=" table purple-table table-hover table-responsive" style=" background-color:#CBC3E3 !important; border-radius: 25px !important; box-shadow: 10px 10px 5px grey;padding-left:30px; padding-right:30px;">
+                                        <th>Name</th>
+                                        <th>Faculty number</th>
+                                        <th>Registered</th>
+                                        <th></th>
+                                        <tr th:each="student : ${students}">
+                                            <td th:text="${student.name}"></td>
+                                            <td th:text="${student.fn}"></td>
+                                            <td th:text="${student.isRegistered}"></td>
+                                            <td><a class="btn btn-success" th:href="@{'/courses/'+${courseId}+'/students/'+${student.id}+'/assign'}">Add student</a></td>
+                                            <td><a class="btn btn-danger" th:href="@{'/courses/'+${courseId}+'/students/'+${student.id}+'/remove'}">Remove student</a></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 
 </body>
 </html>

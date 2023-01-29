@@ -2,30 +2,42 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments :: head"></head>
 <body>
-<header th:replace="fragments :: header-lecturer"></header>
-<div class="col-6">
-    <form action="#" th:action="@{'/courses/'+${courseId}+'/activities/create'}" th:object="${activity}" method="post"
-          enctype="multipart/form-data">
-        <div class="form-group">
-            <div class="form-group">
-                <label for="startDate">Start Date</label>
-                <input class="form-control" type="date" th:field="*{startDate}" id="startDate">
-                <span class="text-danger" th:if="${#fields.hasErrors('startDate')}"
-                      th:errors="*{startDate}">Start Date Error</span>
-            </div>
-            <div class="form-group">
-                <label for="endDate">End Date</label>
-                <input class="form-control" type="date" th:field="*{endDate}" id="endDate">
-                <span class="text-danger" th:if="${#fields.hasErrors('endDate')}"
-                      th:errors="*{endDate}">End Date Error</span>
-            </div>
-            <div class="form-group">
-                <label for="studyMaterial">Upload Study Materials</label>
-                <input class="form-control-file" name="file" type="file" id="studyMaterial">
-            </div>
-            <button type="submit" class="btn btn-primary">Create Activity</button>
+<header th:replace="fragments :: header-all"></header>
+    <div style="display: flex; flex-direction: row;">
+        <div class="col-3">
+            <header th:replace="fragments :: header-lecturer" style="width: 100%;">
+            </header>
         </div>
-    </form>
-</div>
+        <div class="container" style="margin: auto; display: flex; align-items: center;">
+            <div class="col width:80%">
+                <div style="width: 100%;">
+                    <div class="container col-9" >
+                        <form action="#" th:action="@{'/courses/'+${courseId}+'/activities/create'}" th:object="${activity}" method="post"
+                              enctype="multipart/form-data"style="background-color:#CBC3E3 !important; color:purple; padding: 20px; border-radius: 25px;box-shadow: 10px 10px 5px grey;">
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <label for="startDate">Start Date</label>
+                                    <input class="form-control" type="date" th:field="*{startDate}" id="startDate">
+                                    <span class="text-danger" th:if="${#fields.hasErrors('startDate')}"
+                                          th:errors="*{startDate}">Start Date Error</span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="endDate">End Date</label>
+                                    <input class="form-control" type="date" th:field="*{endDate}" id="endDate">
+                                    <span class="text-danger" th:if="${#fields.hasErrors('endDate')}"
+                                          th:errors="*{endDate}">End Date Error</span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="studyMaterial">Upload Study Materials</label>
+                                    <input class="form-control-file" name="file" type="file" id="studyMaterial">
+                                </div>
+                                <button type="submit" class="btn btn-info">Create Activity</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

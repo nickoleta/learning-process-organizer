@@ -2,21 +2,33 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:replace="fragments :: head"></head>
 <body>
-<header th:replace="fragments :: header-lecturer"></header>
-<div class=" col-6">
-    <table th:if="${pageOfCourses.size>0}" class="table table-hover">
-        <th><a th:href="@{'/courses/registered/page/'+${currentPage}+'/size/'+${pageOfCourses.size}+'/sort/id/direction/'+${sortDirection}}">Id</a></th>
-        <th><a th:href="@{'/courses/registered/page/'+${currentPage}+'/size/'+${pageOfCourses.size}+'/sort/name/direction/'+${sortDirection}}"> Name</a></th>
-        <tr th:each="course : ${pageOfCourses.content}">
-            <td th:text="${course.id}"></td>
-            <td><a th:text="${course.name}" th:href="@{'/courses/'+${course.id}+'/data'}"></a></td>
-        </tr>
-    </table>
-    <span th:if="${pageOfCourses.totalPages > 1}"
-          th:each="pageNumber : ${pageNumbers}" >
-            <a th:href="@{/courses/registered/page/{page}/size/{size}(page=${pageNumber}, size=${pageOfCourses.size})}" th:text="${pageNumber}"></a>
-        </span>
-</div>
-
+<header th:replace="fragments :: header-all"></header>
+    <div style="display: flex; flex-direction: row;">
+        <div class="col-3">
+            <header th:replace="fragments :: header-lecturer" style="width: 100%;">
+            </header></div>
+        <div class="container" style="margin: auto; display: flex; align-items: center;">
+            <div class="row width:100%">
+                <div style="width: 100%;">
+                    <div class="container col" >
+                        <table th:if="${pageOfCourses.size>0}" class=" table purple-table table-hover table-responsive" style=" background-color:#CBC3E3 !important; border-radius: 25px !important; box-shadow: 10px 10px 5px grey;padding-left:30px; padding-right:30px;">
+                            <th><a th:href="@{'/courses/registered/page/'+${currentPage}+'/size/'+${pageOfCourses.size}+'/sort/id/direction/'+${sortDirection}}">Id</a></th>
+                            <th><a th:href="@{'/courses/registered/page/'+${currentPage}+'/size/'+${pageOfCourses.size}+'/sort/name/direction/'+${sortDirection}}"> Name</a></th>
+                            <tr th:each="course : ${pageOfCourses.content}">
+                                <td th:text="${course.id}"></td>
+                                <td><a style="color:darkblue;" th:text="${course.name}" th:href="@{'/courses/'+${course.id}+'/data'}"></a></td>
+                            </tr>
+                        </table>
+                        <div style="margin-left:30px;">
+                        <span th:if="${pageOfCourses.totalPages > 1}"
+                              th:each="pageNumber : ${pageNumbers}" >
+                            <a th:href="@{/courses/registered/page/{page}/size/{size}(page=${pageNumber}, size=${pageOfCourses.size})}" th:text="${pageNumber}"></a>
+                        </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
