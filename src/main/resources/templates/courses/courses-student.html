@@ -2,7 +2,20 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:replace="fragments :: head"></head>
 <body>
-<header th:replace="fragments :: header-student"></header>
-<div th:replace="fragments :: courses-list" class=" col-6"></div>
+<header th:replace="fragments :: header-all"></header>
+<div style="display: flex; flex-direction: row;">
+    <div class="col-3">
+        <header th:replace="fragments :: header-student" style="width: 100%;">
+        </header></div>
+    <div class="container" style="margin: auto; display: flex; align-items: center;">
+        <div class="row width:100%">
+            <div style="width: 100%;">
+                <div class="container col" >
+                    <div th:replace="fragments :: courses-list" class=" col-12"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

@@ -3,10 +3,23 @@
 <head th:replace="fragments :: head">
 </head>
 <body>
-<header th:replace="fragments :: header-student"></header>
-<div class="row">
-    <div class="container col-6" style="text-align: center">
-        <h2>Welcome to E-Learn</h2>
+<header th:replace="fragments :: header-all"></header>
+<div style="display: flex; flex-direction: row;">
+    <div class="col-3">
+        <header th:replace="fragments :: header-student" style="width: 100%;">
+        </header></div>
+    <div class="container" style="margin: auto; display: flex; align-items: center;">
+        <div class="row width:100%">
+            <div style="width: 100%;">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                            <h2 class="welcome-message">Welcome to E-Learn, <span sec:authentication="name"></span>!</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 </body>

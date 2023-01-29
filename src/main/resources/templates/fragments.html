@@ -109,19 +109,13 @@ and open the template in the editor.
 </header>
 
 <header th:fragment="header-student">
-    <div class="row">
-        <div class="col-9">
-            <h2>E-Learn</h2>
-        </div>
-        <div class="col-3" sec:authorize="isAuthenticated()">
-            Hello,
-            <span sec:authentication="name"></span>
-            <a class="btn" th:href="@{/logout}">Logout</a>
-        </div>
-    </div>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light" th:fragment="navigation">
-        <div class="collapse navbar-collapse" id="navbarSupportedContent-student">
-            <ul class="navbar-nav mr-auto">
+    <div class="container-fluid" style="display: flex; height: 100vh;">
+        <div style="width: 35vh; background: linear-gradient(to right, lightblue, #CBC3E3); border-radius: 10px 10px 10px 10px; display: flex; align-items: center;">
+            <nav class="navbar navbar-light">
+                <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/courses">Courses</a>
                 </li>
@@ -129,12 +123,13 @@ and open the template in the editor.
                     <a class="nav-link" href="/courses/registered">My courses</a>
                 </li>
             </ul>
+            </nav>
         </div>
-    </nav>
+    </div>
 </header>
 
 <div th:fragment="activities-list">
-    <table th:if="${course.weeklyActivities.size>0}" class="table table-hover">
+    <table th:if="${course.weeklyActivities.size>0}" class=" table purple-table table-hover table-responsive" style=" background-color:#CBC3E3 !important; border-radius: 25px !important; box-shadow: 10px 10px 5px grey;padding-left:30px; padding-right:30px;">
         <th>Id</th>
         <th>Start Date</th>
         <th>End Date</th>
