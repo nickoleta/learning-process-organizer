@@ -2,7 +2,24 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments :: head"></head>
 <body>
+<<<<<<< Updated upstream
 <header th:replace="fragments :: header-admin"></header>
 <div th:replace="fragments :: students-list" class=" col-6"></div>
+=======
+<header th:replace="fragments :: header-all"></header>
+    <div style="display: flex; flex-direction: row;">
+        <header th:replace="fragments :: header-admin" style="width: 100%;">
+        </header>
+        <div class="container" style="margin: auto; display: flex; align-items: center;">
+            <div class="row width:100%">
+                <div style="width: 75%;">
+                    <div class="container col-6" >
+                        <div th:replace="fragments :: students-list" class=" col-6"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+>>>>>>> Stashed changes
 </body>
 </html>

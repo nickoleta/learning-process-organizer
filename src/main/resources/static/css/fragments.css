@@ -1,0 +1,93 @@
+h2
+{
+color:pink ;
+white-space: nowrap !important;
+}
+
+.custom-name
+{
+white-space: nowrap !important;
+}
+
+.custom-button {
+border: 2px solid purple !important;
+color: white !important;
+background-color: purple;
+margin-bottom:10px;
+}
+
+.custom-button:hover {
+background-color: #bf80ff;
+color: white !important;
+border: 2px solid #bf80ff !important;
+}
+
+.hello-message
+{
+margin-top:5px;
+}
+
+body {
+background: linear-gradient(to right, #ffc0cb, #e6e6fa, #add8e6) !important;
+}
+
+
+.welcome-message
+{
+font-size: 50px !important;
+color: purple !important;
+}
+
+.navbar .navbar-nav {
+display: flex !important;
+flex-direction: row !important;
+justify-content: center !important;
+}
+
+.navbar a {
+color: purple;
+font-weight:bold;
+}
+
+.light-purple-text {
+color: purple;
+}
+
+.nav-link:hover {
+background-color: white;
+border-radius: 10px;
+display: block;
+width: 170%;
+margin-right: 30px;
+margin-left:-30px;
+color:#bf80ff;
+}
+.nav-link:active {
+background-color: white;
+border-radius: 5px;
+display: block;
+width: 170%;
+margin-right: 30px;
+margin-left:-30px;
+}
+.main-top
+{
+border-bottom: 2px solid purple;
+}
+@media (max-width: 767px) {
+  header.header-admin {
+    flex-direction: column;
+    height: auto;
+  }
+
+  header.header-admin div {
+    width: 100%;
+    height: auto;
+    border-radius: 0;
+  }
+}
+
+.purple-table {
+background-color:linear-gradient(to right, lightblue, #CBC3E3)!important;
+color: purple;
+}

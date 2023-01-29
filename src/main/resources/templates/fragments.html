@@ -8,39 +8,77 @@ and open the template in the editor.
 <head th:fragment="head">
     <title>E-Learn</title>
     <meta charset="UTF-8">
+    <link href="/css/fragments.css" rel="stylesheet" th:href="@{/css/fragments.css}"/>
     <link href="/css/bootstrap.min.css" rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
 </head>
 
-<header th:fragment="header-admin">
-    <div class="row">
-        <div class="col-9">
-            <h2>E-Learn</h2>
-        </div>
-        <div class="col-3" sec:authorize="isAuthenticated()">
-            Hello,
-            <span sec:authentication="name"></span>
-            <a class="btn" th:href="@{/logout}">Logout</a>
+<header th:fragment="header-all">
+    <div class="container-fluid">
+        <div class="row main-top">
+            <div class="col-9 col-md-9">
+                <h2 class="light-purple-text">E-Learn</h2>
+            </div>
+            <div class="col-3 col-md-3 d-flex justify-content-end display: flex; flex-direction: row;" sec:authorize="isAuthenticated()">
+                <a class="btn custom-button mb-0 mt-2" th:href="@{/logout}">Logout</a>
+            </div>
         </div>
     </div>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light" th:fragment="navigation">
-        <div class="collapse navbar-collapse" id="navbarSupportedContent-admin">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/students">Students</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/students/create-student">Create Student</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/lecturers">Lecturers</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/lecturers/create-lecturer">Create Lecturer</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
 </header>
+
+<header th:fragment="header-admin">
+    <div style="display: flex; height: 90vh;">
+        <div style="width: 35vh; background: linear-gradient(to right, lightblue, #CBC3E3); border-radius: 10px 10px 10px 10px; display: flex; align-items: center;">
+            <nav class="navbar navbar-light">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/students">Students</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/students/create-student">Create Student</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/lecturers">Lecturers</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/lecturers/create-lecturer">Create Lecturer</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</header>
+
+<div th:fragment="students-list" class=" col-6">
+    <table th:if="${pageOfStudents.size>0}" class=" table purple-table table-hover " style="border-color: purple; border-radius: 25px; box-shadow: 10px 10px 5px grey;">
+        <th>
+            <a th:href="@{'/students/page/'+${currentPage}+'/size/'+${pageOfStudents.size}+'/sort/id/direction/'+${sortDirection}}">Id</a>
+        </th>
+        <th>
+            <a th:href="@{'/students/page/'+${currentPage}+'/size/'+${pageOfStudents.size}+'/sort/name/direction/'+${sortDirection}}">
+                Name</a></th>
+        <th>Faculty number</th>
+        <th></th>
+        <th></th>
+        <tr th:each="student : ${pageOfStudents.content}" style="border-top: 1px solid purple !important;">
+            <td th:text="${student.id}" style="margin: 10px;"></td>
+            <td class="custom-name" th:text="${student.name}" style="margin: 10px;"></td>
+            <td th:text="${student.fn}" style="margin: 10px;"></td>
+            <td><a sec:authorize="hasAuthority('ADMIN')" class="btn btn-info"
+                   th:href="@{'/students/edit-student/'+${student.id}}" style="margin: 10px;">Edit</a></td>
+            <td><a sec:authorize="hasAuthority('ADMIN')" class="btn btn-danger"
+                   th:href="@{'/students/delete/'+${student.id}}" style="margin: 10px;">Delete</a></td>
+        </tr>
+    </table>
+    <span th:if="${pageOfStudents.totalPages > 1}"
+          th:each="pageNumber : ${pageNumbers}">
+            <a th:href="@{/students/page/{page}/size/{size}(page=${pageNumber}, size=${pageOfStudents.size})}"
+               th:text="${pageNumber}">
+               </a>
+        </span>
+</div>
 
 <header th:fragment="header-lecturer">
     <div class="row">
@@ -98,6 +136,7 @@ and open the template in the editor.
     </nav>
 </header>
 
+<<<<<<< Updated upstream
 <div th:fragment="students-list" class=" col-6">
     <table th:if="${pageOfStudents.size>0}" class="table table-hover">
         <th><a th:href="@{'/students/page/'+${currentPage}+'/size/'+${pageOfStudents.size}+'/sort/id/direction/'+${sortDirection}}">Id</a></th>
@@ -122,6 +161,9 @@ and open the template in the editor.
                </a>
         </span>
 </div>
+=======
+
+>>>>>>> Stashed changes
 
 <div th:fragment="activities-list" class=" col-6">
     <table th:if="${course.weeklyActivities.size>0}" class="table table-hover">
