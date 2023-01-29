@@ -1,12 +1,29 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments :: head">
+    <title>E-Learn</title>
+    <meta charset="UTF-8">
+    <link href="/css/fragments.css" rel="stylesheet" th:href="@{/css/fragments.css}"/>
+    <link href="/css/bootstrap.min.css" rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
 </head>
 <body>
-<header th:replace="fragments :: header-lecturer"></header>
-<div class="row">
-    <div class="container col-6" style="text-align: center">
-        <h2>Welcome to E-Learn</h2>
+<header th:replace="fragments :: header-all"></header>
+<div style="display: flex; flex-direction: row;">
+    <div class="col-3">
+        <header th:replace="fragments :: header-lecturer" style="width: 100%;">
+        </header></div>
+    <div class="container" style="margin: auto; display: flex; align-items: center;">
+        <div class="row width:100%">
+            <div style="width: 100%;">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                            <h2 class="welcome-message">Welcome to E-Learn, <span sec:authentication="name"></span>!</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 </body>

@@ -2,14 +2,27 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:replace="fragments :: head"></head>
 <body>
-<header th:replace="fragments :: header-lecturer"></header>
-<form action="#" th:action="@{'/students/page/'+${currentPage}+'/size/'+${pageOfStudents.size}+'/sort/name/direction/'+${sortDirection}}"
-      method="get" class="col-6">
-    <div class="form-group">
-        <input class="form-control" type="text" th:name="searchCriteria"
-               th:placeholder="${searchCriteria == null || searchCriteria.isEmpty()} ? 'Search by name or faculty number' : ${searchCriteria}" id="searchCriteria">
+    <header th:replace="fragments :: header-all"></header>
+    <div style="display: flex; flex-direction: row;">
+        <div class="col-3">
+            <header th:replace="fragments :: header-lecturer" style="width: 100%;">
+            </header></div>
+        <div class="container" style="margin: auto; display: flex; align-items: center;">
+            <div class="row width:100%">
+                <div style="width: 100%;">
+                    <div class="container col" >
+                        <form action="#" th:action="@{'/students/page/'+${currentPage}+'/size/'+${pageOfStudents.size}+'/sort/name/direction/'+${sortDirection}}"
+                              method="get" class="col-12">
+                            <div class="form-group">
+                                <input class="form-control" type="text" th:name="searchCriteria"
+                                       th:placeholder="${searchCriteria == null || searchCriteria.isEmpty()} ? 'Search by name or faculty number' : ${searchCriteria}" id="searchCriteria">
+                            </div>
+                        </form>
+                        <div th:replace="fragments :: students-list" class=" col-6"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</form>
-<div th:replace="fragments :: students-list" class=" col-6"></div>
 </body>
 </html>
