@@ -181,8 +181,8 @@ public class CoursesController {
     @Lecturer
     @PostMapping("/{courseId}/activities/create")
     public String createActivity(@PathVariable("courseId") final Long courseId,
-                                 @RequestParam("studyMaterial") MultipartFile studyMaterial,
-                                 @RequestParam("exam") MultipartFile exam,
+                                 @RequestParam(name = "studyMaterial", required = false) MultipartFile studyMaterial,
+                                 @RequestParam(name = "exam", required = false) MultipartFile exam,
                                  @ModelAttribute("activity") @Valid WeeklyActivityViewModel weeklyActivityViewModel,
                                  BindingResult bindingResult, Model model) throws IOException {
         if (bindingResult.hasErrors()) {
@@ -192,14 +192,14 @@ public class CoursesController {
         final var activity = modelMapper.map(weeklyActivityViewModel, WeeklyActivityDTO.class);
         coursesService.addActivityToACourse(courseId, activity);
 
-        if (!studyMaterial.isEmpty()) {
+        if (studyMaterial != null && !studyMaterial.isEmpty()) {
             final var latestActivityId = activitiesService.getActivitiesByCourseId(courseId).stream()
                     .map(WeeklyActivityDTO::getId)
                     .mapToLong(Long::longValue).max();
             studyMaterialsService.uploadFile(studyMaterial, latestActivityId.getAsLong());
         }
 
-        if (!exam.isEmpty()) {
+        if (exam != null && !exam.isEmpty()) {
             final var latestActivityId = activitiesService.getActivitiesByCourseId(courseId).stream()
                     .map(WeeklyActivityDTO::getId)
                     .mapToLong(Long::longValue).max();
