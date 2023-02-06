@@ -306,10 +306,11 @@ public class CoursesController {
     @Lecturer
     @PostMapping("/exams/{examId}/create-question")
     public String createQuestion(@PathVariable("examId") Long examId,
-                                 @ModelAttribute("question") @Valid CreateQuestionViewModel questionViewModel) {
+                                 @ModelAttribute("question") @Valid CreateQuestionViewModel questionViewModel, Model model) {
         final var question = modelMapper.map(questionViewModel, QuestionDTO.class);
         question.setAnswers(buildAnswers(questionViewModel.getAnswers(), questionViewModel.getCorrectAnswer()));
         examsService.addQuestionToExam(examId, question);
+        model.addAttribute("question", new CreateQuestionViewModel());
         return "/exams/create-question";
     }
 

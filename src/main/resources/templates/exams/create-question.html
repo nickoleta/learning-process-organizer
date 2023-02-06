@@ -23,7 +23,7 @@
                                         <input type="radio" th:field="*{questionType}" th:value="${questionType}"
                                                class="custom-control-input">
                                         <label class="custom-control-label" th:for="${#ids.prev('questionType')}"
-                                               th:text="${questionType}">Question Type</label>
+                                               th:text="${questionType.getViewName()}">Question Type</label>
                                     </div>
                                 </div>
                             </div>
