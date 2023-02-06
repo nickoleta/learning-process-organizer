@@ -130,13 +130,11 @@ and open the template in the editor.
 
 <div th:fragment="activities-list">
     <table th:if="${course.weeklyActivities.size>0}" class=" table purple-table table-hover table-responsive" style=" background-color:#CBC3E3 !important; border-radius: 25px !important; box-shadow: 10px 10px 5px grey;padding-left:30px; padding-right:30px;">
-        <th>Id</th>
         <th>Start Date</th>
         <th>End Date</th>
         <th>Study Materials</th>
         <th>Exams</th>
         <tr th:each="activity : ${course.weeklyActivities}">
-            <td th:text="${activity.id}"></td>
             <td th:text="${activity.startDate}"></td>
             <td th:text="${activity.endDate}"></td>
             <td>

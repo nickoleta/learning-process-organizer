@@ -1,6 +1,5 @@
 package com.nbu.java.practice.learningprocessorganizer.web.view.model.activities;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Generated;
@@ -16,6 +15,8 @@ import java.util.Set;
 public class ActivityViewModel {
 
     private Long id;
+
+
     private LocalDate startDate;
     private LocalDate endDate;
     private Set<StudyMaterialViewModel> studyMaterials;

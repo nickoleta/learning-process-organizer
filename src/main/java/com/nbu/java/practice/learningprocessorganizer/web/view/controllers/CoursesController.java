@@ -230,6 +230,7 @@ public class CoursesController {
     public String deleteActivity(@PathVariable("courseId") final Long courseId, @PathVariable("activityId") final Long activityId, Model model) {
         activitiesService.deleteActivity(activityId);
         model.addAttribute("course", modelMapper.map(coursesService.getCourse(courseId), CourseViewModel.class));
+        model.addAttribute("students", getStudentsWithCourseRegistrationStatus(courseId, studentsService.getAllStudents()));
         return PagesConstants.COURSE_DATA;
     }
 
