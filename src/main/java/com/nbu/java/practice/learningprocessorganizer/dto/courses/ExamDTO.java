@@ -18,6 +18,8 @@ import java.util.List;
 @AllArgsConstructor
 public class ExamDTO {
 
+    private long id;
+
     @NotNull
     @FutureOrPresent
     @DateTimeFormat(pattern = "yyyy-MM-dd")

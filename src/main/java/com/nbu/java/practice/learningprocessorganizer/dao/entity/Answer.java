@@ -26,5 +26,5 @@ public class Answer extends BaseEntity {
     private String value;
 
     @Column(name = "is_correct")
-    private Boolean isCorrect;
+    private Boolean isCorrect = Boolean.FALSE;
 }

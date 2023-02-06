@@ -27,7 +27,11 @@ public class ExamsServiceImpl implements ExamsService {
 
     @Override
     public ExamDTO getExam(long examId) {
-        return modelMapper.map(examsRepository.findById(examId), ExamDTO.class);
+        final var exam = examsRepository.findById(examId);
+        if(exam.isEmpty()) {
+            throw new ResourceNotFoundException(ResourceNotFoundException.EXAM_DOES_NOT_EXIST, examId);
+        }
+        return modelMapper.map(exam.get(), ExamDTO.class);
     }
 
     @Override

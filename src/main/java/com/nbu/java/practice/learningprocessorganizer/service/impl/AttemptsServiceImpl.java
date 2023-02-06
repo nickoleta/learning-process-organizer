@@ -14,6 +14,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -62,6 +63,24 @@ public class AttemptsServiceImpl implements AttemptsService {
                     resultEntity.setQuestion(questionsRepository.findById(result.getQuestionId()).get());
                     resultEntity.setAttempt(attempt);
                     resultEntity.setGivenAnswer(result.getGivenAnswer());
+                    return resultEntity;
+                }).collect(Collectors.toList());
+        resultsRepository.saveAll(resultEntities);
+    }
+
+    @Override
+    public void addResultsToAttempt(Long attemptId, Map<Long, String> results) {
+        final var attemptOpt = attemptsRepository.findById(attemptId);
+        if (attemptOpt.isEmpty()) {
+            throw new ResourceNotFoundException();
+        }
+        final var attempt = attemptOpt.get();
+        final var resultEntities = results.entrySet().stream()
+                .map(result -> {
+                    final var resultEntity = new Result();
+                    resultEntity.setQuestion(questionsRepository.findById(result.getKey()).get());
+                    resultEntity.setAttempt(attempt);
+                    resultEntity.setGivenAnswer(result.getValue());
                     return resultEntity;
                 }).collect(Collectors.toList());
         resultsRepository.saveAll(resultEntities);

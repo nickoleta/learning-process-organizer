@@ -42,6 +42,7 @@ public class Attempt extends BaseEntity {
         this.student = student;
         this.exam = exam;
         this.results = results;
+        this.grade = 2;
     }
 
 }

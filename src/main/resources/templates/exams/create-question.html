@@ -2,45 +2,63 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments :: head"></head>
 <body>
-<header th:replace="fragments :: header-lecturer"></header>
-<div class="col-6">
-    <form action="#" th:action="@{'/courses/exams/'+${examId}+'/create-question'}" th:object="${question}"
-          method="post">
-        <div class="form-group">
-            <div class="form-group">
-                <label>Task Type</label>
-                <div th:each="questionType : ${T(com.nbu.java.practice.learningprocessorganizer.dao.entity.QuestionType).values()}">
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" th:field="*{questionType}" th:value="${questionType}"
-                               class="custom-control-input">
-                        <label class="custom-control-label" th:for="${#ids.prev('questionType')}"
-                               th:text="${questionType}">Question Type</label>
-                    </div>
+<header th:replace="fragments :: header-all"></header>
+<div style="display: flex; flex-direction: row;">
+    <div class="col-3">
+        <header th:replace="fragments :: header-lecturer" style="width: 100%;">
+        </header>
+    </div>
+    <div class="container" style="margin: auto; display: flex; align-items: center;">
+        <div class="col width:80%">
+            <div style="width: 100%;">
+                <div class="col-9">
+                    <form action="#" th:action="@{'/courses/exams/'+${examId}+'/create-question'}"
+                          th:object="${question}"
+                          method="post">
+                        <div class="form-group">
+                            <div class="form-group">
+                                <label>Task Type</label>
+                                <div th:each="questionType : ${T(com.nbu.java.practice.learningprocessorganizer.dao.entity.QuestionType).values()}">
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" th:field="*{questionType}" th:value="${questionType}"
+                                               class="custom-control-input">
+                                        <label class="custom-control-label" th:for="${#ids.prev('questionType')}"
+                                               th:text="${questionType}">Question Type</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="question">Question</label>
+                                <input class="form-control" type="text" th:field="*{question}" placeholder="Question"
+                                       id="question">
+                                <span class="text-danger" th:if="${#fields.hasErrors('question')}"
+                                      th:errors="*{question}">Question Error</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="answers">Answers</label>
+                                <input class="form-control" type="text" th:field="*{answers}" placeholder="Answers"
+                                       id="answers">
+                                <span class="text-danger" th:if="${#fields.hasErrors('answers')}"
+                                      th:errors="*{answers}">Answers Error</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="correctAnswer">Correct Answer</label>
+                                <input class="form-control" type="text" th:field="*{correctAnswer}"
+                                       placeholder="Answers"
+                                       id="correctAnswer">
+                                <span class="text-danger" th:if="${#fields.hasErrors('correctAnswer')}"
+                                      th:errors="*{correctAnswer}">Answers Error</span>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save current question and continue</button>
+                    </form>
+                    <form action="#" th:action="@{'/courses/exams/'+${examId}+'/publish'}" th:method="post">
+                        <button type="submit" class="btn btn-primary">Publish Exam</button>
+                    </form>
                 </div>
             </div>
-            <div class="form-group">
-                <label for="question">Question</label>
-                <input class="form-control" type="text" th:field="*{question}" placeholder="Question" id="question">
-                <span class="text-danger" th:if="${#fields.hasErrors('question')}" th:errors="*{question}">Question Error</span>
-            </div>
-            <div class="form-group">
-                <label for="answers">Answers</label>
-                <input class="form-control" type="text" th:field="*{answers}" placeholder="Answers" id="answers">
-                <span class="text-danger" th:if="${#fields.hasErrors('answers')}"
-                      th:errors="*{answers}">Answers Error</span>
-            </div>
-            <div class="form-group">
-                <label for="correctAnswer">Correct Answer</label>
-                <input class="form-control" type="text" th:field="*{correctAnswer}" placeholder="Answers"
-                       id="correctAnswer">
-                <span class="text-danger" th:if="${#fields.hasErrors('correctAnswer')}" th:errors="*{correctAnswer}">Answers Error</span>
-            </div>
         </div>
-        <button type="submit" class="btn btn-primary">Save current question and continue</button>
-    </form>
-    <form action="#" th:action="@{'/courses/exams/'+${examId}+'/publish'}" th:method="post">
-        <button type="submit" class="btn btn-primary">Publish Exam</button>
-    </form>
+    </div>
 </div>
 </body>
 </html>

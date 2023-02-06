@@ -14,6 +14,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class QuestionDTO {
 
+    private long id;
     private String question;
     private QuestionType questionType;
     private Set<AnswerDTO> answers;

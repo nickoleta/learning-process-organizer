@@ -53,6 +53,7 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -275,11 +276,26 @@ public class CoursesController {
 
     @Student
     @GetMapping("/exams/{examId}/make-attempt")
-    public String showMakeAttemptView(@PathVariable("examId") Long examId, Model model, Authentication authentication) {
-        final var studentId = ((UserIdentity) authentication.getPrincipal()).getStudent().getId();
-        model.addAttribute("exam", examsService.getExam(examId));
-        attemptsService.makeAttempt(studentId, examId);
+    public String showMakeAttemptView(@PathVariable("examId") Long examId, Model model) {
+
+        final var exam = examsService.getExam(examId);
+        Map<Long, String> results = exam.getQuestions().stream()
+                .collect(Collectors.toMap(QuestionDTO::getId, e -> ""));
+        model.addAllAttributes(Map.of(
+                "results", new HashMap<Long, String>(),
+                "exam", exam));
         return "/exams/exam-attempt";
+    }
+
+    @Student
+    @PostMapping("/exams/{examId}/make-attempt")
+    public String makeAttempt(@PathVariable("examId") Long examId, Authentication authentication,
+                              @ModelAttribute("results") Map<Long, String> results) {
+        final var studentId = ((UserIdentity) authentication.getPrincipal()).getStudent().getId();
+        attemptsService.makeAttempt(studentId, examId);
+        attemptsService.addResultsToAttempt(0L, results);
+//        attemptsService.updateAttempt(attemptId, attempt);
+        return "/courses/course-data";
     }
 
     @Lecturer
