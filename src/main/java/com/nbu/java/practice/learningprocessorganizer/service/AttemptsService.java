@@ -10,7 +10,7 @@ public interface AttemptsService {
 
     Attempt getAttempt(long id);
 
-    void makeAttempt(long studentId, long examId);
+    Attempt makeAttempt(long studentId, long examId);
 
     void addResultsToAttempt(Long attemptId, List<ResultRequestBody> results);
 

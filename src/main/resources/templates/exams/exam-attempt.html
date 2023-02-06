@@ -7,36 +7,52 @@
     <div class="col-3">
         <header th:replace="fragments :: header-student" style="width: 100%;"></header>
     </div>
+<!--    <div class="container" style="margin: auto; display: flex; align-items: center;">-->
+<!--        <div class="col width:80%">-->
+<!--            <div style="width: 100%;">-->
+<!--                <div class="col-6">-->
+<!--                    <form action="#" th:action="@{'/courses/exams/'+${examId}+'/'+${attemptId}+'/'+${question.id}+'/make-attempt'}" th:method="post"  th:object="${result}">-->
+<!--                        <div class="form-group">-->
+<!--                            <label th:text="${question.question}">Question</label>-->
+<!--                            <div th:if="${question.questionType == T(com.nbu.java.practice.learningprocessorganizer.dao.entity.QuestionType).MULTIPLE_CHOICE-->
+<!--                                       || question.questionType == T(com.nbu.java.practice.learningprocessorganizer.dao.entity.QuestionType).TRUE_FALSE}">-->
+<!--                                <div th:each="answer : ${question.answers}">-->
+<!--                                    <div class="custom-control custom-radio custom-control-inline">-->
+<!--                                        <input type="radio" th:field="*{selectedAnswer}" th:value="${answer.value}" class="custom-control-input">-->
+<!--                                        <label class="custom-control-label" th:text="${answer.value}"></label>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <button type="submit" class="btn btn-primary">Next question</button>-->
+<!--                    </form>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
     <div class="container" style="margin: auto; display: flex; align-items: center;">
         <div class="col width:80%">
             <div style="width: 100%;">
-                <div class="col-6">
-                    <form th:object="${exam}"
-                          method="post">
-                        <div class="form-group" th:each="question : ${exam.questions}">
+                <div class="col-9">
+                    <form action="#" th:action="@{'/courses/exams/'+${examId}+'/'+${attemptId}+'/'+${question.id}+'/make-attempt/'+${questionIdx}}" th:object="${result}" method="post">
+                        <div class="form-group">
                             <div class="form-group">
-                            </div>
-                            <div class="form-group">
-                                <label th:text="${question.question}">Question</label>
-                            </div>
-                            <div th:if="${question.questionType == T(com.nbu.java.practice.learningprocessorganizer.dao.entity.QuestionType).MULTIPLE_CHOICE
-                                       || question.questionType == T(com.nbu.java.practice.learningprocessorganizer.dao.entity.QuestionType).TRUE_FALSE}">
-                                <div class="form-group" th:each="answer : ${question.answers}">
+                                <label th:text="${question.question}"></label>
+                                <div th:each="answer : ${question.answers}">
                                     <div class="custom-control custom-radio custom-control-inline">
-                                        <input type="radio" th:value="${answer.value}" class="custom-control-input">
-                                        <label class="custom-control-label" th:text="${answer.value}"></label>
+                                        <input type="radio" th:field="*{selectedAnswer}" th:value="${answer.value}" class="custom-control-input">
+                                        <label class="custom-control-label" th:for="${#ids.prev('selectedAnswer')}" th:text="${answer.value}"></label>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </form>
-                    <form action="#" th:action="@{'/courses/exams/'+${examId}+'/publish'}" th:method="post">
-                        <button type="submit" class="btn btn-primary">Save attempt</button>
+                        <button type="submit" class="btn btn-primary">Next question</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+
 </div>
 </body>
 </html>

@@ -14,16 +14,20 @@ import com.nbu.java.practice.learningprocessorganizer.dto.courses.ExamDTO;
 import com.nbu.java.practice.learningprocessorganizer.dto.courses.QuestionDTO;
 import com.nbu.java.practice.learningprocessorganizer.dto.students.RegisteredStudentDTO;
 import com.nbu.java.practice.learningprocessorganizer.dto.students.StudentDTO;
+import com.nbu.java.practice.learningprocessorganizer.exceptions.ResourceNotFoundException;
 import com.nbu.java.practice.learningprocessorganizer.service.ActivitiesService;
 import com.nbu.java.practice.learningprocessorganizer.service.AttemptsService;
 import com.nbu.java.practice.learningprocessorganizer.service.CoursesService;
 import com.nbu.java.practice.learningprocessorganizer.service.ExamsService;
 import com.nbu.java.practice.learningprocessorganizer.service.StudentsService;
 import com.nbu.java.practice.learningprocessorganizer.service.StudyMaterialsService;
+import com.nbu.java.practice.learningprocessorganizer.util.GradeCalculator;
 import com.nbu.java.practice.learningprocessorganizer.web.view.controllers.constants.PagesConstants;
 import com.nbu.java.practice.learningprocessorganizer.web.view.controllers.constants.SortingConstants;
 import com.nbu.java.practice.learningprocessorganizer.web.view.model.WeeklyActivityViewModel;
 import com.nbu.java.practice.learningprocessorganizer.web.view.model.activities.ExamViewModel;
+import com.nbu.java.practice.learningprocessorganizer.web.view.model.attempts.QuestionViewModel;
+import com.nbu.java.practice.learningprocessorganizer.web.view.model.attempts.ResultViewModel;
 import com.nbu.java.practice.learningprocessorganizer.web.view.model.courses.CourseViewModel;
 import com.nbu.java.practice.learningprocessorganizer.web.view.model.courses.CreateCourseViewModel;
 import com.nbu.java.practice.learningprocessorganizer.web.view.model.questions.CreateQuestionViewModel;
@@ -45,6 +49,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -55,9 +60,9 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -280,27 +285,53 @@ public class CoursesController {
     }
 
     @Student
-    @GetMapping("/exams/{examId}/make-attempt")
-    public String showMakeAttemptView(@PathVariable("examId") Long examId, Model model) {
+    @GetMapping(path = {"/exams/{examId}/make-attempt/{questionIdx}", "/exams/{examId}/make-attempt"})
+    public String showMakeAttemptView(@PathVariable("examId") Long examId,
+                                      @PathVariable(name = "questionIdx", required = false) Integer questionIdx,
+                                      Authentication authentication, Model model) {
+        final var studentId = ((UserIdentity) authentication.getPrincipal()).getStudent().getId();
+        final var attempt = attemptsService.makeAttempt(studentId, examId);
 
         final var exam = examsService.getExam(examId);
-        Map<Long, String> results = exam.getQuestions().stream()
-                .collect(Collectors.toMap(QuestionDTO::getId, e -> ""));
+        QuestionViewModel nextQuestion;
+        nextQuestion = modelMapper.map(exam.getQuestions().get(Objects.requireNonNullElse(questionIdx, 0)), QuestionViewModel.class);
         model.addAllAttributes(Map.of(
-                "results", new HashMap<Long, String>(),
-                "exam", exam));
+                "attemptId", attempt.getId(),
+                "question", nextQuestion,
+                "questionIdx", questionIdx == null ? 0 : questionIdx,
+                "result", new ResultViewModel()));
         return "/exams/exam-attempt";
     }
 
     @Student
-    @PostMapping("/exams/{examId}/make-attempt")
-    public String makeAttempt(@PathVariable("examId") Long examId, Authentication authentication,
-                              @ModelAttribute("results") Map<Long, String> results) {
-        final var studentId = ((UserIdentity) authentication.getPrincipal()).getStudent().getId();
-        attemptsService.makeAttempt(studentId, examId);
-        attemptsService.addResultsToAttempt(0L, results);
-//        attemptsService.updateAttempt(attemptId, attempt);
-        return "/courses/course-data";
+    @PostMapping("/exams/{examId}/{attemptId}/{questionId}/make-attempt/{questionIdx}")
+    public String makeAttempt(@PathVariable("examId") Long examId,
+                              @PathVariable("questionId") Long questionId,
+                              @PathVariable("questionIdx") Long questionIdx,
+                              @PathVariable("attemptId") Long attemptId,
+                              @ModelAttribute("result") @RequestBody ResultViewModel resultViewModel,
+                              Model model) {
+        final var exam = examsService.getExam(examId);
+        if (exam == null) {
+            throw new ResourceNotFoundException(ResourceNotFoundException.EXAM_DOES_NOT_EXIST, examId);
+        }
+        final var questions = exam.getQuestions();
+
+        attemptsService.addResultsToAttempt(attemptId, Map.of(questionId, resultViewModel.getSelectedAnswer()));
+        if (questionIdx >= questions.size() - 1) {
+            final var attempt = attemptsService.getAttempt(attemptId);
+            final var grade = GradeCalculator.calculateGrade(attempt);
+            attempt.setGrade(grade);
+            attemptsService.updateAttempt(attemptId, attempt);
+            model.addAttribute("grade", grade);
+            return "/exams/exam-grade";
+        }
+
+        final var nextQuestion = questions.get(Math.toIntExact(questionIdx) + 1);
+        model.addAttribute("question", modelMapper.map(nextQuestion, QuestionViewModel.class));
+        model.addAttribute("questionIdx", ++questionIdx);
+
+        return "/exams/exam-attempt";
     }
 
     @Lecturer

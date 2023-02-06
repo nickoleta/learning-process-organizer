@@ -5,25 +5,20 @@
 <header th:replace="fragments :: header-all"></header>
 <div style="display: flex; flex-direction: row;">
     <div class="col-3">
-        <header th:replace="fragments :: header-lecturer" style="width: 100%;">
-        </header>
+        <header th:replace="fragments :: header-lecturer" style="width: 100%;"></header>
     </div>
     <div class="container" style="margin: auto; display: flex; align-items: center;">
         <div class="col width:80%">
             <div style="width: 100%;">
                 <div class="col-9">
-                    <form action="#" th:action="@{'/courses/exams/'+${examId}+'/create-question'}"
-                          th:object="${question}"
-                          method="post">
+                    <form action="#" th:action="@{'/courses/exams/'+${examId}+'/create-question'}" th:object="${question}" method="post">
                         <div class="form-group">
                             <div class="form-group">
                                 <label>Task Type</label>
                                 <div th:each="questionType : ${T(com.nbu.java.practice.learningprocessorganizer.dao.entity.QuestionType).values()}">
                                     <div class="custom-control custom-radio custom-control-inline">
-                                        <input type="radio" th:field="*{questionType}" th:value="${questionType}"
-                                               class="custom-control-input">
-                                        <label class="custom-control-label" th:for="${#ids.prev('questionType')}"
-                                               th:text="${questionType.getViewName()}">Question Type</label>
+                                        <input type="radio" th:field="*{questionType}" th:value="${questionType}" class="custom-control-input">
+                                        <label class="custom-control-label" th:for="${#ids.prev('questionType')}" th:text="${questionType.getViewName()}">Question Type</label>
                                     </div>
                                 </div>
                             </div>

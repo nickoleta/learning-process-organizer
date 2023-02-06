@@ -37,7 +37,7 @@ public class AttemptsServiceImpl implements AttemptsService {
     }
 
     @Override
-    public void makeAttempt(long studentId, long examId) {
+    public Attempt makeAttempt(long studentId, long examId) {
         final var studentOpt = studentsRepository.findById(studentId);
         if (studentOpt.isEmpty()) {
             throw new ResourceNotFoundException(ResourceNotFoundException.STUDENT_DOES_NOT_EXIST, studentId);
@@ -47,7 +47,7 @@ public class AttemptsServiceImpl implements AttemptsService {
             throw new ResourceNotFoundException(ResourceNotFoundException.EXAM_DOES_NOT_EXIST, studentId);
         }
 
-        attemptsRepository.save(new Attempt(studentOpt.get(), examOpt.get(), List.of()));
+        return attemptsRepository.save(new Attempt(studentOpt.get(), examOpt.get(), List.of()));
     }
 
     @Override

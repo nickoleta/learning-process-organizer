@@ -62,8 +62,8 @@ public final class GradeCalculator {
     }
 
     private static double calculatePercentage(int correctlyAnsweredQuestions, int allQuestions) {
-        final var pointsPerQuestion = MAX_POINTS / allQuestions;
-        final var collectedPoints = correctlyAnsweredQuestions * pointsPerQuestion;
+        final double pointsPerQuestion = MAX_POINTS / allQuestions;
+        final double collectedPoints = correctlyAnsweredQuestions * pointsPerQuestion;
         return collectedPoints / MAX_POINTS * MAX_PERCENTAGE;
     }
 
@@ -72,7 +72,7 @@ public final class GradeCalculator {
         for (Question question : questions) {
             final var questionId = question.getId();
             final var correctAnswerOpt = question.getAnswers().stream()
-                    .filter(Answer::getIsCorrect)
+                    .filter(answer -> answer.getIsCorrect() != null && answer.getIsCorrect())
                     .map(Answer::getValue)
                     .findAny();
             if (correctAnswerOpt.isEmpty()) {

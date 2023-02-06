@@ -14,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 public class QuestionViewModel {
 
+    private long id;
     private String question;
     private QuestionType questionType;
     private List<AnswerViewModel> answers;
