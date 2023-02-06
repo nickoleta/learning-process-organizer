@@ -13,4 +13,5 @@ public class UpdateStudentDTO {
 
     private long studentId;
     private String name;
+    private String fn;
 }

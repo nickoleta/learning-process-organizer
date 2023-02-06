@@ -71,6 +71,7 @@ public class StudentsServiceImpl implements StudentsService {
         }
         final var student = studentOpt.get();
         student.setName(updateStudent.getName());
+        student.setFn(updateStudent.getFn());
         studentsRepository.save(student);
     }
 
