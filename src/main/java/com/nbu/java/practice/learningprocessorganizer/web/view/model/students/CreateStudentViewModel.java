@@ -6,8 +6,7 @@ import lombok.Generated;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Data
@@ -16,7 +15,7 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 public class CreateStudentViewModel {
 
-    @NotBlank
+    @NotBlank(message = "The name of as student cannot be empty")
     @Size(max = 25)
     private String name;
 
@@ -24,11 +23,10 @@ public class CreateStudentViewModel {
     @Size(min = 6, max = 6, message = "A valid faculty number contains 6 numbers")
     private String fn;
 
-    @NotNull
-    @NotEmpty
+    @NotBlank(message = "A username is required")
     private String username;
 
-    @NotNull
-    @NotEmpty
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$",
+            message = "A strong password contains at least 8 characters, a lower case letter, an upper case letter, a digit and a special character")
     private String password;
 }

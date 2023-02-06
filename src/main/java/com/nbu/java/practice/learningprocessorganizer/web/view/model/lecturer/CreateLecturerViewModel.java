@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Data
@@ -24,7 +25,7 @@ public class CreateLecturerViewModel {
     @NotEmpty
     private String username;
 
-    @NotNull
-    @NotEmpty
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$",
+            message = "A strong password contains at least 8 characters, a lower case letter, an upper case letter, a digit and a special character")
     private String password;
 }

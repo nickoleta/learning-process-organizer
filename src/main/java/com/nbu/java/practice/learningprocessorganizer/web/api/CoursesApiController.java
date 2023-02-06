@@ -1,6 +1,7 @@
 package com.nbu.java.practice.learningprocessorganizer.web.api;
 
 import com.nbu.java.practice.learningprocessorganizer.annotations.Lecturer;
+import com.nbu.java.practice.learningprocessorganizer.dto.courses.CourseDataDTO;
 import com.nbu.java.practice.learningprocessorganizer.web.api.dto.request.WeeklyActivityRequestBody;
 import com.nbu.java.practice.learningprocessorganizer.web.api.dto.request.courses.CreateCourseRequestBody;
 import com.nbu.java.practice.learningprocessorganizer.dto.activity.WeeklyActivityDTO;
@@ -36,7 +37,7 @@ public class CoursesApiController {
     }
 
     @GetMapping("/{courseId}")
-    public ResponseEntity<CourseDTO> getCourse(@PathVariable("courseId") final Long courseId) {
+    public ResponseEntity<CourseDataDTO> getCourse(@PathVariable("courseId") final Long courseId) {
         return ResponseEntity.ok(coursesService.getCourse(courseId));
     }
 

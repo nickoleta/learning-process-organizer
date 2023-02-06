@@ -8,6 +8,7 @@ import com.nbu.java.practice.learningprocessorganizer.dao.repository.StudentsRep
 import com.nbu.java.practice.learningprocessorganizer.dao.repository.WeeklyActivityRepository;
 import com.nbu.java.practice.learningprocessorganizer.dto.activity.WeeklyActivityDTO;
 import com.nbu.java.practice.learningprocessorganizer.dto.courses.CourseDTO;
+import com.nbu.java.practice.learningprocessorganizer.dto.courses.CourseDataDTO;
 import com.nbu.java.practice.learningprocessorganizer.exceptions.ResourceNotFoundException;
 import com.nbu.java.practice.learningprocessorganizer.service.CoursesService;
 import lombok.AllArgsConstructor;
@@ -30,12 +31,12 @@ public class CoursesServiceImpl implements CoursesService {
     private final ModelMapper modelMapper;
 
     @Override
-    public CourseDTO getCourse(long courseId) {
+    public CourseDataDTO getCourse(long courseId) {
         final var course = coursesRepository.findById(courseId);
         if (course.isEmpty()) {
             throw new ResourceNotFoundException(ResourceNotFoundException.COURSE_DOES_NOT_EXIST, courseId);
         }
-        return modelMapper.map(course.get(), CourseDTO.class);
+        return modelMapper.map(course.get(), CourseDataDTO.class);
     }
 
     @Override

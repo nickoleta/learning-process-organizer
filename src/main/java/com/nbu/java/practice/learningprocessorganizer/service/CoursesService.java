@@ -2,6 +2,7 @@ package com.nbu.java.practice.learningprocessorganizer.service;
 
 import com.nbu.java.practice.learningprocessorganizer.dto.activity.WeeklyActivityDTO;
 import com.nbu.java.practice.learningprocessorganizer.dto.courses.CourseDTO;
+import com.nbu.java.practice.learningprocessorganizer.dto.courses.CourseDataDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -9,7 +10,7 @@ import java.util.Collection;
 
 public interface CoursesService {
 
-    CourseDTO getCourse(long courseId);
+    CourseDataDTO getCourse(long courseId);
 
     Collection<CourseDTO> getAllCourses();
 

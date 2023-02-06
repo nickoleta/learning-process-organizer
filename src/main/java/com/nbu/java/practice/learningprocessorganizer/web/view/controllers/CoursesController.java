@@ -9,6 +9,7 @@ import com.nbu.java.practice.learningprocessorganizer.dto.UserRole;
 import com.nbu.java.practice.learningprocessorganizer.dto.activity.WeeklyActivityDTO;
 import com.nbu.java.practice.learningprocessorganizer.dto.courses.AnswerDTO;
 import com.nbu.java.practice.learningprocessorganizer.dto.courses.CourseDTO;
+import com.nbu.java.practice.learningprocessorganizer.dto.courses.CourseDataDTO;
 import com.nbu.java.practice.learningprocessorganizer.dto.courses.ExamDTO;
 import com.nbu.java.practice.learningprocessorganizer.dto.courses.QuestionDTO;
 import com.nbu.java.practice.learningprocessorganizer.dto.students.RegisteredStudentDTO;
@@ -53,6 +54,7 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -154,7 +156,7 @@ public class CoursesController {
         return PagesConstants.COURSE_DATA;
     }
 
-    private Set<RegisteredStudentDTO> getStudentsWithCourseRegistrationStatus(long courseId, Collection<StudentDTO> students) {
+    private List<RegisteredStudentDTO> getStudentsWithCourseRegistrationStatus(long courseId, Collection<StudentDTO> students) {
         return students.stream()
                 .map(student -> {
                     final var groupingDto = new RegisteredStudentDTO();
@@ -163,11 +165,13 @@ public class CoursesController {
                     groupingDto.setName(student.getName());
                     final var courses = student.getCourses();
                     if (courses != null && !courses.isEmpty()) {
-                        final var courseIds = courses.stream().map(CourseDTO::getId).collect(Collectors.toSet());
+                        final var courseIds = courses.stream().map(CourseDataDTO::getId).collect(Collectors.toSet());
                         groupingDto.setRegistered(courseIds.contains(courseId));
                     }
                     return groupingDto;
-                }).collect(Collectors.toSet());
+                })
+                .sorted(Comparator.comparing(RegisteredStudentDTO::isRegistered).reversed())
+                .collect(Collectors.toList());
     }
 
     @Lecturer

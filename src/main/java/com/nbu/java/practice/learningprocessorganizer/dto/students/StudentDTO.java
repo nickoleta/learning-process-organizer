@@ -1,6 +1,6 @@
 package com.nbu.java.practice.learningprocessorganizer.dto.students;
 
-import com.nbu.java.practice.learningprocessorganizer.dto.courses.CourseDTO;
+import com.nbu.java.practice.learningprocessorganizer.dto.courses.CourseDataDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Generated;
@@ -17,5 +17,5 @@ public class StudentDTO {
     private long id;
     private String fn;
     private String name;
-    private Set<CourseDTO> courses;
+    private Set<CourseDataDTO> courses;
 }
