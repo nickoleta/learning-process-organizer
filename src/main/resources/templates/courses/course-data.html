@@ -35,7 +35,7 @@
                                         <tr th:each="student : ${students}">
                                             <td th:text="${student.name}"></td>
                                             <td th:text="${student.fn}"></td>
-                                            <td th:text="${student.isRegistered}"></td>
+                                            <td th:text="${student.isRegistered} ? 'Yes' : 'No'"></td>
                                             <td><a class="btn btn-success" th:href="@{'/courses/'+${courseId}+'/students/'+${student.id}+'/assign'}">Add student</a></td>
                                             <td><a class="btn btn-danger" th:href="@{'/courses/'+${courseId}+'/students/'+${student.id}+'/remove'}">Remove student</a></td>
                                         </tr>

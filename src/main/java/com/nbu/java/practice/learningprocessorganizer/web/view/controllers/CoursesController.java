@@ -303,17 +303,23 @@ public class CoursesController {
     @Lecturer
     @GetMapping("/{courseId}/students/{studentId}/assign")
     public String addStudentToACourse(@PathVariable("courseId") final Long courseId,
-                                      @PathVariable("studentId") final Long studentId) {
+                                      @PathVariable("studentId") final Long studentId,
+                                      Model model) {
         coursesService.addStudentToCourse(courseId, studentId);
-        return String.format("/courses/%s/data", courseId);
+        model.addAttribute("course", modelMapper.map(coursesService.getCourse(courseId), CourseViewModel.class));
+        model.addAttribute("students", getStudentsWithCourseRegistrationStatus(courseId, studentsService.getAllStudents()));
+        return "/courses/course-data";
     }
 
     @Lecturer
     @GetMapping("/{courseId}/students/{studentId}/remove")
     public String removeStudentFromACourse(@PathVariable("courseId") final Long courseId,
-                                           @PathVariable("studentId") final Long studentId) {
+                                           @PathVariable("studentId") final Long studentId,
+                                           Model model) {
         coursesService.removeStudentToCourse(courseId, studentId);
-        return String.format("/courses/%s/data", courseId);
+        model.addAttribute("course", modelMapper.map(coursesService.getCourse(courseId), CourseViewModel.class));
+        model.addAttribute("students", getStudentsWithCourseRegistrationStatus(courseId, studentsService.getAllStudents()));
+        return "/courses/course-data";
     }
 
     private Set<AnswerDTO> buildAnswers(String answersSet, String correctAnswer) {
