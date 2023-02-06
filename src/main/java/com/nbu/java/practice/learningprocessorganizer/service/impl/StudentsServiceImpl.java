@@ -76,6 +76,10 @@ public class StudentsServiceImpl implements StudentsService {
 
     @Override
     public void deleteStudent(long id) {
-        usersRepository.deleteByStudentId(id);
+        final var student = studentsRepository.findById(id);
+        if (student.isEmpty()) {
+            throw new ResourceNotFoundException(ResourceNotFoundException.STUDENT_DOES_NOT_EXIST, id);
+        }
+        studentsRepository.deleteById(id);
     }
 }
