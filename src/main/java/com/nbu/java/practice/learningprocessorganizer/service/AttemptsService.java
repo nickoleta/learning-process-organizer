@@ -5,10 +5,13 @@ import com.nbu.java.practice.learningprocessorganizer.web.api.dto.request.exams.
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public interface AttemptsService {
 
     Attempt getAttempt(long id);
+
+    Optional<Attempt> getAttempt(long studentId, long examId);
 
     Attempt makeAttempt(long studentId, long examId);
 

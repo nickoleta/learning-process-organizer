@@ -57,6 +57,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
@@ -289,10 +290,20 @@ public class CoursesController {
     public String showMakeAttemptView(@PathVariable("examId") Long examId,
                                       @PathVariable(name = "questionIdx", required = false) Integer questionIdx,
                                       Authentication authentication, Model model) {
+        final var exam = examsService.getExam(examId);
+        if(exam.getOpenFrom().isAfter(LocalDate.now()) || exam.getOpenTo().isBefore(LocalDate.now())) {
+            model.addAttribute("examTimeMsg", String.format("Exam submissions can be attached from %s to %s.", exam.getOpenFrom(), exam.getOpenTo()));
+            return "/exams/exam-grade";
+        }
+
         final var studentId = ((UserIdentity) authentication.getPrincipal()).getStudent().getId();
+        final var previousAttempt = attemptsService.getAttempt(studentId, examId);
+        if(previousAttempt.isPresent()) {
+            model.addAttribute("grade", previousAttempt.get().getGrade());
+            return "/exams/exam-grade";
+        }
         final var attempt = attemptsService.makeAttempt(studentId, examId);
 
-        final var exam = examsService.getExam(examId);
         QuestionViewModel nextQuestion;
         nextQuestion = modelMapper.map(exam.getQuestions().get(Objects.requireNonNullElse(questionIdx, 0)), QuestionViewModel.class);
         model.addAllAttributes(Map.of(

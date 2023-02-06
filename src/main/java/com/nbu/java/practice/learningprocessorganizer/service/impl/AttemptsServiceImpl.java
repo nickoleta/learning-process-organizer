@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,6 +35,11 @@ public class AttemptsServiceImpl implements AttemptsService {
             throw new ResourceNotFoundException();
         }
         return attemptOpt.get();
+    }
+
+    @Override
+    public Optional<Attempt> getAttempt(long studentId, long examId) {
+        return attemptsRepository.findByStudentIdAndExamId(studentId, examId);
     }
 
     @Override

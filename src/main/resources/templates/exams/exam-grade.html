@@ -11,7 +11,8 @@
         <div class="col width:80%">
             <div style="width: 100%;">
                 <div class="col-9">
-                    <label th:text="'Your grade is '+${grade}"></label>
+                    <h5 th:if="${examTimeMsg != null}" th:text="${examTimeMsg}"></h5>
+                    <h5 th:if="${grade != null}" th:text="'Your grade is '+${grade}"></h5>
                 </div>
             </div>
         </div>
