@@ -23,14 +23,11 @@
                                        || question.questionType == T(com.nbu.java.practice.learningprocessorganizer.dao.entity.QuestionType).TRUE_FALSE}">
                                 <div class="form-group" th:each="answer : ${question.answers}">
                                     <div class="custom-control custom-radio custom-control-inline">
-                                        <input type="radio" th:field="${results[1]}" th:value="${answer.value}" class="custom-control-input">
+                                        <input type="radio" th:value="${answer.value}" class="custom-control-input">
                                         <label class="custom-control-label" th:text="${answer.value}"></label>
                                     </div>
                                 </div>
                             </div>
-<!--                            <div th:if="${question.questionType == T(com.nbu.java.practice.learningprocessorganizer.dao.entity.QuestionType).OPEN_ANSWER}">-->
-<!--                                <input type="text" th:field="${question.givenAnswer}">-->
-<!--                            </div>-->
                         </div>
                     </form>
                     <form action="#" th:action="@{'/courses/exams/'+${examId}+'/publish'}" th:method="post">
