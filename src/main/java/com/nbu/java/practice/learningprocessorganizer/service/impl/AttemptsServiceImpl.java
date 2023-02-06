@@ -7,12 +7,14 @@ import com.nbu.java.practice.learningprocessorganizer.dao.repository.ExamsReposi
 import com.nbu.java.practice.learningprocessorganizer.dao.repository.QuestionsRepository;
 import com.nbu.java.practice.learningprocessorganizer.dao.repository.ResultsRepository;
 import com.nbu.java.practice.learningprocessorganizer.dao.repository.StudentsRepository;
+import com.nbu.java.practice.learningprocessorganizer.dto.courses.SubmissionDTO;
 import com.nbu.java.practice.learningprocessorganizer.exceptions.ResourceNotFoundException;
 import com.nbu.java.practice.learningprocessorganizer.service.AttemptsService;
 import com.nbu.java.practice.learningprocessorganizer.web.api.dto.request.exams.ResultRequestBody;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -40,6 +42,14 @@ public class AttemptsServiceImpl implements AttemptsService {
     @Override
     public Optional<Attempt> getAttempt(long studentId, long examId) {
         return attemptsRepository.findByStudentIdAndExamId(studentId, examId);
+    }
+
+    @Override
+    public Collection<SubmissionDTO> getAttempts(long examId) {
+        final var attempts = attemptsRepository.findByExamId(examId);
+        return attempts.stream()
+                .map(attempt -> new SubmissionDTO(attempt.getGrade(), attempt.getStudent().getName(), attempt.getStudent().getFn()))
+                .collect(Collectors.toList());
     }
 
     @Override

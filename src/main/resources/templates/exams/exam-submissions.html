@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head"></head>
+<body>
+<header th:replace="fragments :: header-all"></header>
+<div style="display: flex; flex-direction: row;">
+    <div class="col-3">
+        <header th:replace="fragments :: header-lecturer" style="width: 100%;"></header>
+    </div>
+    <div class="container" style="margin: auto; display: flex; align-items: center;">
+        <div class="col width:80%">
+            <div style="width: 100%;">
+                <div class="col-9">
+                    <table th:if="${submissions.size>0}" class=" table purple-table table-hover table-responsive" style=" background-color:#CBC3E3 !important; border-radius: 25px !important; box-shadow: 10px 10px 5px grey;padding-left:30px; padding-right:30px;">
+                        <th>Student</th>
+                        <th>Faculty number</th>
+                        <th>Grade</th>
+                        <tr th:each="submission : ${submissions}">
+                            <td th:text="${submission.student}"></td>
+                            <td th:text="${submission.fn}"></td>
+                            <td th:text="${submission.grade}"></td>
+                        </tr>
+                        <tr></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

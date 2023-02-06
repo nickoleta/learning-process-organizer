@@ -147,7 +147,7 @@ and open the template in the editor.
                     <a th:if="${activity.exam != null}" th:href="@{'/courses/exams/'+${activity.exam.id}+'/make-attempt'}">Add solution</a>
                 </div>
                 <div sec:authorize="hasAuthority('LECTURER')">
-                    <a th:if="${activity.exam != null}" th:href="@{/exams/take-exam}">Review exam submissions</a>
+                    <a th:if="${activity.exam != null}" th:href="@{'/courses/exams/'+${activity.exam.id}+'/submissions'}">Review exam submissions</a>
                     <a th:unless="${activity.exam != null}" th:href="@{'/courses/activities/'+${activity.id}+'/create-exam'}">Add an exam</a>
                 </div>
             </td>

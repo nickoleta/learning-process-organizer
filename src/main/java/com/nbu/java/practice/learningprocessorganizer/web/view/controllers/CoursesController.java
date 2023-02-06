@@ -291,14 +291,14 @@ public class CoursesController {
                                       @PathVariable(name = "questionIdx", required = false) Integer questionIdx,
                                       Authentication authentication, Model model) {
         final var exam = examsService.getExam(examId);
-        if(exam.getOpenFrom().isAfter(LocalDate.now()) || exam.getOpenTo().isBefore(LocalDate.now())) {
+        if (exam.getOpenFrom().isAfter(LocalDate.now()) || exam.getOpenTo().isBefore(LocalDate.now())) {
             model.addAttribute("examTimeMsg", String.format("Exam submissions can be attached from %s to %s.", exam.getOpenFrom(), exam.getOpenTo()));
             return "/exams/exam-grade";
         }
 
         final var studentId = ((UserIdentity) authentication.getPrincipal()).getStudent().getId();
         final var previousAttempt = attemptsService.getAttempt(studentId, examId);
-        if(previousAttempt.isPresent()) {
+        if (previousAttempt.isPresent()) {
             model.addAttribute("grade", previousAttempt.get().getGrade());
             return "/exams/exam-grade";
         }
@@ -363,6 +363,12 @@ public class CoursesController {
         return PagesConstants.COURSES_REDIRECT_PAGING;
     }
 
+    @Lecturer
+    @GetMapping("/exams/{examId}/submissions")
+    public String showExamSubmissions(@PathVariable("examId") Long examId, Model model) {
+        model.addAttribute("submissions", attemptsService.getAttempts(examId));
+        return "/exams/exam-submissions";
+    }
 
     @Lecturer
     @GetMapping("/{courseId}/students/{studentId}/assign")
